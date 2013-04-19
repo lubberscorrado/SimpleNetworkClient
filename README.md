@@ -1,0 +1,114 @@
+##Simple Network Client
+Simple Network Client or SNC, is a set of tools for handling connections, and parsing data.
+
+Current implementations
+* [Sony Entertainment Network](link)
+ * [PlayStation Network](link)
+     * [US PlayStationNetwork](link)
+
+###Usage
+**Be sure to read client's usage content.** All clients need `snc.jar` in build path, or appropriate `SNC` sources
+
+**- Dependencies**
+
+* [SLF4J](http://www.slf4j.org/) - Logging library `slf4j-api.jar`
+
+***
+* [Client](#client)
+* [Networking](#networking)
+* [Parsing](#parsing)
+* [More Info](#more-info)
+
+
+######Client
+[Package](link) `com.krobothsoftware.snc`
+
+Every SNC Implementation has a _Client_ based off of [NetworkClient](link). Examples, `SonyEntertainmentNetwork.class`, and `PlayStationNetwork.class`. Here you have access to `NetworkHelper`, and `Parser`.
+***
+
+######Networking
+[Package](link) `com.krobothsoftware.commons.network` 
+
+Each client has a `NetworkHelper` instance that is accessible by `NetworkClient.getNetworkHelper()`. Default properties for client's connections are set here.
+
+`NetworkHelper.reset()` will reset all default values. Note it doesn't affect, Cookies, Authentications, and Connection Listener.
+
+**- Headers**
+
+Default HTTP [headers](http://en.wikipedia.org/wiki/List_of_HTTP_header_fields). `NetworkHelper.setHeader(String, String)`. If value is _null_, it will remove header. If the client sets the same header in a connection, the default one will be ignored.
+```java
+// sets header "User-Agent"
+networkHelper.setHeader("User-Agent", "Engine/1.0");
+// removes header "User-Agent"
+networkHelper.setHeader("User-Agent", null);
+```
+Headers set by default
+
+| Name            | Value
+|-----------------|:--------------------|
+| User-Agent      | [NetworkHelper.AGENT_DEFAULT](link)
+| Accept          | text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+| Accept-Encoding | gzip, deflate
+| Accept-Charset  | UTF-8
+
+**- Timeouts, redirects, and proxies**
+
+Just like default headers, they will be ignored if client connection sets them.
+
+`NetworkHelper.setConnectTimeout(int)` - [URLConnection.setConnectTimeout](http://docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html#setConnectTimeout(int). Default is 0.
+
+`NetworkHelper.setReadTimeout(int)` - [URLConnection.setReadTimeout](http://docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html#setReadTimeout(int)). Default is 0.
+
+`NetworkHelper.setMaxRedirects(int)` - Redirects are handled internally. Default is 20.
+
+`NetworkHelper.setProxy(Proxy)` - Default is [Proxy.NO_PROXY](http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Proxy.html#NO_PROXY). Don't use _null_.
+
+**- Cookies**
+
+_NetworkHelper_ has a [CookieManager](link) that is retrieved by `NetworkHelper.getCookieManager()`. A new manager can be set `NetworkHelper.setCookieManager(CookieManager)`. Cookies in manager are set for connections, **but** may not update after connection has sent if request has an alternative cookie container. [Tokens](link) are an example. 
+```java
+CookieManager cookieManager = networkHelper.getCookieManager();
+Cookie cookie = new Cookie(".domain.com", "name", "value");
+		
+// (true) overrides old cookie
+cookieManager.putCookie(cookie, true);
+```
+All values can be set with [Builder](link).
+
+**- Connection Listener**
+
+A [listener](link) for connections being set up and sent afterwards. To set, `NetworkHelper.setConnectionListener(ConnectionListener)`. Use [NetworkHelper.NULL\_CONNECTION\_LISTENER](link) instead of _null_.
+```java
+ConnectionListener connectionListener = new ConnectionListener() {
+			
+	@Override
+	public void onRequest(HttpURLConnection connection, RequestBuilder builder) {
+		// handle request before sent
+				
+	}
+			
+	@Override
+	public void onFinish(HttpURLConnection connection) {
+		// called after connection was sent
+				
+	}
+	
+};
+		
+networkHelper.setConnectionListener(connectionListener);
+```
+***
+######Parsing
+[Package](link) `com.krobothsoftware.commons.parse`
+
+[Parser](link) is accessible by `NetworkClient.getParser()`. Any _parser_ that implements [ParserInitializable](hlink), may create the parsing components by calling `ParserInitializable.init()`. This will try to initiate them and ignore any problems. Normally, a parser component is initialized when needed.
+
+`Parser`'s components may be retrieved by `Parser.getXmlParser()` and `Parser.getHtmlParser()`. 
+***
+
+######More Info
+* [Implementing Client](link)
+* [Extensions](link)
+* [Commons](link)
+
+Copyright © 2013 [Kyle Kroboth](https://github.com/KrobothSoftware). Distributed under the[ Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).

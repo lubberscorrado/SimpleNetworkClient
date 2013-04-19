@@ -1,0 +1,45 @@
+*.class
+
+#################
+## Eclipse
+#################
+
+*.pydevproject
+.project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+#################
+## Project
+#################
+
+/src/java/test
+/src/java/android
+/.codepro
+/build/
+/deploy/src
+/doc
+/dependencies/android.jar
+/dependencies/logback-core-1.0.7.jar
+/dependencies/logback-classic-1.0.7.jar
