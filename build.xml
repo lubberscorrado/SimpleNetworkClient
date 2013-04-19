@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Simple Network Client">
+	<taskdef resource="net/sf/antcontrib/antlib.xml" />
+
+	<property name="ant" value="ant" />
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="doc" value="doc" />
+	<property name="deploy" value="deploy" />
+
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+
+	<property name="jar.snc" value="${build}/jar/snc" />
+	<property name="jar.snc.json" value="${build}/jar/snc-ext-json" />
+	<property name="jar.snc.htmlcleaner" value="${build}/jar/snc-ext-htmlcleaner" />
+	<property name="jar.sen" value="${build}/jar/snc-sen" />
+	<property name="jar.sen.psn" value="${build}/jar/snc-sen-psn" />
+	<property name="jar.sen.psn.us" value="${build}/jar/snc-sen-psn-us" />
+	<property file="${ant}/build.properties" />
+
+
+	<path id="classpath">
+		<fileset dir="dependencies">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="classpath.android">
+		<fileset dir="dependencies">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${build}/java" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+	<target name="clean-project" description="Cleans build and deploy">
+		<delete dir="${build}" />
+		<delete dir="${doc}" />
+		<delete dir="${deploy}" />
+	</target>
+
+	<target name="makedir">
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/java" />
+		<mkdir dir="${build}/android" />
+	</target>
+
+	<target name="build" depends="clean, makedir">
+		<javac srcdir="${src}/java" destdir="${build}/java" source="${source}"
+			target="${target}">
+			<classpath refid="classpath" />
+			<exclude name="test/**" />
+		</javac>
+		<echo>Needs android.jar in dependencies folder</echo>
+		<javac srcdir="${src}/android" destdir="${build}/android"
+			source="${source}" target="${target}">
+			<classpath refid="classpath.android" />
+			<exclude name="test/**" />
+		</javac>
+	</target>
+
+	<target name="doc">
+		<delete dir="${doc}" />
+		<javadoc destdir="${doc}" classpathref="classpath" author="false"
+			windowtitle="Overview (SNC)">
+			<fileset dir="${src}/java">
+				<exclude name="test/**" />
+				<exclude name="**/internal/**" />
+			</fileset>
+			<tag name="beta" scope="all" description="Beta:" />
+			<bottom>${javadoc.bottom}</bottom>
+			<link />
+			<link href="http://download.oracle.com/javase/7/docs/api/" />
+			<link href="http://www.slf4j.org/apidocs/" />
+			<link href="http://fasterxml.github.com/jackson-core/javadoc/2.1.0/" />
+			<link href="http://htmlcleaner.sourceforge.net/doc/" />
+		</javadoc>
+	</target>
+
+	<target name="jar">
+		<delete dir="${build}/jar" />
+		<!-- binary -->
+		<jar destfile="${jar.snc}-${version.snc}.jar" basedir="${build}/java"
+			includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc.json}-${version.snc.json}.jar" basedir="${build}/java"
+			includesfile="${ant}/include-jar-snc-json.txt" />
+		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}.jar"
+			basedir="${build}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
+		<jar destfile="${jar.sen}-${version.sen}.jar" basedir="${build}/java"
+			includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
+		<jar destfile="${jar.sen.psn}-${version.sen.psn}.jar" basedir="${build}/java"
+			includesfile="${ant}/include-jar-sen-psn.txt" excludesfile="${ant}/exclude-jar-sen-psn.txt" />
+		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}.jar"
+			basedir="${build}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" />
+		<!-- source -->
+		<jar destfile="${jar.snc}-${version.snc}-source.jar" basedir="${src}/java"
+			includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc.json}-${version.snc.json}-source.jar"
+			basedir="${src}/java" includesfile="${ant}/include-jar-snc-json.txt" />
+		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}-source.jar"
+			basedir="${src}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
+		<jar destfile="${jar.sen}-${version.sen}-source.jar" basedir="${src}/java"
+			includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
+		<jar destfile="${jar.sen.psn}-${version.sen.psn}-source.jar"
+			basedir="${src}/java" includesfile="${ant}/include-jar-sen-psn.txt"
+			excludesfile="${ant}/exclude-jar-sen-psn.txt" />
+		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}-source.jar"
+			basedir="${src}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" />
+	</target>
+
+	<target name="jar-android">
+		<tempfile property="temp.dir" destdir="${java.io.tmpdir}"
+			prefix="antbuild" />
+		<!-- copy java, then android to override files -->
+		<copy todir="${temp.dir}/build">
+			<fileset dir="${build}/java" />
+			<fileset dir="${build}/android" />
+		</copy>
+		<copy todir="${temp.dir}/src">
+			<fileset dir="${src}/java" />
+			<fileset dir="${src}/android" />
+		</copy>
+		<!-- binary -->
+		<jar destfile="${jar.snc}-${version.snc}-android.jar" basedir="${temp.dir}/build"
+			includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<!-- source -->
+		<jar destfile="${jar.snc}-${version.snc}-android-source.jar"
+			basedir="${temp.dir}/src" includesfile="${ant}/include-jar-snc.txt"
+			excludesfile="${ant}/exclude-jar-snc.txt" />
+	</target>
+
+	<target name="deploy" depends="build, doc, jar, jar-android"
+		description="Deploy full project">
+		<delete dir="${deploy}" />
+		<mkdir dir="${deploy}" />
+		<copy todir="${deploy}">
+			<fileset dir="${build}/jar" />
+		</copy>
+
+	</target>
+
+</project>

@@ -35,10 +35,8 @@ local.properties
 #################
 
 /src/java/test
-/src/java/android
 /.codepro
 /build/
-/deploy/src
 /doc
 /dependencies/android.jar
 /dependencies/logback-core-1.0.7.jar

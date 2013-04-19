@@ -1,0 +1,2 @@
+com/krobothsoftware/commons/parse/HandlerHtmlCleaner.*
+com/krobothsoftware/commons/parse/ParserHtmlCleaner.*
