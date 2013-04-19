@@ -2,9 +2,9 @@
 Simple Network Client or SNC, is a set of tools for handling connections, and parsing data.
 
 Current implementations
-* [Sony Entertainment Network](link)
- * [PlayStation Network](link)
-     * [US PlayStationNetwork](link)
+* [Sony Entertainment Network](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Sony-Entertainment-Network)
+ * [PlayStation Network](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/PlayStation-Network)
+     * [US PlayStationNetwork](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/US-PlayStation-Network)
 
 ###Usage
 **Be sure to read client's usage content.** All clients need `snc.jar` in build path, or appropriate `SNC` sources
@@ -21,13 +21,13 @@ Current implementations
 
 
 ######Client
-[Package](link) `com.krobothsoftware.snc`
+[Package](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/snc/package-summary.html) `com.krobothsoftware.snc`
 
-Every SNC Implementation has a _Client_ based off of [NetworkClient](link). Examples, `SonyEntertainmentNetwork.class`, and `PlayStationNetwork.class`. Here you have access to `NetworkHelper`, and `Parser`.
+Every SNC Implementation has a _Client_ based off of [NetworkClient](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/snc/NetworkClient.html). Examples, `SonyEntertainmentNetwork.class`, and `PlayStationNetwork.class`. Here you have access to `NetworkHelper`, and `Parser`.
 ***
 
 ######Networking
-[Package](link) `com.krobothsoftware.commons.network` 
+[Package](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/package-summary.html) `com.krobothsoftware.commons.network` 
 
 Each client has a `NetworkHelper` instance that is accessible by `NetworkClient.getNetworkHelper()`. Default properties for client's connections are set here.
 
@@ -46,7 +46,7 @@ Headers set by default
 
 | Name            | Value
 |-----------------|:--------------------|
-| User-Agent      | [NetworkHelper.AGENT_DEFAULT](link)
+| User-Agent      | [NetworkHelper.AGENT_DEFAULT](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/NetworkHelper.html#AGENT_DEFAULT)
 | Accept          | text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 | Accept-Encoding | gzip, deflate
 | Accept-Charset  | UTF-8
@@ -65,7 +65,7 @@ Just like default headers, they will be ignored if client connection sets them.
 
 **- Cookies**
 
-_NetworkHelper_ has a [CookieManager](link) that is retrieved by `NetworkHelper.getCookieManager()`. A new manager can be set `NetworkHelper.setCookieManager(CookieManager)`. Cookies in manager are set for connections, **but** may not update after connection has sent if request has an alternative cookie container. [Tokens](link) are an example. 
+_NetworkHelper_ has a [CookieManager](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/CookieManager.html) that is retrieved by `NetworkHelper.getCookieManager()`. A new manager can be set `NetworkHelper.setCookieManager(CookieManager)`. Cookies in manager are set for connections, **but** may not update after connection has sent if request has an alternative cookie container. [Tokens](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/snc/Token.html) are an example. 
 ```java
 CookieManager cookieManager = networkHelper.getCookieManager();
 Cookie cookie = new Cookie(".domain.com", "name", "value");
@@ -73,11 +73,11 @@ Cookie cookie = new Cookie(".domain.com", "name", "value");
 // (true) overrides old cookie
 cookieManager.putCookie(cookie, true);
 ```
-All values can be set with [Builder](link).
+All values can be set with [Builder](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/value/Cookie.Builder.html).
 
 **- Connection Listener**
 
-A [listener](link) for connections being set up and sent afterwards. To set, `NetworkHelper.setConnectionListener(ConnectionListener)`. Use [NetworkHelper.NULL\_CONNECTION\_LISTENER](link) instead of _null_.
+A [listener](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/ConnectionListener.html) for connections being set up and sent afterwards. To set, `NetworkHelper.setConnectionListener(ConnectionListener)`. Use [NetworkHelper.NULL\_CONNECTION\_LISTENER](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/NetworkHelper.html#NULL_CONNECTION_LISTENER) instead of _null_.
 ```java
 ConnectionListener connectionListener = new ConnectionListener() {
 			
@@ -99,16 +99,18 @@ networkHelper.setConnectionListener(connectionListener);
 ```
 ***
 ######Parsing
-[Package](link) `com.krobothsoftware.commons.parse`
+[Package](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/package-summary.html) `com.krobothsoftware.commons.parse`
 
-[Parser](link) is accessible by `NetworkClient.getParser()`. Any _parser_ that implements [ParserInitializable](hlink), may create the parsing components by calling `ParserInitializable.init()`. This will try to initiate them and ignore any problems. Normally, a parser component is initialized when needed.
+[Parser](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/Parser.html) is accessible by `NetworkClient.getParser()`. Any _parser_ that implements [ParserInitializable](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/ParserInitializable.html), may create the parsing components by calling `ParserInitializable.init()`. This will try to initiate them and ignore any problems. Normally, a parser component is initialized when needed.
 
 `Parser`'s components may be retrieved by `Parser.getXmlParser()` and `Parser.getHtmlParser()`. 
 ***
 
 ######More Info
-* [Implementing Client](link)
-* [Extensions](link)
-* [Commons](link)
+* [Change Log](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Change-Log)
+* [Known Issues](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Known-Issues)
+* [Implementing Client](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Implementing-Network-Client)
+* [Extensions](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Extensions)
+* [Commons](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Commonshttps://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Commons)
 
-Copyright © 2013 [Kyle Kroboth](https://github.com/KrobothSoftware). Distributed under the[ Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+Copyright Â© 2013 [Kyle Kroboth](https://github.com/KrobothSoftware). Distributed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
