@@ -7,7 +7,7 @@ Current implementations
      * [US PlayStationNetwork](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/US-PlayStation-Network)
 
 ###Usage
-**Be sure to read client's usage content.** All clients need `snc.jar` in build path, or appropriate `SNC` sources
+**Be sure to read client's usage content.** All clients need `snc.jar` in build path, or appropriate `SNC` sources.
 
 **- Dependencies**
 
