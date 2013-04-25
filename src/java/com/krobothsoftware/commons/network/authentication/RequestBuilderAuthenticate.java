@@ -133,6 +133,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
 	 * @since SNC 1.0
 	 */
+	@SuppressWarnings("resource")
 	@Override
 	public Response execute(NetworkHelper networkHelper) throws IOException {
 		Authentication auth = this.auth;

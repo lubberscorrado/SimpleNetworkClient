@@ -137,8 +137,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	public Cookie getCookie(String domain, String name) {
 		CookieList list = get(domain);
 		if (list != null) return list.get(name);
-		else
-			return null;
+		return null;
 	}
 
 	/**
@@ -212,8 +211,8 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 		CookieList list = get(domain);
 		if (list != null) {
 			return list.remove(name);
-		} else
-			return false;
+		}
+		return false;
 	}
 
 	/**

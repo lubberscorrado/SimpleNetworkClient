@@ -17,6 +17,7 @@
 
 package com.krobothsoftware.commons.network;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URLConnection;
@@ -31,7 +32,7 @@ import com.krobothsoftware.commons.util.CommonUtils;
  * @since SNC 1.0
  * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
  */
-public class Response {
+public class Response implements Closeable {
 	private final HttpURLConnection conn;
 	private final UnclosableInputStream stream;
 	private final int status;
@@ -144,6 +145,7 @@ public class Response {
 	 * @throws IOException
 	 * @since SNC 1.0
 	 */
+	@Override
 	public void close() throws IOException {
 		conn.disconnect();
 		stream.forceClose();
@@ -179,14 +181,12 @@ public class Response {
 	 * 
 	 * @param response
 	 *            to be closed
+	 * @deprecated Use {@link CommonUtils#closeQuietly(Closeable)}.
+	 *             <code>Response</code> implements <code>Closeable</code>.
 	 * @since SNC 1.0
 	 */
+	@Deprecated
 	public static void closeQuietly(Response response) {
-		if (response == null) return;
-		try {
-			response.close();
-		} catch (IOException ignore) {
-
-		}
+		CommonUtils.closeQuietly(response);
 	}
 }

@@ -17,7 +17,6 @@
 
 package com.krobothsoftware.commons.network.value;
 
-import java.io.ObjectStreamException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -362,7 +361,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 		return delegate.clone();
 	}
 
-	private Object readResolve() throws ObjectStreamException {
+	private Object readResolve() {
 		log = LoggerFactory.getLogger(CookieList.class);
 		return this;
 	}

@@ -654,7 +654,7 @@ public class RequestBuilder {
 	@SuppressWarnings("resource")
 	private Response getResponse(ResponseHandler handler,
 			HttpURLConnection connection, InputStream inputStream,
-			int statuscode) throws IOException {
+			int statuscode) {
 		UnclosableInputStream stream = new UnclosableInputStream(inputStream);
 		String charset = NetworkHelper.getCharset(connection);
 		Response found = handler.getResponse(connection, stream, statuscode,

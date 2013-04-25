@@ -54,8 +54,7 @@ public class ProgressMonitor {
 	 */
 	public static ProgressMonitor newInstance(ProgressListener listener) {
 		if (listener == null) return new NullProgressMonitor();
-		else
-			return new ProgressMonitor(listener);
+		return new ProgressMonitor(listener);
 	}
 
 	/*

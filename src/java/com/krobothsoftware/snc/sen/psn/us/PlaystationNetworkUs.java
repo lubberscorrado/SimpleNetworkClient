@@ -146,6 +146,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if service is down or login failed
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public PsnToken login(String username, String password,
 			ProgressListener listener) throws IOException,
 			ClientLoginException, PlaystationNetworkException {
@@ -246,7 +247,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 
 			monitor.done("Successfully logged in");
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("login - Exiting");
 		}
 
@@ -293,6 +294,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if service is down or login failed
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public void login(PsnToken token, String username, String password,
 			ProgressListener listener) throws IOException,
 			ClientLoginException, PlaystationNetworkException {
@@ -349,7 +351,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			monitor.worked(1);
 			monitor.done("Successfully logged in");
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("login - Exiting");
 		}
 
@@ -375,6 +377,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             Signals that an I/O exception has occurred.
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public void logout(PsnToken token) throws IOException {
 		log.debug("logout - Entering");
 		Response response = null;
@@ -386,7 +389,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			token.getCookies().purgeExpired(true);
 			token.setSession(null);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("logout - Exiting");
 		}
 	}
@@ -402,6 +405,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             Signals that an I/O exception has occurred.
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public boolean isTokenValid(PsnToken token) throws IOException {
 		Response response = null;
 		int conLength;
@@ -417,7 +421,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 					.use(token.getCookies()).execute(networkHelper);
 			conLength = response.getContentLength();
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 		}
 
 		return conLength > 0;
@@ -438,6 +442,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 * @beta request may change in the future
 	 */
 	@Beta
+	@SuppressWarnings("resource")
 	public PsnUser getUserInfo(PsnToken token) throws IOException,
 			TokenException {
 		Response response = null;
@@ -462,7 +467,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			if (!(response.getContentLength() > 0)) throw new TokenException();
 			user = PsnUser.newInstance(Response.toString(response));
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getUserInfo - Exiting");
 		}
 
@@ -498,6 +503,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if parser encountered an error
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public List<String> getFriendList(PsnToken token) throws IOException,
 			ClientException {
 		log.debug("getFriendList - Entering");
@@ -516,7 +522,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 		} catch (ParseException e) {
 			throw new ClientException(e);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getFriendList - Exiting");
 		}
 
@@ -547,6 +553,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if parser encountered an error
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public PsnFriendGamerProfile getGamerProfile(PsnToken token, String psnId)
 			throws IOException, ClientException {
 		log.debug("getFriendGamerProfile [{}] - Entering", psnId);
@@ -570,7 +577,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 		} catch (ParseException e) {
 			throw new ClientException(e);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getFriendGamerProfile - Exiting");
 		}
 
@@ -650,6 +657,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if parser encountered an error
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public List<PsnGamerProfile> getFriendProfileList(PsnToken token)
 			throws IOException, ClientException {
 		log.debug("getFriendProfileList - Entering");
@@ -671,7 +679,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 		} catch (ParseException e) {
 			throw new ClientException(e);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getFriendProfileList - Exiting");
 		}
 
@@ -747,6 +755,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if parser encountered an error
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public PsnGamerProfile getSimpleProfile(String psnId) throws IOException,
 			ClientException {
 		log.debug("getSimpleProfile [{}] - Entering", psnId);
@@ -770,7 +779,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 		} catch (ParseException e) {
 			throw new ClientException(e);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getSimpleProfile - Exiting");
 		}
 
@@ -798,6 +807,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if parser encountered an error
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public PsnGamerProfile getGamerProfile(String psnId) throws IOException,
 			ClientException {
 		log.debug("getGamerProfile [{}] - Entering", psnId);
@@ -821,7 +831,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 		} catch (ParseException e) {
 			throw new ClientException(e);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getGamerProfile - Exiting");
 		}
 
@@ -890,6 +900,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 *             if parser encountered an error
 	 * @since SEN-PSN-US 1.0
 	 */
+	@SuppressWarnings("resource")
 	public List<PsnTrophy> getLatestTrophyList(String psnId)
 			throws IOException, ClientException {
 		log.debug("getLatestTrophyList - Entering");
@@ -918,7 +929,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 		} catch (ParseException e) {
 			throw new ClientException(e);
 		} finally {
-			Response.closeQuietly(response);
+			CommonUtils.closeQuietly(response);
 			log.debug("getFriendGamerProfile - Exiting");
 		}
 
@@ -958,8 +969,8 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 				jsonParser.parse(inputStream, handler,
 						(HandlerJson) realHandler);
 				return true;
-			} else
-				return false;
+			}
+			return false;
 		}
 
 	}

@@ -50,14 +50,12 @@
 	</target>
 
 	<target name="build" depends="clean, makedir">
-		<javac srcdir="${src}/java" destdir="${build}/java" source="${source}"
-			target="${target}">
+		<javac srcdir="${src}/java" destdir="${build}/java" source="${source}" target="${target}">
 			<classpath refid="classpath" />
 			<exclude name="test/**" />
 		</javac>
 		<echo>Needs android.jar in dependencies folder</echo>
-		<javac srcdir="${src}/android" destdir="${build}/android"
-			source="${source}" target="${target}">
+		<javac srcdir="${src}/android" destdir="${build}/android" source="${source}" target="${target}">
 			<classpath refid="classpath.android" />
 			<exclude name="test/**" />
 		</javac>
@@ -65,8 +63,7 @@
 
 	<target name="doc">
 		<delete dir="${doc}" />
-		<javadoc destdir="${doc}" classpathref="classpath" author="false"
-			windowtitle="Overview (SNC)">
+		<javadoc destdir="${doc}" classpathref="classpath" author="false" windowtitle="Overview (SNC)">
 			<fileset dir="${src}/java">
 				<exclude name="test/**" />
 				<exclude name="**/internal/**" />
@@ -84,37 +81,23 @@
 	<target name="jar">
 		<delete dir="${build}/jar" />
 		<!-- binary -->
-		<jar destfile="${jar.snc}-${version.snc}.jar" basedir="${build}/java"
-			includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
-		<jar destfile="${jar.snc.json}-${version.snc.json}.jar" basedir="${build}/java"
-			includesfile="${ant}/include-jar-snc-json.txt" />
-		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}.jar"
-			basedir="${build}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
-		<jar destfile="${jar.sen}-${version.sen}.jar" basedir="${build}/java"
-			includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
-		<jar destfile="${jar.sen.psn}-${version.sen.psn}.jar" basedir="${build}/java"
-			includesfile="${ant}/include-jar-sen-psn.txt" excludesfile="${ant}/exclude-jar-sen-psn.txt" />
-		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}.jar"
-			basedir="${build}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" />
+		<jar destfile="${jar.snc}-${version.snc}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc.json}-${version.snc.json}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-snc-json.txt" />
+		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
+		<jar destfile="${jar.sen}-${version.sen}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
+		<jar destfile="${jar.sen.psn}-${version.sen.psn}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-sen-psn.txt" excludesfile="${ant}/exclude-jar-sen-psn.txt" />
+		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" />
 		<!-- source -->
-		<jar destfile="${jar.snc}-${version.snc}-source.jar" basedir="${src}/java"
-			includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
-		<jar destfile="${jar.snc.json}-${version.snc.json}-source.jar"
-			basedir="${src}/java" includesfile="${ant}/include-jar-snc-json.txt" />
-		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}-source.jar"
-			basedir="${src}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
-		<jar destfile="${jar.sen}-${version.sen}-source.jar" basedir="${src}/java"
-			includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
-		<jar destfile="${jar.sen.psn}-${version.sen.psn}-source.jar"
-			basedir="${src}/java" includesfile="${ant}/include-jar-sen-psn.txt"
-			excludesfile="${ant}/exclude-jar-sen-psn.txt" />
-		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}-source.jar"
-			basedir="${src}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" />
+		<!-- <jar destfile="${jar.snc}-${version.snc}-source.jar" basedir="${src}/java" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc.json}-${version.snc.json}-source.jar" basedir="${src}/java" includesfile="${ant}/include-jar-snc-json.txt" />
+		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}-source.jar" basedir="${src}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
+		<jar destfile="${jar.sen}-${version.sen}-source.jar" basedir="${src}/java" includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
+		<jar destfile="${jar.sen.psn}-${version.sen.psn}-source.jar" basedir="${src}/java" includesfile="${ant}/include-jar-sen-psn.txt" excludesfile="${ant}/exclude-jar-sen-psn.txt" />
+		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}-source.jar" basedir="${src}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" /> -->
 	</target>
 
 	<target name="jar-android">
-		<tempfile property="temp.dir" destdir="${java.io.tmpdir}"
-			prefix="antbuild" />
+		<tempfile property="temp.dir" destdir="${java.io.tmpdir}" prefix="antbuild" />
 		<!-- copy java, then android to override files -->
 		<copy todir="${temp.dir}/build">
 			<fileset dir="${build}/java" />
@@ -125,20 +108,27 @@
 			<fileset dir="${src}/android" />
 		</copy>
 		<!-- binary -->
-		<jar destfile="${jar.snc}-${version.snc}-android.jar" basedir="${temp.dir}/build"
-			includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc}-${version.snc}-android.jar" basedir="${temp.dir}/build" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
 		<!-- source -->
-		<jar destfile="${jar.snc}-${version.snc}-android-source.jar"
-			basedir="${temp.dir}/src" includesfile="${ant}/include-jar-snc.txt"
-			excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc}-${version.snc}-android-source.jar" basedir="${temp.dir}/src" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
 	</target>
 
-	<target name="deploy" depends="build, doc, jar, jar-android"
-		description="Deploy full project">
+	<target name="deploy" depends="build, doc, jar, jar-android" description="Deploy full project">
 		<delete dir="${deploy}" />
 		<mkdir dir="${deploy}" />
 		<copy todir="${deploy}">
 			<fileset dir="${build}/jar" />
+		</copy>
+
+		<copy todir="${deploy}/doc">
+			<fileset dir="${doc}" />
+		</copy>
+
+		<copy todir="${deploy}/src">
+			<fileset dir="${src}">
+				<exclude name="java/test/**" />
+				<exclude name="android/test/**" />
+			</fileset>
 		</copy>
 
 	</target>
