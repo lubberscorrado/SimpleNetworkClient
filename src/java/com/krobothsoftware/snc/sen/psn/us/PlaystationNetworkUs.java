@@ -386,10 +386,10 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			response = new RequestBuilder(GET, new URL(
 					"http://us.playstation.com/playstation/psn/logout")).use(
 					token.getCookies()).execute(networkHelper);
-			token.getCookies().purgeExpired(true);
-			token.setSession(null);
 		} finally {
 			CommonUtils.closeQuietly(response);
+			token.getCookies().purgeExpired(true);
+			token.setSession(null);
 			log.debug("logout - Exiting");
 		}
 	}

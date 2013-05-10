@@ -19,6 +19,8 @@
 	<property name="jar.sen.psn.us" value="${build}/jar/snc-sen-psn-us" />
 	<property file="${ant}/build.properties" />
 
+	<property name="tools" value="tools" />
+
 
 	<path id="classpath">
 		<fileset dir="dependencies">
@@ -26,7 +28,7 @@
 		</fileset>
 	</path>
 
-	<path id="classpath.android">
+	<path id="classpath.build">
 		<fileset dir="dependencies">
 			<include name="*.jar" />
 		</fileset>
@@ -56,7 +58,7 @@
 		</javac>
 		<echo>Needs android.jar in dependencies folder</echo>
 		<javac srcdir="${src}/android" destdir="${build}/android" source="${source}" target="${target}">
-			<classpath refid="classpath.android" />
+			<classpath refid="classpath.build" />
 			<exclude name="test/**" />
 		</javac>
 	</target>
@@ -110,7 +112,7 @@
 		<!-- binary -->
 		<jar destfile="${jar.snc}-${version.snc}-android.jar" basedir="${temp.dir}/build" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
 		<!-- source -->
-		<jar destfile="${jar.snc}-${version.snc}-android-source.jar" basedir="${temp.dir}/src" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<!-- <jar destfile="${jar.snc}-${version.snc}-android-source.jar" basedir="${temp.dir}/src" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" /> -->
 	</target>
 
 	<target name="deploy" depends="build, doc, jar, jar-android" description="Deploy full project">

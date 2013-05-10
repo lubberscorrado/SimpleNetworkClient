@@ -152,7 +152,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws IOException
 	 * @since SNC-EXT-JSON 1.0
 	 */
-	public void startObject(String name) throws ParseException,
+	protected void startObject(String name) throws ParseException,
 			JsonParseException, IOException {
 
 	}
@@ -167,7 +167,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws IOException
 	 * @since SNC-EXT-JSON 1.0
 	 */
-	public void endObject(String name) throws ParseException,
+	protected void endObject(String name) throws ParseException,
 			JsonParseException, IOException {
 
 	}
@@ -182,7 +182,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws IOException
 	 * @since SNC-EXT-JSON 1.0
 	 */
-	public void startArray(String name) {
+	protected void startArray(String name) {
 
 	}
 
@@ -196,7 +196,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws IOException
 	 * @since SNC-EXT-JSON 1.0
 	 */
-	public void endArray(String name) {
+	protected void endArray(String name) {
 
 	}
 
@@ -209,7 +209,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws IOException
 	 * @since SNC-EXT-JSON 1.0
 	 */
-	public void token(String name) throws ParseException, JsonParseException,
+	protected void token(String name) throws ParseException, JsonParseException,
 			IOException {
 		currentName = name;
 	}
@@ -223,7 +223,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws IOException
 	 * @since SNC-EXT-JSON 1.0
 	 */
-	public void tokenText(String name) throws ParseException,
+	protected void tokenText(String name) throws ParseException,
 			JsonParseException, IOException {
 		currentName = null;
 	}

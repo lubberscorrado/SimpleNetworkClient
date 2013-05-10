@@ -38,8 +38,11 @@ local.properties
 /.codepro
 /build/
 /doc
-/deploy/doc
-/deploy/src
+/deploy/
+# Until release; tools
+/tools/
 /dependencies/android.jar
-/dependencies/logback-core-1.0.7.jar
-/dependencies/logback-classic-1.0.7.jar
+/dependencies/logback-core-*.jar
+/dependencies/logback-classic-*.jar
+/dependencies/jackson-databind-*.jar
+/dependencies/jackson-annotations-*.jar

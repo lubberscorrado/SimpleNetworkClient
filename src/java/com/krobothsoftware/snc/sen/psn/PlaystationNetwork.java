@@ -140,12 +140,12 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	public static final String AGENT_PSP_UPDATE = "PSPUpdate-agent/1.0.0 libhttp/1.0.0";
 
 	/**
-	 * Current PS3 firmware version as of 3/21/13. Is not final since firmwares
+	 * Current PS3 firmware version as of 4/25/13. Is not final since firmwares
 	 * change.
 	 * 
 	 * @since SEN-PSN 1.0
 	 */
-	public static String PS3_FIRMWARE_VERSION = "4.40";
+	public static String PS3_FIRMWARE_VERSION = "4.41";
 
 	/**
 	 * Ticket Id for US cookies.
@@ -511,10 +511,10 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 			response = new RequestBuilder(GET, new URL(
 					"https://secure.eu.playstation.com/logout/")).use(
 					token.getCookies()).execute(networkHelper);
-			token.getCookies().purgeExpired(true);
-			token.setSession(null);
 		} finally {
 			CommonUtils.closeQuietly(response);
+			token.getCookies().purgeExpired(true);
+			token.setSession(null);
 			log.debug("logout - Exiting");
 		}
 	}
@@ -588,7 +588,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 
 		try {
 			response = getTokenResponse(
-					"https://secure.eu.playstation.com/ajax/mypsn/friend/presence/",
+					"http://uk.playstation.com/ajax/mypsn/friend/presence/",
 					"http://uk.playstation.com/psn/mypsn/friends/",
 					token.getCookies());
 
@@ -873,14 +873,12 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		Response response = builder.execute(networkHelper);
 		if (response instanceof ResponseRedirect) {
 			String redirect = ((ResponseRedirect) response).getRedirectUrl();
-			if (redirect.startsWith("http://uk.playstation.com/registration/")) throw new TokenException();
-			else if (redirect
-					.startsWith("https://secure.eu.playstation.com/registration/unavailable/")) throw new PlaystationNetworkException(
+			if (redirect.contains("/registration/unavailable/")
+					|| redirect.contains("/static/maintenance/")) throw new PlaystationNetworkException(
 					"PlayStationNetwork is under maintenance");
+			else if (redirect.contains("/registration/")) throw new TokenException();
+
 		}
-		if (response instanceof ResponseRedirect
-				&& ((ResponseRedirect) response).getRedirectUrl().startsWith(
-						"http://uk.playstation.com/registration/")) throw new TokenException();
 		return response;
 	}
 

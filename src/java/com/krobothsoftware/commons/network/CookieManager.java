@@ -195,12 +195,18 @@ public class CookieManager implements Serializable {
 					if (cookie.isExpired()) {
 						itr.remove();
 						continue;
-					} else if (connection instanceof HttpsURLConnection) {
-						if (cookie.isHttp()) continue;
-					} else {
-						if (cookie.isSecure()) continue;
 					}
 					
+					// Make sure not to continue if both are true
+					if (!(cookie.isHttp() && cookie.isSecure())) {
+						if (connection instanceof HttpsURLConnection) {
+							if (cookie.isHttp()) continue;
+						} else {
+							if (cookie.isSecure()) continue;
+						}
+
+					}
+
 					builder.append(';').append(' ')
 							.append(cookie.getCookieString());
 
