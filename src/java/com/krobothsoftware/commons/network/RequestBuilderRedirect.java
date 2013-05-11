@@ -21,10 +21,9 @@ class RequestBuilderRedirect extends RequestBuilder {
 		}
 	}
 
-	
 	@Override
 	public Response execute(NetworkHelper networkHelper) throws IOException {
-		if (redirect > networkHelper.maxRedirects) throw new IOException(
+		if (redirect++ > networkHelper.maxRedirects) throw new IOException(
 				"Request was redirected too many times: " + redirect);
 		return super.execute(networkHelper);
 	}

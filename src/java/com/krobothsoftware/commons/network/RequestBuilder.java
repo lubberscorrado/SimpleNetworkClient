@@ -71,14 +71,14 @@ public class RequestBuilder {
 	 * 
 	 * @since SNC 1.0
 	 */
-	protected final URL url;
+	protected URL url;
 
 	/**
 	 * Method for connection.
 	 * 
 	 * @since SNC 1.0
 	 */
-	protected final Method method;
+	protected Method method;
 
 	/**
 	 * Logger for Builder.
@@ -262,6 +262,17 @@ public class RequestBuilder {
 	}
 
 	/**
+	 * Sets the url
+	 * 
+	 * @param url
+	 *            new url
+	 * @since SNC 1.0.1
+	 */
+	public void setUrl(URL url) {
+		this.url = url;
+	}
+
+	/**
 	 * Gets the method.
 	 * 
 	 * @return method
@@ -269,6 +280,17 @@ public class RequestBuilder {
 	 */
 	public Method getMethod() {
 		return method;
+	}
+
+	/**
+	 * Sets the method
+	 * 
+	 * @param method
+	 *            new method
+	 * @since SNC 1.0.1
+	 */
+	public void setMethod(Method method) {
+		this.method = method;
 	}
 
 	/**
@@ -692,7 +714,16 @@ public class RequestBuilder {
 			builder.log.debug("Internally handled redirect");
 			String location = connection.getHeaderField("Location");
 			connection.disconnect();
-			return new RequestBuilderRedirect(builder, location);
+
+			// only use one instance of redirect builder
+			RequestBuilder newBuilder;
+			if (builder instanceof RequestBuilderRedirect) {
+				newBuilder = builder;
+				newBuilder.setUrl(new URL(location));
+			} else {
+				newBuilder = new RequestBuilderRedirect(builder, location);
+			}
+			return newBuilder;
 		}
 
 	}
