@@ -29,7 +29,7 @@ With ANT, calling the *Deploy* target will produce the same files.
 ######Client
 [Package](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/snc/package-summary.html) `com.krobothsoftware.snc`
 
-Every SNC Implementation has a _Client_ based off of [NetworkClient](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/snc/NetworkClient.html). Examples, `SonyEntertainmentNetwork.class`, and `PlayStationNetwork.class`. Here you have access to `NetworkHelper`, and `Parser`.
+Every SNC Implementation has a _Client_ based off [NetworkClient](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/snc/NetworkClient.html). Examples: `SonyEntertainmentNetwork.class` and `PlayStationNetwork.class`. Here you have access to `NetworkHelper`, and `Parser`.
 ***
 
 ######Networking
@@ -37,7 +37,7 @@ Every SNC Implementation has a _Client_ based off of [NetworkClient](http://krob
 
 Each client has a `NetworkHelper` instance that is accessible by `NetworkClient.getNetworkHelper()`. Default properties for client's connections are set here.
 
-`NetworkHelper.reset()` will reset all default values. Note it doesn't affect, Cookies, Authentications, and Connection Listener.
+`NetworkHelper.reset()` will reset all default values, but doesn't affect Cookies, Authentications, and Connection Listener.
 
 **- Headers**
 
@@ -61,9 +61,9 @@ Headers set by default
 
 Just like default headers, they will be ignored if client connection sets them.
 
-`NetworkHelper.setConnectTimeout(int)` - [URLConnection.setConnectTimeout](http://docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html#setConnectTimeout(int). Default is 0.
+`NetworkHelper.setConnectTimeout(int)` - [URLConnection.setConnectTimeout](http://docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html#setConnectTimeout(int\)). Default is 0.
 
-`NetworkHelper.setReadTimeout(int)` - [URLConnection.setReadTimeout](http://docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html#setReadTimeout(int)). Default is 0.
+`NetworkHelper.setReadTimeout(int)` - [URLConnection.setReadTimeout](http://docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html#setReadTimeout(int\)). Default is 0.
 
 `NetworkHelper.setMaxRedirects(int)` - Redirects are handled internally. Default is 20.
 
@@ -83,7 +83,7 @@ All values can be set with [Builder](http://krobothsoftware.github.io/SimpleNetw
 
 **- Connection Listener**
 
-A [listener](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/ConnectionListener.html) for connections being set up and sent afterwards. To set, `NetworkHelper.setConnectionListener(ConnectionListener)`. Use [NetworkHelper.NULL\_CONNECTION\_LISTENER](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/NetworkHelper.html#NULL_CONNECTION_LISTENER) instead of _null_.
+[Listener](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/ConnectionListener.html) for connections being set up and after connected. `NetworkHelper.setConnectionListener(ConnectionListener)`. Use [NetworkHelper.NULL\_CONNECTION\_LISTENER](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/network/NetworkHelper.html#NULL_CONNECTION_LISTENER) instead of _null_.
 ```java
 ConnectionListener connectionListener = new ConnectionListener() {
 			
@@ -107,9 +107,9 @@ networkHelper.setConnectionListener(connectionListener);
 ######Parsing
 [Package](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/package-summary.html) `com.krobothsoftware.commons.parse`
 
-[Parser](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/Parser.html) is accessible by `NetworkClient.getParser()`. Any _parser_ that implements [ParserInitializable](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/ParserInitializable.html), may create the parsing components by calling `ParserInitializable.init()`. This will try to initiate them and ignore any problems. Normally, a parser component is initialized when needed.
+[Parser](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/Parser.html) is accessible by `NetworkClient.getParser()`. Any _parser_ that implements [ParserInitializable](http://krobothsoftware.github.io/SimpleNetworkClient/javadoc/com/krobothsoftware/commons/parse/ParserInitializable.html) may create the parsing components by calling `ParserInitializable.init()`. This will try to initiate them and ignore any problems. Normally, they are initialized when needed.
 
-`Parser`'s components may be retrieved by `Parser.getXmlParser()` and `Parser.getHtmlParser()`. 
+`Parser` components may be retrieved by `Parser.getXmlParser()` and `Parser.getHtmlParser()`. 
 ***
 
 ######More Info
