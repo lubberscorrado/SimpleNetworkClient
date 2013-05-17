@@ -42,7 +42,7 @@ import com.krobothsoftware.commons.progress.ProgressMonitor;
  */
 public abstract class HandlerSAX extends Handler implements EntityResolver,
 		DTDHandler, ContentHandler, ErrorHandler {
-	private static boolean ALT;
+	private static final boolean ALT;
 
 	/**
 	 * Tag element name for each
@@ -51,6 +51,13 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * @since SNC 1.0
 	 */
 	protected String startTag;
+
+	/**
+	 * Tag element for each {@link #endElement(String, String, String)}.
+	 * 
+	 * @since SNC 1.0.1
+	 */
+	protected String endTag;
 
 	/**
 	 * Used when retrieving characters to tell if start element was called.
@@ -187,7 +194,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * Sets correct start tag and <code>calledStartElement</code> to true.
+	 * Sets start tag and <code>calledStartElement</code> to true.
 	 * 
 	 * @since SNC 1.0
 	 */
@@ -225,14 +232,15 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * If <code>buildChars</code> is true, call {@link #buildCharacters(String)}
-	 * with built characters.
+	 * Sets end tag and If <code>buildChars</code> is true, call
+	 * {@link #buildCharacters(String)} with built characters.
 	 * 
 	 * @since SNC 1.0
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		endTag = qLocal(qName, localName);
 		if (buildChars) {
 			buildCharacters(sb.toString());
 			sb.setLength(0);

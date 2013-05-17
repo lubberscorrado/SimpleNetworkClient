@@ -101,8 +101,8 @@ public final class HandlerHtmlFriendGame extends HandlerHtml implements
 	@Override
 	public boolean endElement(int expr, String uri, String localName,
 			String qName) throws SAXException {
-		if (!friend && tr == 1 && qLocal(qName, localName).equals("tr")) friend = true;
-		else if (td == -1 && qLocal(qName, localName).equals("table")) throw new StopException();
+		if (!friend && tr == 1 && endTag.equals("tr")) friend = true;
+		else if (td == -1 && endTag.equals("table")) throw new StopException();
 
 		return true;
 	}

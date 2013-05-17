@@ -47,9 +47,9 @@ public final class HandlerXmlFriend extends HandlerXml {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		super.endElement(uri, localName, qName);
 
-		if (qLocal(qName, localName).equalsIgnoreCase("psn_friend")) list
-				.add(builder.build());
+		if (endTag.equalsIgnoreCase("psn_friend")) list.add(builder.build());
 
 	}
 

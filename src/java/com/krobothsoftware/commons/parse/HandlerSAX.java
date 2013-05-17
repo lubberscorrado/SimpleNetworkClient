@@ -50,6 +50,13 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	protected String startTag;
 
 	/**
+	 * Tag element for each {@link #endElement(String, String, String)}.
+	 * 
+	 * @since SNC 1.0.1
+	 */
+	protected String endTag;
+
+	/**
 	 * Used when retrieving characters to tell if start element was called.
 	 * 
 	 * @since SNC 1.0
@@ -184,7 +191,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * Sets correct start tag and <code>calledStartElement</code> to true.
+	 * Sets start tag and <code>calledStartElement</code> to true.
 	 * 
 	 * @since SNC 1.0
 	 */
@@ -222,14 +229,15 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * If <code>buildChars</code> is true, call {@link #buildCharacters(String)}
-	 * with built characters.
+	 * Sets end tag and If <code>buildChars</code> is true, call
+	 * {@link #buildCharacters(String)} with built characters.
 	 * 
 	 * @since SNC 1.0
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		endTag = qLocal(qName, localName);
 		if (buildChars) {
 			buildCharacters(sb.toString());
 			sb.setLength(0);
@@ -275,12 +283,12 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * 
 	 * @param qName
 	 *            qname
-	 * @param localname
-	 *            localname
+	 * @param localName
+	 *            localName
 	 * @return correct qLocal
 	 * @since SNC 1.0
 	 */
-	protected final String qLocal(String qName, String localname) {
+	protected final String qLocal(String qName, String localName) {
 		return qName;
 	}
 

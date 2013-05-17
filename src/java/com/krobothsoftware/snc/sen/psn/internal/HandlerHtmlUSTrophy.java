@@ -121,6 +121,6 @@ public final class HandlerHtmlUSTrophy extends HandlerHtml implements
 	@Override
 	public boolean endElement(int expr, String uri, String localName,
 			String qName) throws SAXException {
-		return false;
+		return true;
 	}
 }

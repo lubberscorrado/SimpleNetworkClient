@@ -59,17 +59,15 @@ public final class HandlerXmlTrophy extends HandlerXml {
 	}
 
 	@Override
-	public void startElement( String uri, String localName,
-			String qName, Attributes attributes)
-			throws SAXException {
+	public void startElement(String uri, String localName, String qName,
+			Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 
 		if (startTag.equalsIgnoreCase("nptrophy")) {
 			result = attributes.getValue("result");
 		} else if (startTag.equalsIgnoreCase("info")) {
 			builder.setGameId(attributes.getValue(NPCOMMID));
-			builder.setPlatform(Platform.getPlatform(attributes
-					.getValue(PF)));
+			builder.setPlatform(Platform.getPlatform(attributes.getValue(PF)));
 		} else if (startTag.equalsIgnoreCase("trophy")) {
 			builder.setIndex(Integer.parseInt(attributes.getValue("id")));
 			if (attributes.getIndex(NPCOMMID) != -1) builder
@@ -95,11 +93,11 @@ public final class HandlerXmlTrophy extends HandlerXml {
 	}
 
 	@Override
-	public void endElement(String uri, String localName,
-			String qName) throws SAXException {
+	public void endElement(String uri, String localName, String qName)
+			throws SAXException {
+		super.endElement(uri, localName, qName);
 
-		if (qLocal(qName, localName).equalsIgnoreCase("trophy")) list
-				.add(builder.build());
+		if (endTag.equalsIgnoreCase("trophy")) list.add(builder.build());
 	}
 
 	@Override

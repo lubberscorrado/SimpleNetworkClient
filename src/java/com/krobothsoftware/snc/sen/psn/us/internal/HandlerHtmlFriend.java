@@ -76,7 +76,7 @@ public class HandlerHtmlFriend extends HandlerHtml implements ExpressionFilter {
 	@Override
 	public boolean endElement(int expr, String uri, String localName,
 			String qName) throws SAXException {
-		return false;
+		return true;
 	}
 
 }

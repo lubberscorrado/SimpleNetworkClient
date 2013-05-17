@@ -128,7 +128,6 @@ public final class HandlerHtmlFriendTrophy extends HandlerHtml implements
 	public boolean endElement(int expr, String uri, String localName,
 			String qName) throws SAXException {
 		return cont;
-
 	}
 
 	@Override

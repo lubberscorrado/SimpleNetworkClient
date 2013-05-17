@@ -73,7 +73,7 @@
 			<tag name="beta" scope="all" description="Beta:" />
 			<bottom>${javadoc.bottom}</bottom>
 			<link />
-			<link href="http://download.oracle.com/javase/7/docs/api/" />
+			<link href="http://docs.oracle.com/javase/7/docs/api/" />
 			<link href="http://www.slf4j.org/apidocs/" />
 			<link href="http://fasterxml.github.com/jackson-core/javadoc/2.1.0/" />
 			<link href="http://htmlcleaner.sourceforge.net/doc/" />

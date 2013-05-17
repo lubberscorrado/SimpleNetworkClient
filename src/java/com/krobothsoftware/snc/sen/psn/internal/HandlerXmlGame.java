@@ -75,8 +75,9 @@ public final class HandlerXmlGame extends HandlerXml {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		super.endElement(uri, localName, qName);
 
-		if (qLocal(qName, localName).equalsIgnoreCase("info")) {
+		if (endTag.equalsIgnoreCase("info")) {
 
 			if (list == null) list = new ArrayList<PsnGameOfficial>(numGames);
 			list.add(builder.build());

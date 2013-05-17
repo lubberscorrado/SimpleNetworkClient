@@ -138,7 +138,7 @@ public final class HandlerHtmlUKGame extends HandlerHtml implements
 	@Override
 	public boolean endElement(int expr, String uri, String localName,
 			String qName) throws SAXException {
-		if (qLocal(qName, localName).equals("table")) throw new StopException();
+		if (endTag.equals("table")) throw new StopException();
 
 		return true;
 	}

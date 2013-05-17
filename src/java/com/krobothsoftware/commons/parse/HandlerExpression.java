@@ -126,8 +126,8 @@ class HandlerExpression extends HandlerSAX {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		if (reached) cont = filter.endElement(index, uri, localName, qName);
 		delegate.endElement(uri, localName, qName);
+		if (reached) cont = filter.endElement(index, uri, localName, qName);
 	}
 
 	@Override
