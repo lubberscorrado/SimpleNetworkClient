@@ -17,7 +17,9 @@ Deploy files are hosted on [SourceForge](https://sourceforge.net/projects/simple
 
 Don't use both jar files if one has the `android` postfix.
 
-With ANT, calling the *Deploy* target will produce the same files.
+With ANT, calling the *Deploy* target will produce the same files. 
+
+Make sure to have `android.jar` in _dependencies_ folder. You can find that in `%ANDROID_SDK%/platforms/android-xx/android.jar`
 
 ***
 * [Client](#client)
