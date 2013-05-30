@@ -119,6 +119,6 @@ networkHelper.setConnectionListener(connectionListener);
 * [Known Issues](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Known-Issues)
 * [Implementing Client](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Implementing-Network-Client)
 * [Extensions](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Extensions)
-* [Commons](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Commonshttps://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Commons)
+* [Commons](https://github.com/KrobothSoftware/SimpleNetworkClient/wiki/Commons)
 
 Copyright © 2013 [Kyle Kroboth](https://github.com/KrobothSoftware). Distributed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
