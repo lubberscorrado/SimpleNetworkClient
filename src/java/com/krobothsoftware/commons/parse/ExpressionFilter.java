@@ -19,13 +19,13 @@ package com.krobothsoftware.commons.parse;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Filter applied to {@link HandlerSAX} for {@link Expression} evaluation.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
+ * @see ExpressionBuilderFilter
  */
 public interface ExpressionFilter {
 
@@ -49,7 +49,7 @@ public interface ExpressionFilter {
 	 * @param qName
 	 * @param attributes
 	 * @throws SAXException
-	 * @see DefaultHandler#startElement(String, String, String, Attributes)
+	 * @see HandlerSAX#startElement(String, String, String, Attributes)
 	 * @since SNC 1.0
 	 */
 	void startElement(int expr, String uri, String localName, String qName,
@@ -65,7 +65,7 @@ public interface ExpressionFilter {
 	 * @param start
 	 * @param length
 	 * @throws SAXException
-	 * @see DefaultHandler#characters(char[], int, int)
+	 * @see HandlerSAX#characters(char[], int, int)
 	 * @since SNC 1.0
 	 * 
 	 */
@@ -83,7 +83,7 @@ public interface ExpressionFilter {
 	 * @param qName
 	 * @return true, to go to next node in expression
 	 * @throws SAXException
-	 * @see DefaultHandler#endElement(String, String, String)
+	 * @see HandlerSAX#endElement(String, String, String)
 	 * @since SNC 1.0
 	 * 
 	 */

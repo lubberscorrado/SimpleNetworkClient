@@ -35,6 +35,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.util.SparseArray;
+
 import com.krobothsoftware.commons.network.value.Cookie;
 import com.krobothsoftware.commons.network.value.CookieMap;
 import com.krobothsoftware.commons.network.value.NameValuePair;
@@ -64,7 +66,7 @@ import com.krobothsoftware.commons.network.value.NameValuePair;
  * @see com.krobothsoftware.commons.network.NetworkHelper
  */
 public class RequestBuilder {
-	private static final Map<Integer, RequestHandler> internalCodes;
+	private static final SparseArray<RequestHandler> internalCodes;
 
 	/**
 	 * URL for connection.
@@ -192,10 +194,9 @@ public class RequestBuilder {
 	 */
 	public static void setInternalHandler(int responseCode,
 			RequestHandler handler) {
-		Integer integer = Integer.valueOf(responseCode);
-		if (handler == null) internalCodes.remove(integer);
+		if (handler == null) internalCodes.remove(responseCode);
 		else
-			internalCodes.put(integer, handler);
+			internalCodes.put(responseCode, handler);
 	}
 
 	/**
@@ -635,7 +636,7 @@ public class RequestBuilder {
 		/*
 		 * Check internally requests handlers and process them, if can
 		 */
-		if (internalCodes.containsKey(statuscode)
+		if (internalCodes.indexOfKey(statuscode) >= 0
 				&& !ignoreCodes.contains(statuscode)) {
 			RequestBuilder newBuilder = internalCodes.get(statuscode)
 					.getRequest(this, connection);
@@ -729,9 +730,8 @@ public class RequestBuilder {
 	}
 
 	static {
-		internalCodes = new HashMap<Integer, RequestHandler>(2);
-		internalCodes.put(Integer.valueOf(301), new InternalRedirectHandler());
-		internalCodes.put(Integer.valueOf(302),
-				new InternalRedirectHandler(302));
+		internalCodes = new SparseArray<RequestHandler>(2);
+		internalCodes.put(301, new InternalRedirectHandler());
+		internalCodes.put(302, new InternalRedirectHandler(302));
 	}
 }

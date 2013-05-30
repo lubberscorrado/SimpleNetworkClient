@@ -20,6 +20,7 @@ package com.krobothsoftware.commons.parse;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,20 @@ import org.slf4j.LoggerFactory;
  */
 public final class ParserHtmlCleaner implements ParserInitializable {
 	private HtmlCleaner cleaner;
+	private final CleanerProperties properties;
 	private final Logger log;
+
+	/**
+	 * Creates new Html Cleaner Parser and will use properties.
+	 * 
+	 * @param properties
+	 *            for <code>HtmlCleaner</code> component
+	 * @since SNC-EXT-HTMLCLEANER 1.0.1
+	 */
+	public ParserHtmlCleaner(CleanerProperties properties) {
+		this.properties = properties;
+		log = LoggerFactory.getLogger(ParserHtmlCleaner.class);
+	}
 
 	/**
 	 * Creates new Html Cleaner parser.
@@ -41,18 +55,18 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * @since SNC-EXT-HTMLCLEANER 1.0
 	 */
 	public ParserHtmlCleaner() {
-		log = LoggerFactory.getLogger(ParserHtmlCleaner.class);
+		this(null);
 	}
 
 	/**
-	 * Creates Html Cleaner parser. No throwables to worry about.
+	 * Creates Html Cleaner parser. No exceptions to worry about.
 	 * 
 	 * @since SNC-EXT-HTMLCLEANER 1.0
 	 */
 	@Override
 	public void init() {
 		// no exceptions or errors to worry about
-		cleaner = new HtmlCleaner();
+		cleaner = new HtmlCleaner(properties);
 	}
 
 	/**
@@ -79,7 +93,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 */
 	public void parse(InputStream inputStream, HandlerHtmlCleaner handler,
 			String charset) throws ParseException {
-		if (cleaner == null) cleaner = new HtmlCleaner();
+		if (cleaner == null) cleaner = new HtmlCleaner(properties);
 		try {
 			handler.setLogger(log);
 			handler.setHtmlCleaner(cleaner);

@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * consists of nodes separated by a forward slash. Features include tag,
  * attribute name and value, and index. All strings are interned.
  * 
+ * 
  * <pre>
  * <table border="1">
  * <tr>
@@ -56,6 +57,8 @@ import java.util.ArrayList;
  * Index. Starts at 1
  * </td>
  * </tr>
+ * <tr>
+ * </tr>
  * </table>
  * </pre>
  * 
@@ -74,6 +77,10 @@ import java.util.ArrayList;
  * </table>
  * </pre>
  * 
+ * <p>
+ * A node may only have one attribute.
+ * </p>
+ * 
  * Example
  * 
  * <pre>
@@ -88,7 +95,6 @@ import java.util.ArrayList;
  */
 public final class Expression {
 	private final ArrayList<Node> stack;
-	private int index;
 
 	/**
 	 * Parses expression using limited xpath syntax. Will <b>not</b> check for
@@ -113,15 +119,15 @@ public final class Expression {
 		stack.trimToSize();
 	}
 
-	Node popNode() {
+	Node getNode(int index) {
 		if (index >= stack.size()) return null;
-		return stack.get(index++);
+		return stack.get(index);
 	}
 
-	void reset() {
-		index = 0;
-	}
-
+	/**
+	 * Iterate through characters instead of using Regex or String methods for
+	 * faster result.
+	 */
 	private int nextNode(char[] ch, int start) {
 		Node node = new Node();
 		int old = start;

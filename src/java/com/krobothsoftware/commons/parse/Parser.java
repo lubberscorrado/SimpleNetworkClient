@@ -38,6 +38,7 @@ import org.xml.sax.SAXException;
  * @since SNC 1.0
  */
 public final class Parser implements ParserInitializable {
+	private static final String SAXPARSER_TAGSOUP = "org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl";
 
 	/**
 	 * Null Parser Handler. Use this instead of <code>null</code> when setting
@@ -139,18 +140,18 @@ public final class Parser implements ParserInitializable {
 			throws ParseException {
 		log.debug("Parsing {}", handler.getClass().getSimpleName());
 		Handler realHandler = getHandler(handler);
-		realHandler.setParser(this);
-		realHandler.setLogger(log);
 
 		try {
 			// SAX handler
 			if (handler instanceof HandlerSAX) {
-				DefaultHandlerDelegate delegate = new DefaultHandlerDelegate(
-						(HandlerSAX) realHandler);
-				InputSource inputSource = new InputSource(inputStream);
-				inputSource.setEncoding(charset);
 				SAXParser parser = getParser(handler);
 				if (parser != null) {
+					DefaultHandlerDelegate delegate = new DefaultHandlerDelegate(
+							(HandlerSAX) realHandler);
+					InputSource inputSource = new InputSource(inputStream);
+					inputSource.setEncoding(charset);
+					realHandler.setParser(this);
+					realHandler.setLogger(log);
 					parser.parse(inputSource, delegate);
 					return;
 				}
@@ -185,8 +186,8 @@ public final class Parser implements ParserInitializable {
 			} else if (handler instanceof HandlerHtml) {
 				if (htmlParser == null) {
 					htmlParser = SAXParserFactory.newInstance(
-							"org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl",
-							Parser.class.getClassLoader()).newSAXParser();
+							SAXPARSER_TAGSOUP, Parser.class.getClassLoader())
+							.newSAXParser();
 				}
 				return htmlParser;
 			}
@@ -202,11 +203,14 @@ public final class Parser implements ParserInitializable {
 	private Handler getHandler(Handler handler) {
 		Handler found = listener.getHandler(handler);
 		if (found == null) {
-			if (handler instanceof HandlerSAX
-					&& handler instanceof ExpressionFilter) {
-				found = new HandlerExpression((HandlerSAX) handler);
-			} else
-				found = handler;
+			if (handler instanceof HandlerSAX) {
+				if (handler instanceof ExpressionBuilderFilter) found = new HandlerExpressionBuilder(
+						(HandlerSAX) handler);
+				else if (handler instanceof ExpressionFilter) found = new HandlerExpression(
+						(HandlerSAX) handler);
+				else
+					found = handler;
+			}
 		}
 
 		return found;

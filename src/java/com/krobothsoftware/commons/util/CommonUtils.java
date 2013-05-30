@@ -57,13 +57,18 @@ public final class CommonUtils {
 	 * @throws IOException
 	 * @since SNC 1.0
 	 */
+	@SuppressWarnings("resource")
 	public static String toString(InputStream inputStream, String charset)
 			throws IOException {
-		Scanner s = new Scanner(inputStream, charset);
-		s.useDelimiter("\\A");
-		String text = s.hasNext() ? s.next() : "";
-		s.close();
-		return text;
+		Scanner s = null;
+		try {
+			s = new Scanner(inputStream, charset);
+			s.useDelimiter("\\A");
+			String text = s.hasNext() ? s.next() : "";
+			return text;
+		} finally {
+			closeQuietly(s);
+		}
 	}
 
 	/**

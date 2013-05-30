@@ -380,7 +380,8 @@ public class NetworkHelper {
 		if (nameValue.length % 2 != 0) throw new IllegalArgumentException(
 				"Odd number of elements");
 
-		ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>();
+		ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>(
+				nameValue.length / 2);
 		for (int i = 0; i < nameValue.length; i += 2) {
 			pairs.add(new NameValuePair(nameValue[i], nameValue[i + 1]));
 		}
@@ -449,7 +450,6 @@ public class NetworkHelper {
 	public static String getCharset(HttpURLConnection connection) {
 		String contentType = connection.getContentType();
 
-		// blame X-Content-Type-Options:nosniff
 		if (contentType == null) return null;
 		String[] values = contentType.split(";");
 
@@ -524,7 +524,8 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Fast way of getting domains from url host.
+	 * Fast way of getting domains from url host. <b>Must</b> be host and not
+	 * full URL.
 	 * 
 	 * @param urlHost
 	 *            host of url

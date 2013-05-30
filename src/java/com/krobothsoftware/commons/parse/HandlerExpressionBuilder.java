@@ -18,27 +18,22 @@
 package com.krobothsoftware.commons.parse;
 
 /**
- * Parser can init <code>parsers</code> before they are needed. <i>Usually</i>,
- * a Parser initiates parsing <code>components</code> when needed depending on
- * {@link Handler} type.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since SNC 1.0.1
  */
-public interface ParserInitializable {
+public class HandlerExpressionBuilder extends HandlerExpression {
+	private final ExpressionBuilderFilter filter;
 
-	/**
-	 * Initializes parser components and <b>Ignores</b> any
-	 * throwables(Exceptions and Errors). May log report. If there is an error,
-	 * it will arise when parser attempts to create it when needed.
-	 * 
-	 * <p>
-	 * Do not call this method if you don't need access to parsers. This is not
-	 * a initiation method for Parser.
-	 * </p>
-	 * 
-	 * @since SNC 1.0
-	 */
-	void init();
+	public HandlerExpressionBuilder(HandlerSAX delegate) {
+		super(delegate);
+		filter = (ExpressionBuilderFilter) delegate;
+	}
+
+	@Override
+	public void buildCharacters(String content) {
+		delegate.buildCharacters(content);
+		if (reached) filter.buildCharacters(index, content);
+	}
 
 }

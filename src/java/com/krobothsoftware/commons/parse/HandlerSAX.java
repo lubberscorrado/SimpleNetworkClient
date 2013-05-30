@@ -64,7 +64,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	protected boolean calledStartElement;
 
 	/**
-	 * If true, well build all characters in
+	 * If true, will build all characters in
 	 * {@link #characters(char[], int, int)} and call
 	 * {@link #buildCharacters(String)} when element is closed. Used when
 	 * handling multiple chunk calls.
@@ -73,7 +73,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 */
 	protected boolean buildChars;
 
-	private final StringBuilder sb = new StringBuilder();
+	final StringBuilder sb = new StringBuilder();
 
 	/**
 	 * Creates new SAX Handler with progress.

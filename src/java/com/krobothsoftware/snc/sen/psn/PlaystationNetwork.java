@@ -185,7 +185,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		AuthenticationManager authManager = networkHelper
 				.getAuthorizationManager();
 		DigestAuthentication basicDigest = new DigestAuthentication(
-				"c7y-basic01", "A9QTbosh0W0D^{7467l-n_>2Y%JG^v>o");
+				"c7y-basic01", "A9QTbosh0W0D^{7467l-n_>2Y%JG^v>o".toCharArray());
 		authManager.addAuthentication(new AuthScope(
 				"searchjid.usa.np.community.playstation.net"), basicDigest);
 		authManager.addAuthentication(new AuthScope(
@@ -193,7 +193,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		authManager.addAuthentication(new AuthScope(
 				"trophy.ww.np.community.playstation.net"),
 				new DigestAuthentication("c7y-trophy01",
-						"jhlWmT0|:0!nC:b:#x/uihx'Y74b5Ycx"));
+						"jhlWmT0|:0!nC:b:#x/uihx'Y74b5Ycx".toCharArray()));
 
 	}
 

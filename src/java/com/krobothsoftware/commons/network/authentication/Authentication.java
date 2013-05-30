@@ -47,6 +47,13 @@ import com.krobothsoftware.commons.network.ResponseAuthenticate;
 public abstract class Authentication {
 
 	/**
+	 * Constant header for Authorization
+	 * 
+	 * @since SNC 1.0.1
+	 */
+	static final String HEADER_AUTHORIZATION = "Authorization";
+
+	/**
 	 * Network Helper set from {@link AuthenticationManager}.
 	 * 
 	 * @since SNC 1.0
@@ -65,7 +72,7 @@ public abstract class Authentication {
 	 * 
 	 * @since SNC 1.0
 	 */
-	protected String password;
+	protected char[] password;
 
 	/**
 	 * Logger for authentications.
@@ -75,7 +82,7 @@ public abstract class Authentication {
 	protected Logger log;
 
 	/*
-	 * If needed to not specify any arguments.
+	 * Empty constructor
 	 * @since SNC 1.0
 	 */
 	protected Authentication() {
@@ -87,9 +94,24 @@ public abstract class Authentication {
 	 * 
 	 * @param username
 	 * @param password
+	 * @deprecated use {@link #Authentication(String, char[])}. This constructor
+	 *             will convert String <code>password</code> to a char array.
 	 * @since SNC 1.0
 	 */
+	@Deprecated
 	public Authentication(String username, String password) {
+		this(username, password.toCharArray());
+	}
+
+	/**
+	 * Instantiates a new authorization with username and password.
+	 * 
+	 * @param username
+	 * @param password
+	 *            in char array
+	 * @since SNC 1.0.1
+	 */
+	public Authentication(String username, char[] password) {
 		this.username = username;
 		this.password = password;
 	}

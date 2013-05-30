@@ -69,9 +69,23 @@ public class DigestAuthentication extends Authentication {
 	 * 
 	 * @param username
 	 * @param password
+	 * @deprecated use {@link #DigestAuthentication(String, char[])} instead.
 	 * @since SNC 1.0
 	 */
+	@Deprecated
 	public DigestAuthentication(String username, String password) {
+		super(username, password);
+	}
+
+	/**
+	 * Instantiates a new digest authentication with username and password.
+	 * 
+	 * @param username
+	 * @param password
+	 *            in char array
+	 * @since SNC 1.0.1
+	 */
+	public DigestAuthentication(String username, char[] password) {
 		super(username, password);
 	}
 
@@ -85,7 +99,7 @@ public class DigestAuthentication extends Authentication {
 		String header = nonceUsable(request);
 
 		if (header != null) {
-			request.header("Authorization", header);
+			request.header(HEADER_AUTHORIZATION, header);
 		}
 
 		return;
@@ -109,7 +123,7 @@ public class DigestAuthentication extends Authentication {
 		algorithm = getHeaderValueByType("algorithm", headerField);
 		qop = getHeaderValueByType("qop", headerField);
 		charset = getHeaderValueByType("charset", headerField);
-		request.header("Authorization", createHeader(request));
+		request.header(HEADER_AUTHORIZATION, createHeader(request));
 
 		return new RequestBuilder(request).execute(networkHelper);
 
@@ -276,6 +290,7 @@ public class DigestAuthentication extends Authentication {
 	 * @return The cnonce value as String.
 	 */
 	private static String createCnonce() {
+		// TODO use only one SecureRandom instance?
 		SecureRandom rnd = new SecureRandom();
 		byte[] tmp = new byte[8];
 		rnd.nextBytes(tmp);

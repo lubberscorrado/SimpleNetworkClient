@@ -32,22 +32,22 @@ import org.xml.sax.SAXParseException;
  * @since SNC 1.0
  */
 class HandlerExpression extends HandlerSAX {
-	private final HandlerSAX delegate;
+	final HandlerSAX delegate;
 	private final ExpressionFilter filter;
 	private final Expression expr;
-	private int index = 0;
-	private boolean cont;
+	private int exprIndex = 0; // node index of expression
+	int index = 0; // index of node
+	private boolean cont; // continue
 	private Expression.Node node;
-	private boolean reached;
+	boolean reached; // expression ended
 	private boolean hasAttrib;
 	private boolean hasAttribV;
-	private int count = 1;
+	private int count = 1; // node count
 
 	public HandlerExpression(HandlerSAX delegate) {
 		this.delegate = delegate;
 		this.filter = (ExpressionFilter) delegate;
 		expr = filter.getExpression();
-		expr.reset();
 		popNode();
 	}
 
@@ -124,6 +124,11 @@ class HandlerExpression extends HandlerSAX {
 	}
 
 	@Override
+	public void buildCharacters(String content) {
+		delegate.buildCharacters(content);
+	}
+
+	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		delegate.endElement(uri, localName, qName);
@@ -171,7 +176,7 @@ class HandlerExpression extends HandlerSAX {
 
 	private void popNode() {
 		count = 1;
-		node = expr.popNode();
+		node = expr.getNode(exprIndex++);
 		if (node == null) {
 			reached = true;
 			return;
@@ -183,5 +188,4 @@ class HandlerExpression extends HandlerSAX {
 		hasAttrib = node.attrib != null;
 		hasAttribV = node.attribV != null;
 	}
-
 }

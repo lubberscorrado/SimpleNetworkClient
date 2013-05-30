@@ -60,6 +60,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 		this.auth = auth;
 		this.realm = null;
 		authLog = LoggerFactory.getLogger(RequestBuilderAuthenticate.class);
+		auth.setLogger(authLog);
 	}
 
 	/**
@@ -145,21 +146,27 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 		}
 
 		// setup authentication
-		auth.setup(this);
-		Response response = super.execute(networkHelper);
-		if (response instanceof ResponseAuthenticate
-				&& auth.authenticateSupported()) {
-			// authenticate connection
-			// index starts at negative one for normal connection
-			for (int i = -1; i < retry; i++) {
-				response = auth.authenticate(this,
-						(ResponseAuthenticate) response);
-				if (!(response instanceof ResponseAuthenticate)) break;
-				auth.reset();
+		try {
+			auth.setNetworkHelper(networkHelper);
+			auth.setup(this);
+			Response response = super.execute(networkHelper);
+			if (response instanceof ResponseAuthenticate
+					&& auth.authenticateSupported()) {
+				// authenticate connection
+				// index starts at negative one for normal connection
+				for (int i = -1; i < retry; i++) {
+					response = auth.authenticate(this,
+							(ResponseAuthenticate) response);
+					if (!(response instanceof ResponseAuthenticate)) break;
+					auth.reset();
+				}
 			}
+
+			return response;
+		} finally {
+			auth.setNetworkHelper(null);
 		}
 
-		return response;
 	}
 
 }

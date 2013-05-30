@@ -152,8 +152,11 @@ public final class PsnUtils {
 	 * @param date
 	 * @return official date format
 	 * @see #OFFICIAL_DATE_FORMAT
+	 * @deprecated Use {@link #OFFICIAL_DATE_FORMAT} to create a DateFormat
+	 *             instead.
 	 * @since SEN-PSN 1.0
 	 */
+	@Deprecated
 	public static String getOfficialDateFormat(Date date) {
 		return new SimpleDateFormat(OFFICIAL_DATE_FORMAT, Locale.US)
 				.format(date);
@@ -169,8 +172,11 @@ public final class PsnUtils {
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
 	 * @see #OFFICIAL_DATE_FORMAT
+	 * @deprecated Use {@link #OFFICIAL_DATE_FORMAT} to create a DateFormat
+	 *             instead.
 	 * @since SEN-PSN 1.0
 	 */
+	@Deprecated
 	public static Date getOfficialDate(String date, Locale locale)
 			throws ParseException {
 		return new SimpleDateFormat(OFFICIAL_DATE_FORMAT, locale).parse(date);
