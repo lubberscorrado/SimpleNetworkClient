@@ -13,8 +13,6 @@ Current implementations
 
 * [SLF4J](http://www.slf4j.org/) - Logging library `slf4j-api.jar`
 
-Deploy files are hosted on [SourceForge](https://sourceforge.net/projects/simplenetclient/).
-
 Don't use both jar files if one has the `android` postfix.
 
 With ANT, calling the *Deploy* target will produce the same files. 
