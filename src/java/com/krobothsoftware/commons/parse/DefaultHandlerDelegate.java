@@ -27,7 +27,9 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Delegate DefualtHandler for {@link HandlerSAX} implementations.
+ * Delegate DefualtHandler for {@link HandlerSAX} implementations. SAXParsers
+ * only allow <code>DefaultHandler</code> instances and <code>HandlerSAX</code>
+ * implements the interfaces instead.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0

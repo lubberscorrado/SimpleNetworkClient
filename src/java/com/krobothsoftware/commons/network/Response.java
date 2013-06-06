@@ -26,7 +26,7 @@ import com.krobothsoftware.commons.util.CommonUtils;
 
 /**
  * Response holder from {@link RequestBuilder#execute(NetworkHelper)}. Make sure
- * to call {@link #close()} to ensure connection is closed.
+ * to call {@link #close()}.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -70,8 +70,8 @@ public class Response implements Closeable {
 	}
 
 	/**
-	 * Get response stream. May be an ErrorStream.Will never be null by may be
-	 * empty.
+	 * Get response stream. May be InputStream or ErrorStream. Will never be
+	 * null.
 	 * 
 	 * @return stream from connection
 	 * @see UnclosableInputStream#forceClose()
@@ -92,17 +92,78 @@ public class Response implements Closeable {
 	}
 
 	/**
-	 * Checks if status code is OK.
+	 * Checks if status code is successful.
 	 * 
 	 * <p>
 	 * <code>status >= 200 and status < 300</code>
 	 * </p>
 	 * 
-	 * @return if status code is considered OK
+	 * @return if status code is considered successful
+	 * @deprecated changed method to {@link #isSuccessful()}
 	 * @since SNC 1.0
 	 */
+	@Deprecated
 	public boolean isOk() {
-		return status >= 200 && status < 300;
+		return status / 100 == 2;
+	}
+
+	/**
+	 * Checks if status code is successful.
+	 * 
+	 * <p>
+	 * <code>status >= 200 and status < 300</code>
+	 * </p>
+	 * 
+	 * @return true, if status code is considered successful
+	 * @since SNC 1.0.2
+	 */
+	public boolean isSuccessful() {
+		return status / 100 == 2;
+	}
+
+	/**
+	 * 
+	 * Checks if status code is a redirection.
+	 * 
+	 * <p>
+	 * <code>status >= 300 and status < 400</code>
+	 * </p>
+	 * 
+	 * @return true, if status code is considered a redirection
+	 * @since SNC 1.0.2
+	 */
+	public boolean isRedirection() {
+		return status / 100 == 3;
+	}
+
+	/**
+	 * 
+	 * Checks if status code is a client error.
+	 * 
+	 * <p>
+	 * <code>status >= 400 and status < 500</code>
+	 * </p>
+	 * 
+	 * @return true, if status code is considered a client error
+	 * @since SNC 1.0.2
+	 */
+	public boolean isClientError() {
+		return status / 100 == 4;
+	}
+
+	/**
+	 * 
+	 * Checks if status code is a server error.
+	 * 
+	 * <p>
+	 * <code>status >= 500 and status < 600</code>
+	 * </p>
+	 * 
+	 * @return true, if status code is considered a server error
+	 * @since SNC 1.0.2
+	 */
+	public boolean isServerError() {
+		return status / 100 == 5;
 	}
 
 	/**

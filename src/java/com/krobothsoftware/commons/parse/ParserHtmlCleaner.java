@@ -76,6 +76,8 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * @since SNC-EXT-HTMLCLEANER 1.0
 	 */
 	public HtmlCleaner getHtmlCleaner() {
+		if (cleaner == null) log
+				.warn("HtmlCleaner has not been initiated, Call init() beforehand");
 		return cleaner;
 	}
 

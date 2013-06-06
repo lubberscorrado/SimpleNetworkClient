@@ -76,7 +76,7 @@ public abstract class HandlerJson extends Handler {
 	 * @since SNC-EXT-JSON 1.0
 	 */
 	public HandlerJson() {
-
+		super();
 	}
 
 	/**

@@ -20,7 +20,6 @@ package com.krobothsoftware.commons.parse;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * 
  * Exception for stopping parsing in {@link DefaultHandler} which is caught
  * internally. As there is no way of stopping a SAX parser, throwing an
  * exception is the <i>only</i> way. Does not fill in stack trace.

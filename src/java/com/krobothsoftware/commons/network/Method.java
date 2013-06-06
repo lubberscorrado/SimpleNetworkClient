@@ -35,7 +35,7 @@ public enum Method {
 	GET,
 
 	/**
-	 * HTTP POST
+	 * HTTP POST.
 	 * 
 	 * @since SNC 1.0
 	 */

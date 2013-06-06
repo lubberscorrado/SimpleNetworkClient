@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Special handler for Expressions.
+ * Delegate Handler for evaluating {@link Expression}.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0

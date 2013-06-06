@@ -21,8 +21,7 @@ import java.net.HttpURLConnection;
 
 /**
  * Response holder from {@link RequestBuilder#execute(NetworkHelper)} if
- * response code is 401(Unauthorized). Make sure to call {@link #close()} to
- * ensure connection is closed.
+ * response code is 401(Unauthorized).
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0

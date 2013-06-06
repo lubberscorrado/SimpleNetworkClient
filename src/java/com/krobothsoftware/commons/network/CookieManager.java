@@ -33,7 +33,34 @@ import com.krobothsoftware.commons.network.value.CookieMap;
 import com.krobothsoftware.commons.util.CommonUtils;
 
 /**
- * Stores and sends HTTP Cookies through {@link java.net.HttpURLConnection}.
+ * Stores and sets up HTTP Cookies in {@link java.net.HttpURLConnection}. Uses
+ * {@link #CookieManager()} for holding cookies in manager.
+ * 
+ * <p>
+ * Store cookies with {@link #putCookie(Cookie, boolean)} or
+ * {@link #putCookieList(List, boolean)}. Boolean option to override cookie.
+ * Call {@link #purgeExpired(boolean)} to remove expired and session cookies,
+ * only if boolean value is true.
+ * </p>
+ * 
+ * <p>
+ * Use {@link #getCookies(HttpURLConnection)} to retrieve all Cookies from
+ * <code>Set-Cookie</code> headers.
+ * <p/>
+ * 
+ * <p>
+ * {@link #setupCookies(HttpURLConnection)} and
+ * {@link #setupCookies(HttpURLConnection, CookieMap)} will setup
+ * <code>HttpURLConnection</code> cookie header from <code>CookieMap</code> for
+ * URL's domain. Both methods will check if cookie has expired and make sure it
+ * can be set for connection's properties.
+ * </p>
+ * 
+ * <p>
+ * {@link #setCookies(HttpURLConnection, List)} setups the cookie header like
+ * the above methods, but doesn't check if they are expired, or matches
+ * connection's properties. Will create a new Cookie header.
+ * </p>
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -53,7 +80,7 @@ public class CookieManager implements Serializable {
 	}
 
 	/**
-	 * Gets cookie map.
+	 * Gets manager cookie map.
 	 * 
 	 * @return unmodifiable map of cookies
 	 * @since SNC 1.0
@@ -140,6 +167,8 @@ public class CookieManager implements Serializable {
 	 * 
 	 * @param cookie
 	 *            {@link Cookie}
+	 * @param overwrite
+	 *            if true, will delete previous cookie if present
 	 * @since SNC 1.0
 	 */
 	public void putCookie(Cookie cookie, boolean overwrite) {
@@ -179,6 +208,7 @@ public class CookieManager implements Serializable {
 
 		StringBuilder builder;
 
+		// preserve header
 		if (connection.getRequestProperty("Cookie") != null) {
 			builder = new StringBuilder(connection.getRequestProperty("Cookie"));
 		} else {
@@ -196,7 +226,7 @@ public class CookieManager implements Serializable {
 						itr.remove();
 						continue;
 					}
-					
+
 					// Make sure not to continue if both are true
 					if (!(cookie.isHttp() && cookie.isSecure())) {
 						if (connection instanceof HttpsURLConnection) {

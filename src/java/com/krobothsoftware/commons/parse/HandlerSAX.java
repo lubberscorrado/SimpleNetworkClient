@@ -29,7 +29,6 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.krobothsoftware.commons.progress.NullProgressMonitor;
 import com.krobothsoftware.commons.progress.ProgressMonitor;
 
 /**
@@ -92,7 +91,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * @since SNC 1.0
 	 */
 	public HandlerSAX() {
-		monitor = new NullProgressMonitor();
+		super();
 	}
 
 	/**

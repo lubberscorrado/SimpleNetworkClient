@@ -3,7 +3,9 @@ package com.krobothsoftware.commons.network;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
+// TODO finish Javadoc
 /**
+ * 
  * Request handler for getting RequestBuilder depending on status code.
  * 
  * @author Kyle Kroboth
@@ -14,8 +16,10 @@ import java.net.HttpURLConnection;
 public interface RequestHandler {
 
 	/**
-	 * Handle request for status code. Must close connection after.
+	 * Handle request for status code. Must close connection.
 	 * 
+	 * @param status
+	 *            response code
 	 * @param builder
 	 *            builder for handling
 	 * @param connection
@@ -24,7 +28,7 @@ public interface RequestHandler {
 	 * @throws IOException
 	 * @since SNC 1.0
 	 */
-	RequestBuilder getRequest(RequestBuilder builder,
+	RequestBuilder getRequest(int status, RequestBuilder builder,
 			HttpURLConnection connection) throws IOException;
 
 }

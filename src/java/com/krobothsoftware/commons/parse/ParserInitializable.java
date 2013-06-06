@@ -18,9 +18,9 @@
 package com.krobothsoftware.commons.parse;
 
 /**
- * Parser can init <code>parsers</code> before they are needed. <i>Usually</i>,
- * a Parser initiates parsing <code>components</code> when needed depending on
- * {@link Handler} type.
+ * A <code>Parser</code> may not initiate <code>Parsing Components</code> for
+ * each {@link Handler} type unless needed. Calling {@link #init()} will ensure
+ * they are created, if possible.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -35,6 +35,11 @@ public interface ParserInitializable {
 	 * <p>
 	 * Do not call this method if you don't need access to parsers. This is not
 	 * a initiation method for Parser.
+	 * </p>
+	 * 
+	 * <p>
+	 * Calling this method multiple times may re-create
+	 * <code>parsing components</code>.
 	 * </p>
 	 * 
 	 * @since SNC 1.0

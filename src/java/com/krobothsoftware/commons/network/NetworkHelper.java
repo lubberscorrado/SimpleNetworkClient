@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,36 @@ import com.krobothsoftware.commons.network.authentication.RequestBuilderAuthenti
 import com.krobothsoftware.commons.network.value.NameValuePair;
 
 /**
- * Small client for helping connections.
+ * Helper for HTTP connections and holds default values for
+ * {@link RequestBuilder} when executing.
+ * 
+ * <p>
+ * Open HttpURLConnection with <code>openConnection()</code> methods. All
+ * default values set will be used in <code>RequestBuilder</code> connections,
+ * but the builder may override them. Calling {@link #reset()} will reset
+ * timouts, max-redirects, proxy, and set default headers from
+ * {@link #setupHeaders()}.
+ * </p>
+ * 
+ * <pre>
+ *  <code>
+ *  networkHelper.setConnectTimeout(100);
+ *  networkHelper.setHeader("User-Agent", NetworkHelper.AGENT_DEFAULT);
+ *  
+ *  RequestBuilder builder = new RequestBuilder(Method.GET, new URL(
+ *  		"http://www.unatco.org/"))
+ *  		.header("User-Agent", "JC Denton")
+ *  		.connectTimeout(1000);
+ *  Response response = builder.execute(networkHelper);
+ *  </code>
+ * </pre>
+ * <p>
+ * In the example above, connection timout and User-Agent header set in
+ * NetworkHelper will be ignored because <code>RequestBuilder</code> has them
+ * set.
+ * </p>
+ * 
+ * 
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -49,7 +79,7 @@ import com.krobothsoftware.commons.network.value.NameValuePair;
 public class NetworkHelper {
 
 	/**
-	 * Generated User Agent.
+	 * Generated User Agent. Used in default headers.
 	 * 
 	 * <pre>
 	 * <b>Examples</b> 
@@ -67,6 +97,7 @@ public class NetworkHelper {
 	 * 
 	 * @since SNC 1.0
 	 */
+	// TODO remove and use null-check instead?
 	public static final ConnectionListener NULL_CONNECTION_LISTENER;
 
 	/**
@@ -75,15 +106,16 @@ public class NetworkHelper {
 	 * 
 	 * @since SNC 1.0
 	 */
+	// TODO remove and use null-check instead?
 	public static final ResponseHandler NULL_RESPONSE_HANDLER;
 
 	/**
 	 * Version of <code>SNC</code>. Used in User Agent.
 	 */
-	private static final String VERSION = "1.0.0";
+	private static final String VERSION = "1.0.2";
 
 	/**
-	 * Max redirects for <code>RequestBuilderRedirect</code>. Default
+	 * Default Max redirects for <code>RequestBuilderRedirect</code>. Default
 	 * <code>http.maxRedirects</code> or 20.
 	 */
 	private static final int MAX_REDIRECTS;
@@ -105,12 +137,13 @@ public class NetworkHelper {
 	protected final AuthenticationManager authManager;
 
 	/**
-	 * Main logger for sending connections.
+	 * Logger for Helper methods.
 	 * 
 	 * @since SNC 1.0
 	 */
-	protected Logger log;
+	protected final Logger log;
 
+	// default values
 	Proxy proxy;
 	ConnectionListener connListener;
 	ResponseHandler responseHandler;
@@ -209,8 +242,8 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Sets default header for connections. If the <code>RequestBuilder</code>
-	 * has the same header, the default one will <b>not</b> be used.
+	 * Sets default header for connections. Will be ignored if
+	 * <code>RequestBuilder</code> has same header set.
 	 * 
 	 * @param name
 	 *            header name
@@ -228,9 +261,8 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Sets default connect timeout for connections. If the
-	 * <code>RequestBuilder</code> already has a connect timeout set, the
-	 * default one will <b>not</b> be used.
+	 * Sets default connect timeout for connections. Will be ignored if
+	 * <code>RequestBuilder</code> has one set.
 	 * 
 	 * @param connectTimeout
 	 *            new default connect timout
@@ -242,9 +274,8 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Sets default read timeout for connections. If the
-	 * <code>RequestBuilder</code> already has a connect read set, the default
-	 * one will <b>not</b> be used.
+	 * Sets default read timeout for connections. Will be ignored if
+	 * <code>RequestBuilder</code> has one set.
 	 * 
 	 * @param readTimeout
 	 *            new default read timeout
@@ -270,8 +301,8 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Sets <code>ConnectionListener</code> for all <code>RequestBuilder</code>
-	 * s.
+	 * Sets <code>ConnectionListener</code> for all <code>RequestBuilders</code>
+	 * executed in <code>NetworkHelper</code>.
 	 * 
 	 * @param connectionListener
 	 * @throws IllegalArgumentException
@@ -287,12 +318,13 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Sets <code>ResponseHandler</code> for all <code>RequestBuilder</code>s.
+	 * Sets <code>ResponseHandler</code> for all <code>RequestBuilders</code>
+	 * executed in <code>NetworkHelper</code>.
 	 * 
 	 * @param responseHandler
-	 * @see com.krobothsoftware.commons.network.RequestBuilder
 	 * @throws IllegalArgumentException
 	 *             if handler is null
+	 * @see com.krobothsoftware.commons.network.RequestBuilder
 	 * @since SNC 1.0
 	 */
 	public void setResponseHandler(ResponseHandler responseHandler) {
@@ -302,22 +334,22 @@ public class NetworkHelper {
 	}
 
 	/**
-	 * Gets Authentication Manager for connections.
+	 * Gets Authentication Manager.
 	 * 
 	 * @return authentication manager
 	 * @since SNC 1.0
 	 */
-	public AuthenticationManager getAuthorizationManager() {
+	public final AuthenticationManager getAuthorizationManager() {
 		return authManager;
 	}
 
 	/**
-	 * Gets Cookie Manager used for connections.
+	 * Gets Cookie Manager.
 	 * 
 	 * @return cookie manager
 	 * @since SNC 1.0
 	 */
-	public CookieManager getCookieManager() {
+	public final CookieManager getCookieManager() {
 		return cookieManager;
 	}
 
@@ -325,15 +357,19 @@ public class NetworkHelper {
 	 * Sets new cookie manager.
 	 * 
 	 * @param manager
-	 *            to set
+	 *            to set in network helper
 	 * @since SNC 1.0
 	 */
-	public void setCookieManager(CookieManager manager) {
+	public final void setCookieManager(CookieManager manager) {
 		this.cookieManager = manager;
 	}
 
 	/**
 	 * Opens connection and sets proxy from <code>NetworkHelper</code>.
+	 * 
+	 * <pre>
+	 * {@link URL#openConnection(Proxy)}
+	 * </pre>
 	 * 
 	 * @param url
 	 *            url for connection
@@ -348,7 +384,51 @@ public class NetworkHelper {
 	}
 
 	/**
+	 * Converts <code>URI</code> to <code>URL</code> and opens connection with
+	 * proxy from <code>NetworkHelper</code>.
+	 * 
+	 * <pre>
+	 * {@link URI#toURL()}
+	 * {@link URL#openConnection(Proxy)}
+	 * </pre>
+	 * 
+	 * @param uri
+	 *            to convert to URL and open connection
+	 * @return {@link java.net.HttpURLConnection}
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @since SNC 1.0.2
+	 */
+	public HttpURLConnection openConnection(URI uri) throws IOException {
+		return (HttpURLConnection) uri.toURL().openConnection(proxy);
+	}
+
+	/**
+	 * Creates new <code>URL</code> and opens connection with proxy from
+	 * <code>NetworkHelper</code>.
+	 * 
+	 * <pre>
+	 * {@link URL#URL(String)}
+	 * {@link URL#openConnection(Proxy)}
+	 * </pre>
+	 * 
+	 * @param url
+	 *            to create URL and open connection
+	 * @return {@link java.net.HttpURLConnection}
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @since SNC 1.0.2
+	 */
+	public HttpURLConnection openConnection(String url) throws IOException {
+		return (HttpURLConnection) new URL(url).openConnection(proxy);
+	}
+
+	/**
 	 * Opens connection with proxy.
+	 * 
+	 * <p>
+	 * {@link URL#openConnection(Proxy)}
+	 * </p>
 	 * 
 	 * @param url
 	 *            url for connection
@@ -362,6 +442,51 @@ public class NetworkHelper {
 	public HttpURLConnection openConnection(URL url, Proxy proxy)
 			throws IOException {
 		return (HttpURLConnection) url.openConnection(proxy);
+	}
+
+	/**
+	 * Converts <code>URI</code> to <code>URL</code> and opens connection with
+	 * proxy.
+	 * 
+	 * <pre>
+	 * {@link URI#toURL()}
+	 * {@link URL#openConnection(Proxy)}
+	 * </pre>
+	 * 
+	 * @param uri
+	 *            to convert to URL and open connection
+	 * @param proxy
+	 *            proxy for connection, can't be null
+	 * @return {@link java.net.HttpURLConnection}
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @since SNC 1.0.2
+	 */
+	public HttpURLConnection openConnection(URI uri, Proxy proxy)
+			throws IOException {
+		return (HttpURLConnection) uri.toURL().openConnection(proxy);
+	}
+
+	/**
+	 * Creates new <code>URL</code> and opens connection with proxy.
+	 * 
+	 * <pre>
+	 * {@link URL#URL(String)}
+	 * {@link URL#openConnection(Proxy)}
+	 * </pre>
+	 * 
+	 * @param url
+	 *            to create URL and open connection
+	 * @param proxy
+	 *            proxy for connection, can't be null
+	 * @return {@link java.net.HttpURLConnection}
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @since SNC 1.0.2
+	 */
+	public HttpURLConnection openConnection(String url, Proxy proxy)
+			throws IOException {
+		return (HttpURLConnection) new URL(url).openConnection(proxy);
 	}
 
 	/**
@@ -396,7 +521,7 @@ public class NetworkHelper {
 	 * @param url
 	 * @param query
 	 *            list of <code>NameValuePair</code>
-	 * @return modified URL with query
+	 * @return modified URL with query, or same URL if query is empty.
 	 * @throws UnsupportedEncodingException
 	 *             if charset isn't found
 	 * @since SNC 1.0
@@ -424,6 +549,8 @@ public class NetworkHelper {
 	 * @since SNC 1.0
 	 */
 	public static List<NameValuePair> getQueryList(String query) {
+		// TODO use Collections.emptyList() instead? Errors will occur if user
+		// tries to edit list.
 		if (query == null) return new ArrayList<NameValuePair>();
 		String[] params = query.split("&");
 		ArrayList<NameValuePair> listParams = new ArrayList<NameValuePair>(
@@ -500,7 +627,7 @@ public class NetworkHelper {
 
 	/**
 	 * Gets the correct Error{@link java.io.InputStream} based on
-	 * <code>urlConnection</code> encoding.
+	 * <code>HttpURLConnection</code> encoding.
 	 * 
 	 * @param connection
 	 *            connection

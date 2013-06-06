@@ -97,6 +97,8 @@ public final class Parser implements ParserInitializable {
 	 * @since SNC 1.0
 	 */
 	public SAXParser getXmlParser() {
+		if (xmlParser == null) log
+				.warn("XmlParser has not been initiated, Call init() beforehand");
 		return xmlParser;
 	}
 
@@ -107,6 +109,8 @@ public final class Parser implements ParserInitializable {
 	 * @since SNC 1.0
 	 */
 	public SAXParser getHtmlParser() {
+		if (xmlParser == null) log
+				.warn("HtmlParser  has not been initiated, Call init() beforehand");
 		return htmlParser;
 	}
 

@@ -20,7 +20,8 @@ package com.krobothsoftware.commons.network;
 import java.net.HttpURLConnection;
 
 /**
- * Listener for connections.
+ * Listens for opening and finishing connection when
+ * {@link RequestBuilder#execute(NetworkHelper)} is called.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0

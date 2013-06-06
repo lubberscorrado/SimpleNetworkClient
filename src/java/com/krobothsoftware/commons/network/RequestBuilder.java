@@ -35,15 +35,17 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.krobothsoftware.commons.network.RequestBuilderRedirect.RedirectHandler;
 import com.krobothsoftware.commons.network.value.Cookie;
 import com.krobothsoftware.commons.network.value.CookieMap;
 import com.krobothsoftware.commons.network.value.NameValuePair;
 
 /**
- * Builder for requesting HTTP connections.
+ * Builder for requesting HTTP connections. Call {@link #execute(NetworkHelper)}
+ * to send connection and get {@link Response}.
  * 
  * <p>
- * Internally handled responses for response code </br>
+ * Internally handled responses for HTTP response code </br>
  * <table border="1">
  * <tr>
  * <td>301</td>
@@ -56,8 +58,60 @@ import com.krobothsoftware.commons.network.value.NameValuePair;
  * </tr>
  * </table>
  * </br> Use {@link #setInternalHandler(int, RequestHandler)} to set an internal
- * handler </br> To ignore handling, use {@link #ignoreCode(int)}
+ * handler. </br> To ignore handling, use {@link #ignoreCode(int)}.
  * </p>
+ * 
+ * <pre>
+ * <b>GET Request</b>
+ * <p>
+ * Uses custom CookieMap which will send and store cookies from the token.
+ * Unless {@link #requestCookies(boolean)} is false, cookies from
+ * <code>NetworkHelper</code> CookieManager will be sent too.
+ * </p>
+ * <code>
+ * CookieMap token = new CookieMap();
+ * 
+ * Response response = null;
+ * RequestBuilder builder = new RequestBuilder(Method.GET, new URL(
+ * 	"http://example.com"))
+ *  .header("name", "value")
+ *  .use(token);
+ * try {
+ * 	response = builder.execute(networkHelper);
+ * } catch (IOException e) {
+ * 	// handle it
+ * } finally {
+ * 	CommonUtils.closeQuietly(response);
+ * }
+ * </code>
+ * 
+ * <b>POST Request</b>
+ * <p>
+ * Sends POST request with payload as <i>application/x-www-form-urlencoded</i>
+ * params.
+ * </p>
+ * <code>
+ * List<NameValuePair> params = NetworkHelper.getPairs("type", "login",
+ * 		"username", "kyle", "password", "blackcoffee");
+ * 
+ * RequestBuilder builder = new RequestBuilder(Method.POST, new URL(
+ * 		"http://example.com"))
+ * 		.payload(params, "UTF-8");
+ * </code>
+ * 
+ * <b>POST Request</b>
+ * <p>
+ * Sends POST request with payload as raw bytes.
+ * </p>
+ * <code>
+ * String xmlPost = "&lt;?xml version="1.0"?&gt; &lt;top&gt;&lt;/top&gt;";
+ * 
+ * RequestBuilder builder = new RequestBuilder(Method.POST, new URL(
+ * 		"http://example.com"))
+ * 		.header("Content-Type", "text/xml; charset=UTF-8")
+ * 		.payload(xmlPost.getBytes("UTF-8"));
+ * </code>
+ * </pre>
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -95,7 +149,7 @@ public class RequestBuilder {
 	protected Proxy proxy;
 
 	/**
-	 * Status code to ignore while executing response.
+	 * Status codes to ignore while executing response.
 	 * 
 	 * @since SNC 1.0
 	 */
@@ -158,15 +212,15 @@ public class RequestBuilder {
 	protected CookieMap useCookies;
 
 	/**
-	 * Store cookies in <code>CookieManager</code>. If {@link #useCookies} is
-	 * not null, connection will not store.
+	 * Store cookies in <code>NetworkHelper</code> CookieManager. If
+	 * {@link #useCookies} is not null, connection will not store.
 	 * 
 	 * @since SNC 1.0
 	 */
 	protected boolean storeCookies = true;
 
 	/**
-	 * Request cookies in <code>CookieManager</code>.
+	 * Request cookies in <code>NetworkHelper</code> CookieManager.
 	 * 
 	 * @since SNC 1.0
 	 */
@@ -262,7 +316,7 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Sets the url
+	 * Sets the url.
 	 * 
 	 * @param url
 	 *            new url
@@ -322,7 +376,7 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Follow redirects on 302 responses internally. Will copy same request over
+	 * Follow redirects on 302 responses internally. Will use same request over
 	 * and re-send with new URL.
 	 * 
 	 * @param followRedirects
@@ -419,9 +473,8 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Uses the cookie map for setting up connection and setting after
-	 * completed. If used, Cookies will not be added to the
-	 * {@link RequestBuilder}.
+	 * Uses the cookie map for setting and storing cookies in connection. Will
+	 * not store cookies in <code>NetworkHelper</code> CookieManager.
 	 * 
 	 * @param cookies
 	 *            to and after request
@@ -434,7 +487,7 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Store cookies in <code>NetworkHelper</code> {@link RequestBuilder} after
+	 * Store cookies in <code>NetworkHelper</code> CookieManager after
 	 * connection is made. True by default.
 	 * 
 	 * @param store
@@ -447,8 +500,8 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Request cookies in <code>NetworkHelper</code> {@link RequestBuilder} when
-	 * setting up connection. True by default.
+	 * Request cookies in <code>NetworkHelper</code> CookieManager when setting
+	 * up connection. True by default.
 	 * 
 	 * @param request
 	 * @return request builder
@@ -460,7 +513,8 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Sets the payload for POST and PUT {@link Method}.
+	 * Sets the payload for POST and PUT {@link Method}. Content type
+	 * <i>application/x-www-form-urlencoded</i>.
 	 * 
 	 * @param params
 	 *            post params
@@ -495,7 +549,7 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Sets header for request. Will override <code>NetworkHelper</code> defualt
+	 * Sets header for request. Will override <code>NetworkHelper</code> default
 	 * header.
 	 * 
 	 * @param name
@@ -553,7 +607,7 @@ public class RequestBuilder {
 	 *             Signals that an I/O exception has occurred.
 	 * @since SNC 1.0
 	 */
-	@SuppressWarnings({ "resource", "boxing" })
+	@SuppressWarnings("resource")
 	public Response execute(NetworkHelper networkHelper) throws IOException {
 		HttpURLConnection connection;
 
@@ -624,7 +678,8 @@ public class RequestBuilder {
 			 * Get error stream only if status code is 400 or greater, AND
 			 * ignore codes doesn't match it
 			 */
-			if (!(ignoreCodes.contains(statuscode)) && statuscode >= 400) {
+			if (!(ignoreCodes.contains(Integer.valueOf(statuscode)))
+					&& statuscode >= 400) {
 				inputStream = NetworkHelper.getErrorStream(connection);
 			} else
 				throw e;
@@ -635,10 +690,11 @@ public class RequestBuilder {
 		/*
 		 * Check internally requests handlers and process them, if can
 		 */
-		if (internalCodes.containsKey(statuscode)
-				&& !ignoreCodes.contains(statuscode)) {
-			RequestBuilder newBuilder = internalCodes.get(statuscode)
-					.getRequest(this, connection);
+		if (internalCodes.containsKey(Integer.valueOf(statuscode))
+				&& !ignoreCodes.contains(Integer.valueOf(statuscode))) {
+			RequestBuilder newBuilder = internalCodes.get(
+					Integer.valueOf(statuscode)).getRequest(statuscode, this,
+					connection);
 			if (newBuilder != null) return newBuilder.execute(networkHelper);
 		}
 
@@ -683,8 +739,8 @@ public class RequestBuilder {
 				charset);
 		if (found != null) return found;
 
-		if (statuscode >= 300 && statuscode < 400) return new ResponseRedirect(
-				connection, stream, statuscode, charset);
+		if (statuscode / 100 == 3) return new ResponseRedirect(connection,
+				stream, statuscode, charset);
 		switch (statuscode) {
 			case HttpURLConnection.HTTP_UNAUTHORIZED:
 				return new ResponseAuthenticate(connection, stream, statuscode,
@@ -694,44 +750,10 @@ public class RequestBuilder {
 		}
 	}
 
-	private static class InternalRedirectHandler implements RequestHandler {
-		private final int code;
-
-		InternalRedirectHandler(int code) {
-			this.code = code;
-		}
-
-		InternalRedirectHandler() {
-			this.code = -1;
-		}
-
-		@Override
-		public RequestBuilder getRequest(RequestBuilder builder,
-				HttpURLConnection connection) throws IOException {
-			// respect follow redirects option
-			if (code == 302 && !builder.followRedirects) return null;
-
-			builder.log.debug("Internally handled redirect");
-			String location = connection.getHeaderField("Location");
-			connection.disconnect();
-
-			// only use one instance of redirect builder
-			RequestBuilder newBuilder;
-			if (builder instanceof RequestBuilderRedirect) {
-				newBuilder = builder;
-				newBuilder.setUrl(new URL(location));
-			} else {
-				newBuilder = new RequestBuilderRedirect(builder, location);
-			}
-			return newBuilder;
-		}
-
-	}
-
 	static {
 		internalCodes = new HashMap<Integer, RequestHandler>(2);
-		internalCodes.put(Integer.valueOf(301), new InternalRedirectHandler());
-		internalCodes.put(Integer.valueOf(302),
-				new InternalRedirectHandler(302));
+		RedirectHandler redirectHandler = new RedirectHandler();
+		internalCodes.put(Integer.valueOf(301), redirectHandler);
+		internalCodes.put(Integer.valueOf(302), redirectHandler);
 	}
 }

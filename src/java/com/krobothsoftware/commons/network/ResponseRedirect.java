@@ -20,7 +20,12 @@ package com.krobothsoftware.commons.network;
 import java.net.HttpURLConnection;
 
 /**
- * Response holder from {@link RequestBuilder#execute(NetworkHelper)}
+ * Response holder from {@link RequestBuilder#execute(NetworkHelper)} if
+ * response code is a redirection(3xx).
+ * 
+ * <p>
+ * Use {@link #getRedirectUrl()} to get redirection URL.
+ * </p>
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0

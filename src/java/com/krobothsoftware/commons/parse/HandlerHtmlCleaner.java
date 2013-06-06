@@ -54,7 +54,7 @@ public abstract class HandlerHtmlCleaner extends Handler {
 	 * @since SNC-EXT-HTMLCLEANER 1.0
 	 */
 	public HandlerHtmlCleaner() {
-
+		super();
 	}
 
 	/**

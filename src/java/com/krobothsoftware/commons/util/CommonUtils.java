@@ -49,11 +49,12 @@ public final class CommonUtils {
 
 	/**
 	 * Gets string from InputStream. Uses Scanner with delimiter
-	 * <code>\\A</code>.
+	 * <code>\\A</code>. <a
+	 * href="http://stackoverflow.com/a/5445161/702568">More Info</a>.
 	 * 
 	 * @param inputStream
 	 * @param charset
-	 * @return String from streaml, or an empty string
+	 * @return String from stream, or an empty string
 	 * @throws IOException
 	 * @since SNC 1.0
 	 */
@@ -73,7 +74,15 @@ public final class CommonUtils {
 
 	/**
 	 * Trims all whitespace off including special characters and non breaking
-	 * space. Sometimes {@link String#trim()} doesn't do the job.
+	 * space. Sometimes {@link String#trim()} doesn't do the job when working
+	 * with Web content.
+	 * 
+	 * <p>
+	 * Characters considered whitespace: <code>Non breaking space</code>,
+	 * <code>Narrow no-break</code>, <code>Figure space</code>, and lastly
+	 * {@link Character#isWhitespace(char)}.
+	 * </p>
+	 * 
 	 * 
 	 * @param str
 	 *            text to trim
@@ -96,7 +105,7 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * Trims string for character.
+	 * Trims string for given character.
 	 * 
 	 * @param str
 	 *            text to trim
@@ -160,7 +169,7 @@ public final class CommonUtils {
 	 *            encoding charset
 	 * @param contains
 	 *            contains string
-	 * @return true, if successful
+	 * @return true, if found
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 * @since SNC 1.0
@@ -195,7 +204,8 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * Checks if inputstream contains a set of strings. Only one will be found.
+	 * Checks if inputstream contains any of the <code>contains</code> string
+	 * elements. Only the first found index will be returned.
 	 * 
 	 * @param input
 	 *            inputstream to be checked
@@ -205,6 +215,8 @@ public final class CommonUtils {
 	 *            array of strings to check if inputstream contains
 	 * @return index of found contains, or -1 if none
 	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @since SNC 1.0
 	 */
 	public static int streamingContains(InputStream input, String charset,
 			String... contains) throws IOException {
@@ -222,9 +234,8 @@ public final class CommonUtils {
 
 			int ic;
 			while ((ic = in.read()) != -1) {
-				char c = (char) ic;
 				for (int i = 0; i < len; i++) {
-					if (c == contentArray[i][countArray[i]]) {
+					if ((char) ic == contentArray[i][countArray[i]]) {
 						countArray[i]++;
 						if (countArray[i] == conLen[i]) return i;
 					} else
@@ -242,6 +253,78 @@ public final class CommonUtils {
 		}
 
 		return -1;
+	}
+
+	/**
+	 * Gets sub-string between <code>beginIndex</code> and <code>endIndex</code>
+	 * from inputstream. Does not include beginIndex from returned result.
+	 * 
+	 * @param input
+	 *            inputstream to be checked
+	 * @param charset
+	 *            encoding charset
+	 * @param beginIndex
+	 *            the beginning index
+	 * @param endIndex
+	 *            the ending index
+	 * @return string between begin and end index, or null
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @since SNC 1.0.2
+	 */
+	public static String streamingSubString(InputStream input, String charset,
+			String beginIndex, String endIndex) throws IOException {
+		StringBuilder sb;
+		BufferedReader in = null;
+		int count = 0;
+		int len = beginIndex.length();
+		char[] content = beginIndex.toCharArray();
+		boolean found = false;
+
+		try {
+			in = new BufferedReader(new InputStreamReader(input, charset));
+
+			int ic;
+			// find beginIndex
+			while ((ic = in.read()) != -1) {
+				if ((char) ic == content[count]) {
+					count++;
+					if (count == len) {
+						found = true;
+						break;
+					}
+				} else
+					count = 0;
+			}
+			if (found) {
+				sb = new StringBuilder();
+				count = 0;
+				len = endIndex.length();
+				content = endIndex.toCharArray();
+				// find endIndex
+				while ((ic = in.read()) != -1) {
+					char c = (char) ic;
+					sb.append(c);
+					if (c == content[count]) {
+						count++;
+						if (count == len) {
+							return sb.substring(0, sb.length() - len);
+						}
+					} else
+						count = 0;
+				}
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			createLogger();
+			log.error("streamingContains UnsupportedEncodingException {}",
+					e.getMessage());
+		} finally {
+			closeQuietly(in);
+		}
+
+		return null;
+
 	}
 
 	/**
@@ -268,7 +351,7 @@ public final class CommonUtils {
 		if (closeable != null) try {
 			closeable.close();
 		} catch (IOException ignore) {
-
+			// TODO log exception?
 		}
 	}
 
