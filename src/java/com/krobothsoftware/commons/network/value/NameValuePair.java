@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Class for holding Name-Value pairs.k
+ * Class for holding Name-Value pairs.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -52,6 +52,18 @@ public class NameValuePair implements Serializable {
 	 * @since SNC 1.0
 	 */
 	public String getPair() {
+		return getPair(name, value);
+	}
+
+	/**
+	 * Gets pair in format <code>Name=Value</code>.
+	 * 
+	 * @param name
+	 * @param value
+	 * @return pair
+	 * @since 1.1.0
+	 */
+	public static String getPair(String name, String value) {
 		return name + "=" + value;
 	}
 
@@ -59,25 +71,55 @@ public class NameValuePair implements Serializable {
 	 * Gets the encoded pair from specified charset. <code>Name=Value</code>
 	 * Only Value is encoded.
 	 * 
-	 * @param charSet
+	 * @param charset
 	 *            for encoding
-	 * @return encoded pair
+	 * @return pair with value encoded
 	 * @throws UnsupportedEncodingException
 	 *             if charset isn't found
 	 * @since SNC 1.0
 	 */
-	public String getEncodedPair(String charSet)
+	public String getEncodedPair(String charset)
 			throws UnsupportedEncodingException {
-		return name + "=" + URLEncoder.encode(value, charSet);
+		return getEncodedPair(name, value, charset);
+	}
+
+	/**
+	 * Gets the encoded pair from specified charset. <code>Name=Value</code>
+	 * Only Value is encoded.
+	 * 
+	 * @param name
+	 * @param value
+	 * @param charset
+	 *            for encoding
+	 * @return pair with value encoded
+	 * @throws UnsupportedEncodingException
+	 *             if charset isn't found
+	 * @since 1.0.2
+	 */
+	public static String getEncodedPair(String name, String value,
+			String charset) throws UnsupportedEncodingException {
+		return name + "=" + URLEncoder.encode(value, charset);
 	}
 
 	/**
 	 * Gets pair where value is in quotes. <code>Name="Value"</code>
 	 * 
-	 * @return quoted pair
+	 * @return pair with value in quotes
 	 * @since SNC 1.0
 	 */
 	public String getQuotedPair() {
+		return getQuotedPair(name, value);
+	}
+
+	/**
+	 * Gets pair where value is in quotes. <code>Name="Value"</code>.
+	 * 
+	 * @param name
+	 * @param value
+	 * @return pair with value in quotes
+	 * @since 1.1.0
+	 */
+	public static String getQuotedPair(String name, String value) {
 		return name + "=\"" + value + "\"";
 	}
 

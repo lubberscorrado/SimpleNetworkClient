@@ -3,7 +3,8 @@ package com.krobothsoftware.commons.network;
 import java.net.HttpURLConnection;
 
 /**
- * Handle response in connections.
+ * Handle <code>Responses</code> with every
+ * {@link RequestBuilder#execute(NetworkHelper)}.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -22,7 +23,7 @@ public interface ResponseHandler {
 	 *            response code for response
 	 * @param charset
 	 *            charset for response
-	 * @return found response or null
+	 * @return custom response or null
 	 * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
 	 * @since SNC 1.0
 	 */

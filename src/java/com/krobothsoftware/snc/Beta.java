@@ -43,5 +43,6 @@ import java.lang.annotation.Target;
 @Target(value = { TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE,
 		ANNOTATION_TYPE, PACKAGE })
 public @interface Beta {
+	// only for marking
 
 }

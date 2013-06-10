@@ -20,16 +20,20 @@ package com.krobothsoftware.commons.network.value;
 import java.io.Serializable;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import com.krobothsoftware.commons.util.CommonUtils;
+import com.krobothsoftware.commons.util.ThreadSafeDateUtil;
 
 /**
- * Cookie information holder.
+ * Object holding information on HTTP Cookie and methods to build them.
+ * 
+ * <p>
+ * 
+ * </p>
+ * 
  * 
  * 
  * @author Kyle Kroboth
@@ -44,6 +48,11 @@ public class Cookie implements Serializable {
 			"EEE',' dd-MMM-yyyy HH:mm:ss 'GMT'",
 			"EEE',' dd MMM yyyy HH:mm:ss 'GMT'" };
 	private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+
+	/**
+	 * Locale.US week data. First day of week and minimum days in week.
+	 */
+	private static final int[] WEEK_DATA = { 1, 1 };
 
 	private final String name;
 	private String value;
@@ -365,32 +374,28 @@ public class Cookie implements Serializable {
 	}
 
 	private static void setValue(Builder builder, String name, String value) {
-		if (value != null) {
-			if (name.equalsIgnoreCase("Domain")) {
-				builder.setDomain(value);
-			} else if (name.equalsIgnoreCase("Path")) {
-				builder.setPath(value);
-			} else if (name.equalsIgnoreCase("Expires")) {
-				for (String format : DATE_FORMATS) {
-					SimpleDateFormat df = new SimpleDateFormat(format,
-							Locale.US);
-					df.setTimeZone(GMT);
-					try {
-						Date date = df.parse(value);
-						builder.setMaxAge((date.getTime() - builder.created) / 1000);
-						return;
-					} catch (ParseException ignore) {
-
-					}
+		name = name.toLowerCase();
+		if (name.equals("domain")) {
+			builder.setDomain(value);
+		} else if (name.equals("path")) {
+			builder.setPath(value);
+		} else if (name.equals("secure")) {
+			builder.setSecure(true);
+		} else if (name.equals("httponly")) {
+			builder.setHttp(true);
+		} else if (name.equals("expires")) {
+			for (String format : DATE_FORMATS) {
+				try {
+					Date date = ThreadSafeDateUtil.parse(format, value, GMT,
+							WEEK_DATA);
+					builder.setMaxAge((date.getTime() - builder.created) / 1000);
+					return;
+				} catch (ParseException e) {
+					// ignore. Will set max age to 0 if both formats don't
+					// succeed.
 				}
-				builder.setMaxAge(0);
 			}
-		} else {
-			if (name.equalsIgnoreCase("Secure")) {
-				builder.setSecure(true);
-			} else if (name.equalsIgnoreCase("HttpOnly")) {
-				builder.setHttp(true);
-			}
+			builder.setMaxAge(0);
 		}
 	}
 

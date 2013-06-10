@@ -65,9 +65,11 @@ public final class HandlerXmlProfile extends HandlerXml {
 			builder.setGold(Integer.parseInt(attributes.getValue("gold")));
 			builder.setSilver(Integer.parseInt(attributes.getValue("silver")));
 			builder.setBronze(Integer.parseInt(attributes.getValue("bronze")));
-		} else if (startTag.equalsIgnoreCase("panelurl")) builder
-				.setPanelBackgroundColor(Integer.parseInt(
-						attributes.getValue("bgc"), 16));
+		} else if (startTag.equalsIgnoreCase("panelurl")) {
+			// get index (0, 5) to cut off alpha value
+			builder.setPanelBackgroundColor(Integer.parseInt(attributes
+					.getValue("bgc").substring(0, 5), 16));
+		}
 
 	}
 
@@ -85,8 +87,7 @@ public final class HandlerXmlProfile extends HandlerXml {
 			else if (startTag.equalsIgnoreCase("aboutme")) builder
 					.setAboutMe(new String(ch, start, length));
 			else if (startTag.equalsIgnoreCase("country")) builder
-					.setCountry(PsnProfile.CULTURE_MAP.get(new String(ch,
-							start, length).toUpperCase()));
+					.setCountry(new String(ch, start, length).toUpperCase());
 			else if (startTag.equalsIgnoreCase("plusicon")) builder
 					.setPP(new String(ch, start, length).equals("0") ? false
 							: true);

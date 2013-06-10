@@ -133,7 +133,7 @@ public class UnclosableInputStream extends InputStream {
 	 */
 	@Override
 	public void close() throws IOException {
-		// the point of this class
+		// no op
 	}
 
 	/**

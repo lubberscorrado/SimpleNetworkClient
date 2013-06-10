@@ -25,15 +25,13 @@ import java.net.Proxy;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.krobothsoftware.commons.network.authentication.AuthenticationManager;
 import com.krobothsoftware.commons.network.authentication.RequestBuilderAuthenticate;
@@ -84,7 +82,7 @@ public class NetworkHelper {
 	 * <pre>
 	 * <b>Examples</b> 
 	 * <code>NetworkHelper/1.0.0 (Windows 7 6.1; Java 1.7.0_17)</code>
-	 * <code>NetworkHelper/1.0.0 (Linux 3.0.31-00001-gf84bc96; samsung SCH-I500; Android 4.1.1)</code>
+	 * <code>NtworkHelper/1.0.0 (Linux 3.0.31-00001-gf84bc96; samsung SCH-I500; Android 4.1.1)</code>
 	 * </pre>
 	 * 
 	 * @since SNC 1.0
@@ -95,24 +93,26 @@ public class NetworkHelper {
 	 * Null Connection Listener. Use this instead of <code>null</code> when
 	 * setting listener.
 	 * 
+	 * @deprecated Now allowed to be null
 	 * @since SNC 1.0
 	 */
-	// TODO remove and use null-check instead?
-	public static final ConnectionListener NULL_CONNECTION_LISTENER;
+	@Deprecated
+	public static final ConnectionListener NULL_CONNECTION_LISTENER = null;
 
 	/**
 	 * Null Response Handler. Use this instead of <code>null</code> when setting
 	 * handler.
 	 * 
+	 * @deprecated Now allowed to be null
 	 * @since SNC 1.0
 	 */
-	// TODO remove and use null-check instead?
-	public static final ResponseHandler NULL_RESPONSE_HANDLER;
+	@Deprecated
+	public static final ResponseHandler NULL_RESPONSE_HANDLER = null;
 
 	/**
 	 * Version of <code>SNC</code>. Used in User Agent.
 	 */
-	private static final String VERSION = "1.0.2";
+	private static final String VERSION = "1.1.0";
 
 	/**
 	 * Default Max redirects for <code>RequestBuilderRedirect</code>. Default
@@ -136,13 +136,6 @@ public class NetworkHelper {
 	 */
 	protected final AuthenticationManager authManager;
 
-	/**
-	 * Logger for Helper methods.
-	 * 
-	 * @since SNC 1.0
-	 */
-	protected final Logger log;
-
 	// default values
 	Proxy proxy;
 	ConnectionListener connListener;
@@ -158,13 +151,10 @@ public class NetworkHelper {
 	 * @since SNC 1.0
 	 */
 	public NetworkHelper() {
-		log = LoggerFactory.getLogger(NetworkHelper.class);
 		cookieManager = new CookieManager();
 		authManager = new AuthenticationManager(this);
 		headerMap = new HashMap<String, String>();
 		proxy = Proxy.NO_PROXY;
-		connListener = NULL_CONNECTION_LISTENER;
-		responseHandler = NULL_RESPONSE_HANDLER;
 		maxRedirects = MAX_REDIRECTS;
 		setupHeaders();
 	}
@@ -236,7 +226,7 @@ public class NetworkHelper {
 	 * @since SNC 1.0
 	 */
 	public void setProxy(Proxy proxy) {
-		if (proxy == null) throw new IllegalArgumentException(
+		if (proxy == null) throw new NullPointerException(
 				"Proxy may not be null");
 		this.proxy = proxy;
 	}
@@ -253,7 +243,7 @@ public class NetworkHelper {
 	 * @since SNC 1.0
 	 */
 	public void setHeader(String name, String value) {
-		if (name == null) throw new IllegalArgumentException(
+		if (name == null) throw new NullPointerException(
 				"Header name may not be null");
 		if (value == null) headerMap.remove(name);
 		else
@@ -305,15 +295,10 @@ public class NetworkHelper {
 	 * executed in <code>NetworkHelper</code>.
 	 * 
 	 * @param connectionListener
-	 * @throws IllegalArgumentException
-	 *             if listener is null
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @see #NULL_CONNECTION_LISTENER
 	 * @since SNC 1.0
 	 */
 	public void setConnectionListener(ConnectionListener connectionListener) {
-		if (connectionListener == null) throw new IllegalArgumentException(
-				"Connection Listener may not be null");
 		this.connListener = connectionListener;
 	}
 
@@ -322,14 +307,10 @@ public class NetworkHelper {
 	 * executed in <code>NetworkHelper</code>.
 	 * 
 	 * @param responseHandler
-	 * @throws IllegalArgumentException
-	 *             if handler is null
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
 	 * @since SNC 1.0
 	 */
 	public void setResponseHandler(ResponseHandler responseHandler) {
-		if (responseHandler == null) throw new IllegalArgumentException(
-				"Response Handler may not be null");
 		this.responseHandler = responseHandler;
 	}
 
@@ -397,7 +378,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public HttpURLConnection openConnection(URI uri) throws IOException {
 		return (HttpURLConnection) uri.toURL().openConnection(proxy);
@@ -417,7 +398,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public HttpURLConnection openConnection(String url) throws IOException {
 		return (HttpURLConnection) new URL(url).openConnection(proxy);
@@ -439,7 +420,7 @@ public class NetworkHelper {
 	 *             Signals that an I/O exception has occurred.
 	 * @since SNC 1.0
 	 */
-	public HttpURLConnection openConnection(URL url, Proxy proxy)
+	public static HttpURLConnection openConnection(URL url, Proxy proxy)
 			throws IOException {
 		return (HttpURLConnection) url.openConnection(proxy);
 	}
@@ -460,9 +441,9 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
-	public HttpURLConnection openConnection(URI uri, Proxy proxy)
+	public static HttpURLConnection openConnection(URI uri, Proxy proxy)
 			throws IOException {
 		return (HttpURLConnection) uri.toURL().openConnection(proxy);
 	}
@@ -482,9 +463,9 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
-	public HttpURLConnection openConnection(String url, Proxy proxy)
+	public static HttpURLConnection openConnection(String url, Proxy proxy)
 			throws IOException {
 		return (HttpURLConnection) new URL(url).openConnection(proxy);
 	}
@@ -545,14 +526,13 @@ public class NetworkHelper {
 	 * 
 	 * @param query
 	 *            query part
-	 * @return query params
+	 * @return query params or {@link Collections#emptyList()}
 	 * @since SNC 1.0
 	 */
 	public static List<NameValuePair> getQueryList(String query) {
-		// TODO use Collections.emptyList() instead? Errors will occur if user
-		// tries to edit list.
-		if (query == null) return new ArrayList<NameValuePair>();
+		if (query == null) return Collections.emptyList();
 		String[] params = query.split("&");
+		if (params.length == 0) return Collections.emptyList();
 		ArrayList<NameValuePair> listParams = new ArrayList<NameValuePair>(
 				params.length);
 
@@ -682,35 +662,12 @@ public class NetworkHelper {
 	static {
 		MAX_REDIRECTS = 20;
 
-		// Java SE
-		AGENT_DEFAULT = String.format(
-				"SimpleNetworkClient /%s (%s %s; Java %s)", VERSION,
-				System.getProperty("os.name"),
-				System.getProperty("os.version"),
-				System.getProperty("java.version"));
-		NULL_CONNECTION_LISTENER = new ConnectionListener() {
+		AGENT_DEFAULT = new StringBuilder("NetworkHelper /").append(VERSION)
+				.append(' ').append('(').append(System.getProperty("os.name"))
+				.append(' ').append(System.getProperty("os.version"))
+				.append(';').append(" Java ")
+				.append(System.getProperty("java.version")).append(')')
+				.toString();
 
-			@Override
-			public void onRequest(HttpURLConnection connection,
-					RequestBuilder builder) {
-
-			}
-
-			@Override
-			public void onFinish(HttpURLConnection connection) {
-
-			}
-
-		};
-
-		NULL_RESPONSE_HANDLER = new ResponseHandler() {
-
-			@Override
-			public Response getResponse(HttpURLConnection connection,
-					UnclosableInputStream inputstream, int status,
-					String charset) {
-				return null;
-			}
-		};
 	}
 }

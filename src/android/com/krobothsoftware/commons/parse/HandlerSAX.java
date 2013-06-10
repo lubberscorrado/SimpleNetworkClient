@@ -31,161 +31,85 @@ import org.xml.sax.SAXParseException;
 
 import android.os.Build;
 
-import com.krobothsoftware.commons.progress.NullProgressMonitor;
 import com.krobothsoftware.commons.progress.ProgressMonitor;
 
-/**
- * SAX handler for Simple Api for Xml.
- * 
- * @author Kyle Kroboth
- * @since SNC 1.0
- */
 public abstract class HandlerSAX extends Handler implements EntityResolver,
 		DTDHandler, ContentHandler, ErrorHandler {
 	private static final boolean ALT;
 
-	/**
-	 * Tag element name for each
-	 * {@link #startElement(String, String, String, Attributes)}.
-	 * 
-	 * @since SNC 1.0
-	 */
 	protected String startTag;
 
-	/**
-	 * Tag element for each {@link #endElement(String, String, String)}.
-	 * 
-	 * @since SNC 1.0.1
-	 */
 	protected String endTag;
 
-	/**
-	 * Used when retrieving characters to tell if start element was called.
-	 * 
-	 * @since SNC 1.0
-	 */
 	protected boolean calledStartElement;
 
-	/**
-	 * If true, will build all characters in
-	 * {@link #characters(char[], int, int)} and call
-	 * {@link #buildCharacters(String)} when element is closed. Used when
-	 * handling multiple chunk calls.
-	 * 
-	 * @since SNC 1.0
-	 */
 	protected boolean buildChars;
 
 	final StringBuilder sb = new StringBuilder();
 
-	/**
-	 * Creates new SAX Handler with progress.
-	 * 
-	 * @param monitor
-	 *            for progress
-	 * @since SNC 1.0
-	 */
 	public HandlerSAX(ProgressMonitor monitor) {
 		this.monitor = monitor;
 	}
 
-	/**
-	 * Creates new SAX handler with no progress.
-	 * 
-	 * @since SNC 1.0
-	 */
 	public HandlerSAX() {
-		monitor = new NullProgressMonitor();
+		super();
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void setDocumentLocator(Locator locator) {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void startDocument() throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void endDocument() throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void startPrefixMapping(String prefix, String uri)
 			throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void endPrefixMapping(String prefix) throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void ignorableWhitespace(char[] ch, int start, int length)
 			throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void processingInstruction(String target, String data)
 			throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void skippedEntity(String name) throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void notationDecl(String name, String publicId, String systemId)
 			throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void unparsedEntityDecl(String name, String publicId,
 			String systemId, String notationName) throws SAXException {
-
+		// no op
 	}
 
-	/**
-	 * @since SNC 1.0
-	 */
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId)
 			throws SAXException, IOException {
@@ -193,11 +117,6 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 		return null;
 	}
 
-	/**
-	 * Sets start tag and <code>calledStartElement</code> to true.
-	 * 
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
@@ -205,12 +124,6 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 		calledStartElement = true;
 	}
 
-	/**
-	 * Sets <code>calledStartElement</code> to false and if
-	 * <code>buildChars</code> is true, append text.
-	 * 
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
@@ -218,25 +131,10 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 		if (buildChars) sb.append(ch, start, length);
 	}
 
-	/**
-	 * Gets built characters from multiple chunks. Only if {@link #buildChars}
-	 * is true.
-	 * 
-	 * @param content
-	 * @since SNC 1.0
-	 * @see #buildChars
-	 * @since SNC 1.0
-	 */
 	public void buildCharacters(String content) {
-
+		// no op
 	}
 
-	/**
-	 * Sets end tag and If <code>buildChars</code> is true, call
-	 * {@link #buildCharacters(String)} with built characters.
-	 * 
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
@@ -247,67 +145,29 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 		}
 	}
 
-	/**
-	 * Logs error and throw SAXException.
-	 * 
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void error(SAXParseException e) throws SAXException {
 		parser.log.error("Handler error [{}]", e.toString());
 		throw e;
 	}
 
-	/**
-	 * Logs warning and throw SAXException.
-	 * 
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void warning(SAXParseException e) throws SAXException {
 		parser.log.warn("Handler warning [{}]", e.toString());
 		throw e;
 	}
 
-	/**
-	 * Logs fatal error and throw SAXException.
-	 * 
-	 * @since SNC 1.0
-	 */
 	@Override
 	public void fatalError(SAXParseException e) throws SAXException {
 		parser.log.error("Handler warning [{}]", e.toString());
 		throw e;
 	}
 
-	/**
-	 * Gets correct qlocal from XML Handler. No effect on Java SE, but needed
-	 * for Android implementation.
-	 * 
-	 * @param qName
-	 *            qname
-	 * @param localname
-	 *            localname
-	 * @return correct qLocal
-	 * @since SNC 1.0
-	 */
-	protected final String qLocal(String qName, String localname) {
+	protected final static String qLocal(String qName, String localname) {
 		if (ALT) return localname;
 		return qName;
 	}
 
-	/**
-	 * Removes XML comments from string.
-	 * 
-	 * <pre>
-	 * &lt;!-- comment --&gt;
-	 * </pre>
-	 * 
-	 * @param content
-	 *            string with comments
-	 * @return comment free string
-	 * @since SNC 1.0
-	 */
 	public static String removeComments(String content) {
 		char[] ch = content.toCharArray();
 		int offset = 0;
@@ -327,12 +187,9 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	static {
-		/**
-		 * Android version's below 2.1 switches qName and qLocal values, so this
-		 * is to check if android exist and what version it is
-		 */
 		int build = Build.VERSION.SDK_INT;
-		if (build <= 7) ALT = true;
+		// android 2.1
+		if (build <= Build.VERSION_CODES.ECLAIR_MR1) ALT = true;
 		else
 			ALT = false;
 	}

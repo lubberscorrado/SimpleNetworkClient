@@ -41,7 +41,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	 */
 	@Override
 	public void beginTask(String task, int ticks) {
-
+		// no op
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	 */
 	@Override
 	public void setTask(String task) {
-
+		// no op
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	 */
 	@Override
 	public void worked(int ticks, String task) {
-
+		// no op
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	 */
 	@Override
 	public void done(String task) {
-
+		// no op
 	}
 
 }

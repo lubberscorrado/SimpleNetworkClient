@@ -306,6 +306,28 @@ public class RequestBuilder {
 	}
 
 	/**
+	 * Resets all values to default with the exception of <code>URL</code> and
+	 * <code>Method</code>.
+	 * 
+	 * @since 1.1.0
+	 */
+	public void reset() {
+		proxy = null;
+		ignoreCodes.clear();
+		connectTimeout = -1;
+		readTimeout = -1;
+		followRedirects = false;
+		close = false;
+		cache = true;
+		headerMap.clear();
+		if (cookies != null) cookies.clear();
+		useCookies = null;
+		storeCookies = true;
+		reqCookies = true;
+		payload = null;
+	}
+
+	/**
 	 * Gets the url.
 	 * 
 	 * @return url
@@ -320,10 +342,12 @@ public class RequestBuilder {
 	 * 
 	 * @param url
 	 *            new url
-	 * @since SNC 1.0.1
+	 * @return request builder
+	 * @since 1.1.0
 	 */
-	public void setUrl(URL url) {
+	public RequestBuilder url(URL url) {
 		this.url = url;
+		return this;
 	}
 
 	/**
@@ -341,10 +365,12 @@ public class RequestBuilder {
 	 * 
 	 * @param method
 	 *            new method
-	 * @since SNC 1.0.1
+	 * @return request builder
+	 * @since 1.1.0
 	 */
-	public void setMethod(Method method) {
+	public RequestBuilder method(Method method) {
 		this.method = method;
+		return this;
 	}
 
 	/**
@@ -611,10 +637,11 @@ public class RequestBuilder {
 	public Response execute(NetworkHelper networkHelper) throws IOException {
 		HttpURLConnection connection;
 
+		// Doesn't log query part for secruity reasons
 		log.info("Request {}:{}://{}{}", method, url.getProtocol(),
 				url.getAuthority(), url.getPath());
 
-		if (proxy != null) connection = networkHelper
+		if (proxy != null) connection = NetworkHelper
 				.openConnection(url, proxy);
 		else
 			connection = networkHelper.openConnection(url);
@@ -646,7 +673,8 @@ public class RequestBuilder {
 		setupHeaders(connection, headers);
 
 		// must send onRequest before outputstream
-		networkHelper.connListener.onRequest(connection, this);
+		if (networkHelper.connListener != null) networkHelper.connListener
+				.onRequest(connection, this);
 		switch (method) {
 			case POST:
 			case PUT:
@@ -703,7 +731,8 @@ public class RequestBuilder {
 		else if (storeCookies) networkHelper.cookieManager.putCookieList(
 				CookieManager.getCookies(connection), true);
 
-		networkHelper.connListener.onFinish(connection);
+		if (networkHelper.connListener != null) networkHelper.connListener
+				.onFinish(connection);
 
 		Response response = getResponse(networkHelper.responseHandler,
 				connection, inputStream, statuscode);
@@ -735,8 +764,9 @@ public class RequestBuilder {
 			int statuscode) {
 		UnclosableInputStream stream = new UnclosableInputStream(inputStream);
 		String charset = NetworkHelper.getCharset(connection);
-		Response found = handler.getResponse(connection, stream, statuscode,
-				charset);
+		Response found = null;
+		if (handler != null) found = handler.getResponse(connection, stream,
+				statuscode, charset);
 		if (found != null) return found;
 
 		if (statuscode / 100 == 3) return new ResponseRedirect(connection,

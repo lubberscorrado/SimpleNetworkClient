@@ -26,10 +26,16 @@
 		<fileset dir="dependencies">
 			<include name="*.jar" />
 		</fileset>
+		<fileset dir="dependencies/private">
+			<include name="*.jar" />
+		</fileset>
 	</path>
 
 	<path id="classpath.build">
 		<fileset dir="dependencies">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="dependencies/private">
 			<include name="*.jar" />
 		</fileset>
 		<pathelement location="${build}/java" />
@@ -53,14 +59,15 @@
 
 	<target name="build" depends="clean, makedir">
 		<javac srcdir="${src}/java" destdir="${build}/java" source="${source}" target="${target}">
+			<compilerarg line="-XDignore.symbol.file" />
 			<classpath refid="classpath" />
 			<exclude name="test/**" />
 		</javac>
-		<echo>Needs android.jar in dependencies folder</echo>
+		<!--<echo>Needs android.jar in dependencies folder</echo>
 		<javac srcdir="${src}/android" destdir="${build}/android" source="${source}" target="${target}">
 			<classpath refid="classpath.build" />
 			<exclude name="test/**" />
-		</javac>
+		</javac>-->
 	</target>
 
 	<target name="doc">
@@ -134,5 +141,35 @@
 		</copy>
 
 	</target>
+
+	<target name="make-tools" depends="build" description="Build and deploy tools">
+		<!-- needs jackson-annotations and jackson-databinds in dependencies folder -->
+		<delete dir="${tools}/build" />
+		<mkdir dir="${tools}/build" />
+		<javac srcdir="${tools}/src" destdir="${tools}/build" source="1.7" target="1.7">
+			<classpath refid="classpath.build" />
+		</javac>
+		<jar destfile="${tools}/chromehar.jar">
+			<fileset dir="${tools}/build" />
+			<fileset dir="${build}/java" includes="com/krobothsoftware/commons/**" />
+			<zipgroupfileset dir="dependencies" includesfile="${ant}/include-jar-tools-chromehar.txt" />
+			<manifest>
+				<attribute name="Main-Class" value="com.krobothsoftware.tool.chrome.HarExport" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="make-annotation" depends="" description="make annotation tool">
+		<!-- needs jackson-annotations and jackson-databinds in dependencies folder -->
+		<javac srcdir="${tools}/src" destdir="${tools}/build" source="1.6" target="1.6">
+			<classpath refid="classpath.build" />
+		</javac>
+		<jar destfile="${tools}/krobothsoftware-processor.jar">
+			<fileset dir="${tools}/build" includes="com/krobothsoftware/tool/annotation/**" />
+			<metainf dir="${tools}/META-INF" />
+		</jar>
+	</target>
+
+
 
 </project>

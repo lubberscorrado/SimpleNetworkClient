@@ -70,7 +70,7 @@ public class HandlerHtmlFriend extends HandlerHtml implements ExpressionFilter {
 	@Override
 	public void characters(int expr, char[] ch, int start, int length)
 			throws SAXException {
-
+		// no op
 	}
 
 	@Override

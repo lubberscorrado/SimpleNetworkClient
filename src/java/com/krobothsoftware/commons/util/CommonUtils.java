@@ -38,8 +38,7 @@ import org.slf4j.LoggerFactory;
 public final class CommonUtils {
 
 	/**
-	 * Logger isn't used a lot, so kept null until needed.
-	 * {@link #createLogger()}
+	 * Logger isn't used a lot, so kept null until needed. {@link #getLogger()}.
 	 */
 	private static Logger log;
 
@@ -58,17 +57,18 @@ public final class CommonUtils {
 	 * @throws IOException
 	 * @since SNC 1.0
 	 */
-	@SuppressWarnings("resource")
 	public static String toString(InputStream inputStream, String charset)
 			throws IOException {
 		Scanner s = null;
 		try {
 			s = new Scanner(inputStream, charset);
 			s.useDelimiter("\\A");
-			String text = s.hasNext() ? s.next() : "";
-			return text;
+			return s.hasNext() ? s.next() : "";
 		} finally {
-			closeQuietly(s);
+			// SE 6 doesn't implement Closeable
+			if (s != null) {
+				s.close();
+			}
 		}
 	}
 
@@ -192,8 +192,8 @@ public final class CommonUtils {
 			}
 
 		} catch (UnsupportedEncodingException e) {
-			createLogger();
-			log.error("streamingContains UnsupportedEncodingException {}",
+			getLogger().error(
+					"streamingContains UnsupportedEncodingException {}",
 					e.getMessage());
 			return false;
 		} finally {
@@ -244,8 +244,8 @@ public final class CommonUtils {
 			}
 
 		} catch (UnsupportedEncodingException e) {
-			createLogger();
-			log.error("streamingContains UnsupportedEncodingException {}",
+			getLogger().error(
+					"streamingContains UnsupportedEncodingException {}",
 					e.getMessage());
 			return -1;
 		} finally {
@@ -270,7 +270,7 @@ public final class CommonUtils {
 	 * @return string between begin and end index, or null
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public static String streamingSubString(InputStream input, String charset,
 			String beginIndex, String endIndex) throws IOException {
@@ -316,8 +316,8 @@ public final class CommonUtils {
 			}
 
 		} catch (UnsupportedEncodingException e) {
-			createLogger();
-			log.error("streamingContains UnsupportedEncodingException {}",
+			getLogger().error(
+					"streamingContains UnsupportedEncodingException {}",
 					e.getMessage());
 		} finally {
 			closeQuietly(in);
@@ -342,6 +342,7 @@ public final class CommonUtils {
 
 	/**
 	 * Quietly closes <code>Closeable</code> instances and ignores exceptions.
+	 * In Java-7, closes <code>AutoCloseable</code>.
 	 * 
 	 * @param closeable
 	 *            to close
@@ -350,8 +351,8 @@ public final class CommonUtils {
 	public static void closeQuietly(Closeable closeable) {
 		if (closeable != null) try {
 			closeable.close();
-		} catch (IOException ignore) {
-			// TODO log exception?
+		} catch (IOException e) {
+			// ignore exception
 		}
 	}
 
@@ -364,7 +365,8 @@ public final class CommonUtils {
 			return false;
 	}
 
-	private static void createLogger() {
-		if (log == null) log = LoggerFactory.getLogger(CommonUtils.class);
+	private static Logger getLogger() {
+		return (log != null) ? log : (log = LoggerFactory
+				.getLogger(CommonUtils.class));
 	}
 }

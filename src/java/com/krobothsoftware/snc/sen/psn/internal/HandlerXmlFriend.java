@@ -91,7 +91,7 @@ public final class HandlerXmlFriend extends HandlerXml {
 
 	}
 
-	private FriendStatus getOnlineStatus(String currentPresence) {
+	private static FriendStatus getOnlineStatus(String currentPresence) {
 		if (currentPresence.equalsIgnoreCase("offline")) return FriendStatus.OFFLINE;
 		else if (currentPresence.equalsIgnoreCase("online")
 				|| currentPresence.equalsIgnoreCase("online-ingame")) return FriendStatus.ONLINE;

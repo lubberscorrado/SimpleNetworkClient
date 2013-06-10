@@ -44,9 +44,11 @@ public final class Parser implements ParserInitializable {
 	 * Null Parser Handler. Use this instead of <code>null</code> when setting
 	 * handler.
 	 * 
+	 * @deprecated Now allowed to be null
 	 * @since SNC 1.0
 	 */
-	public static final ParserHandler NULL_PARSER_HANDLER;
+	@Deprecated
+	public static final ParserHandler NULL_PARSER_HANDLER = null;
 
 	final Logger log;
 	ParserHandler listener;
@@ -59,7 +61,6 @@ public final class Parser implements ParserInitializable {
 	 * @since SNC 1.0
 	 */
 	public Parser() {
-		listener = NULL_PARSER_HANDLER;
 		log = LoggerFactory.getLogger(Parser.class);
 	}
 
@@ -120,12 +121,9 @@ public final class Parser implements ParserInitializable {
 	 * @param parserHandler
 	 * @throws IllegalArgumentException
 	 *             if listener is null
-	 * @see #NULL_PARSER_HANDLER
 	 * @since SNC 1.0
 	 */
 	public void setParserHandler(ParserHandler parserHandler) {
-		if (parserHandler == null) throw new IllegalArgumentException(
-				"Parser Handler may not be null");
 		this.listener = parserHandler;
 	}
 
@@ -165,8 +163,11 @@ public final class Parser implements ParserInitializable {
 			 * Pass unsupported handler to ParserHandler. If returns false,
 			 * throw exception.
 			 */
-			boolean processed = listener.parseHandler(inputStream, handler,
-					realHandler, charset);
+			boolean processed = false;
+			if (listener != null) {
+				processed = listener.parseHandler(inputStream, handler,
+						realHandler, charset);
+			}
 			if (!processed) throw new ParseException(String.format(
 					"Unsupported Handler [%s]", handler.getClass()));
 
@@ -205,7 +206,8 @@ public final class Parser implements ParserInitializable {
 	}
 
 	private Handler getHandler(Handler handler) {
-		Handler found = listener.getHandler(handler);
+		Handler found = null;
+		if (listener != null) found = listener.getHandler(handler);
 		if (found == null) {
 			if (handler instanceof HandlerSAX) {
 				if (handler instanceof ExpressionBuilderFilter) found = new HandlerExpressionBuilder(
@@ -218,24 +220,6 @@ public final class Parser implements ParserInitializable {
 		}
 
 		return found;
-	}
-
-	static {
-		NULL_PARSER_HANDLER = new ParserHandler() {
-
-			@Override
-			public boolean parseHandler(InputStream inputStream,
-					Handler handler, Handler realHandler, String charset)
-					throws ParseException {
-				return false;
-			}
-
-			@Override
-			public Handler getHandler(Handler handler) {
-				return null;
-			}
-
-		};
 	}
 
 }

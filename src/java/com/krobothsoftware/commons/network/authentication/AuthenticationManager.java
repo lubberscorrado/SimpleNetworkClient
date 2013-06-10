@@ -17,6 +17,7 @@
 
 package com.krobothsoftware.commons.network.authentication;
 
+import java.net.URL;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -26,16 +27,16 @@ import com.krobothsoftware.commons.network.NetworkHelper;
 import com.krobothsoftware.commons.network.RequestBuilder;
 
 /**
- * Manager for authenticating connections.
+ * Manager for authenticating connections with {@link AuthScope}.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
  * @see com.krobothsoftware.commons.network.authentication.Authentication
  */
 public class AuthenticationManager {
-	private final HashMap<AuthScope, Authentication> authMap;
-	private final NetworkHelper networkHelper;
-	private final Logger log;
+	protected final HashMap<AuthScope, Authentication> authMap;
+	protected final NetworkHelper networkHelper;
+	protected final Logger log;
 
 	/**
 	 * Instantiates a new authentication manager.
@@ -73,16 +74,28 @@ public class AuthenticationManager {
 
 	/**
 	 * Gets Authentication by checking {@link AuthScope} with
-	 * {@link RequestBuilder}.
+	 * {@link RequestBuilder} URL.
 	 * 
 	 * @param request
-	 *            connection to check scope
+	 *            url to check with scopes
 	 * @return found Authentication or null
 	 * @since SNC 1.0
 	 */
 	public Authentication getAuthentication(RequestBuilder request) {
+		return getAuthentication(request.getUrl());
+	}
+
+	/**
+	 * Gets Authentication by checking {@link AuthScope} with URL.
+	 * 
+	 * @param url
+	 *            url to check with scopes
+	 * @return found Authentication or null
+	 * @since 1.1.0
+	 */
+	public Authentication getAuthentication(URL url) {
 		// find scope by host
-		String urlHost = request.getUrl().getHost();
+		String urlHost = url.getHost();
 		for (AuthScope scope : authMap.keySet()) {
 			if (scope.host.equalsIgnoreCase(urlHost)) {
 				Authentication auth = authMap.get(scope);

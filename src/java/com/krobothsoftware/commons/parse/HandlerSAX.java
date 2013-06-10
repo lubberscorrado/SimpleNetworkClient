@@ -99,7 +99,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 */
 	@Override
 	public void setDocumentLocator(Locator locator) {
-
+		// no op
 	}
 
 	/**
@@ -107,7 +107,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 */
 	@Override
 	public void startDocument() throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -115,7 +115,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 */
 	@Override
 	public void endDocument() throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -124,7 +124,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void startPrefixMapping(String prefix, String uri)
 			throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -132,7 +132,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 */
 	@Override
 	public void endPrefixMapping(String prefix) throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -141,7 +141,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void ignorableWhitespace(char[] ch, int start, int length)
 			throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -150,7 +150,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void processingInstruction(String target, String data)
 			throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -158,7 +158,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 */
 	@Override
 	public void skippedEntity(String name) throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -167,7 +167,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void notationDecl(String name, String publicId, String systemId)
 			throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -176,7 +176,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void unparsedEntityDecl(String name, String publicId,
 			String systemId, String notationName) throws SAXException {
-
+		// no op
 	}
 
 	/**
@@ -197,7 +197,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		startTag = qLocal(qName, localName);
+		startTag = qName;
 		calledStartElement = true;
 	}
 
@@ -224,7 +224,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * @since SNC 1.0
 	 */
 	public void buildCharacters(String content) {
-
+		// no op
 	}
 
 	/**
@@ -236,7 +236,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		endTag = qLocal(qName, localName);
+		endTag = qName;
 		if (buildChars) {
 			buildCharacters(sb.toString());
 			sb.setLength(0);
@@ -280,6 +280,15 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * Gets correct qlocal from XML Handler. No effect on Java SE, but needed
 	 * for Android implementation.
 	 * 
+	 * <p>
+	 * <b>Java SE:</b> Returns <code>qName</code>.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>Android:</b> If Build version is below 2.1(7), <code>localName</code>
+	 * is returned, otherwise <code>qName</code>.
+	 * </p>
+	 * 
 	 * @param qName
 	 *            qname
 	 * @param localName
@@ -287,7 +296,9 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * @return correct qLocal
 	 * @since SNC 1.0
 	 */
-	protected final String qLocal(String qName, String localName) {
+	protected final static String qLocal(String qName, String localName) {
+		// TODO FIX on all implementation
+		// always qName
 		return qName;
 	}
 

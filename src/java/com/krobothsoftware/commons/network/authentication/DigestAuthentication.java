@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Locale;
 
@@ -46,6 +45,12 @@ import com.krobothsoftware.commons.util.CommonUtils;
 public class DigestAuthentication extends Authentication {
 	private static final String DEFAULT_ELEMENT_CHARSET = "US-ASCII";
 
+	/**
+	 * Used to clone for thread safty.
+	 */
+	private static MessageDigest md5;
+
+	private final SecureRandom rnd = new SecureRandom();
 	private String nonce;
 	private String realm;
 	private String algorithm;
@@ -171,12 +176,16 @@ public class DigestAuthentication extends Authentication {
 		StringBuffer buffer = null;
 
 		try {
-			messageDigest = MessageDigest.getInstance("MD5");
+			// better than a new instance
+			messageDigest = (MessageDigest) md5.clone();
 
 			StringBuilder sb = new StringBuilder(256);
 			Formatter formatter = new Formatter(sb, Locale.US);
-			formatter.format("%08x", nonceCount);
-			formatter.close();
+			try {
+				formatter.format("%08x", nonceCount);
+			} finally {
+				formatter.close();
+			}
 			nc = sb.toString();
 
 			if (charset == null) {
@@ -184,7 +193,7 @@ public class DigestAuthentication extends Authentication {
 			}
 
 			// generate client nonce
-			String cnonce = createCnonce();
+			String cnonce = createCnonce(rnd);
 
 			// make MD5 hash of username, realm, and password
 			buffer = new StringBuffer();
@@ -209,34 +218,30 @@ public class DigestAuthentication extends Authentication {
 			response = encode(messageDigest.digest(response.getBytes(charset)));
 
 			// setup header
-			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new NameValuePair("username", username));
-			params.add(new NameValuePair("realm", realm));
-			params.add(new NameValuePair("nonce", nonce));
-			params.add(new NameValuePair("uri", request.getUrl().getPath()));
-			params.add(new NameValuePair("algorithm", algorithm));
-			params.add(new NameValuePair("response", response));
-			params.add(new NameValuePair("qop", qop));
-			params.add(new NameValuePair("nc", nc));
-			params.add(new NameValuePair("cnonce", cnonce));
+
+			String[] params = { "username", username, "realm", realm, "nonce",
+					nonce, "uri", request.getUrl().getPath(), "algorithm",
+					algorithm, "response", response, "qop", qop, "nc", nc,
+					"cnonce", cnonce };
 
 			buffer = new StringBuffer();
 			buffer.append("Digest ");
 
-			for (NameValuePair pair : params) {
-				if (!pair.getName().equalsIgnoreCase("username")) buffer
+			for (int i = 0; i < params.length; i += 2) {
+				if (!params[i].equalsIgnoreCase("username")) buffer
 						.append(", ");
 				// check if need parentheses
-				if (pair.getName().equalsIgnoreCase("nc")
-						|| pair.getName().equals("qop")) {
-					buffer.append(pair.getPair());
+				if (params[i].equalsIgnoreCase("nc") || params[i].equals("qop")) {
+					buffer.append(NameValuePair.getPair(params[i],
+							params[i + 1]));
 				} else {
-					buffer.append(pair.getQuotedPair());
+					buffer.append(NameValuePair.getQuotedPair(params[i],
+							params[i + 1]));
 				}
 			}
 
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException(e);
+		} catch (CloneNotSupportedException e) {
+			// MD5 clone is supported
 		}
 
 		log.info("Authorizing Digest[{}] {}", String.valueOf(nonceCount),
@@ -245,7 +250,7 @@ public class DigestAuthentication extends Authentication {
 		return buffer.toString();
 	}
 
-	private String getHeaderValueByType(String type, String headerText) {
+	private static String getHeaderValueByType(String type, String headerText) {
 		String header = headerText.replaceFirst("Digest ", "");
 		header = header.replaceFirst("Basic ", "");
 		String[] values = header.split(",");
@@ -289,12 +294,18 @@ public class DigestAuthentication extends Authentication {
 	 * 
 	 * @return The cnonce value as String.
 	 */
-	private static String createCnonce() {
-		// TODO use only one SecureRandom instance?
-		SecureRandom rnd = new SecureRandom();
+	private static String createCnonce(SecureRandom rnd) {
 		byte[] tmp = new byte[8];
 		rnd.nextBytes(tmp);
 		return encode(tmp);
+	}
+
+	static {
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// should always exist
+		}
 	}
 
 }

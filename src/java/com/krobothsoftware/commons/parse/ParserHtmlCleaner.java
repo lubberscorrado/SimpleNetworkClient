@@ -112,7 +112,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * 
 	 * @param inputStream
 	 * @param handler
-	 *            raw handler
+	 *            raw handler. Not needed.
 	 * @param realHandler
 	 *            real handler
 	 * @param charset
@@ -123,6 +123,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	public void parse(InputStream inputStream, Handler handler,
 			HandlerHtmlCleaner realHandler, String charset)
 			throws ParseException {
+		// handler not used
 		parse(inputStream, realHandler, charset);
 	}
 }

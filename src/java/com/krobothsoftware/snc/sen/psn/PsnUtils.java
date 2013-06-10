@@ -18,7 +18,6 @@
 package com.krobothsoftware.snc.sen.psn;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -26,6 +25,7 @@ import java.util.regex.Pattern;
 import com.krobothsoftware.commons.network.value.Cookie;
 import com.krobothsoftware.commons.network.value.Cookie.Builder;
 import com.krobothsoftware.commons.util.Base64;
+import com.krobothsoftware.commons.util.ThreadSafeDateUtil;
 
 /**
  * Utils for creating cookies, checking Ids, and other psn realated methods.
@@ -47,6 +47,11 @@ public final class PsnUtils {
 	 */
 	public static final String OFFICIAL_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
+	/**
+	 * Locale.US week data. First day of week and minimum days in week.
+	 */
+	private static final int[] OFFICIAL_WEEK_DATA = { 1, 1 };
+
 	private PsnUtils() {
 
 	}
@@ -61,7 +66,7 @@ public final class PsnUtils {
 	 */
 	public static Cookie createCookieTicket(String psnId) {
 		psnId = rightPad(Base64.encodeToString(psnId.getBytes(), false)
-				.replaceAll("=", "").replaceAll("=", ""), 40, 'A');
+				.replaceAll("=", ""), 40, 'A');
 		StringBuilder sb = new StringBuilder();
 		sb.append(
 				"MQAAAAAAAQcwAAC7AAgAFMAzj73%2FkeHsYc7s%2F2mIW0yw8KbaAAEABAAAAQAABwAIAAABOjiuhlEA%0ABwAIAAABOj3U36AAAgAIMWuXSWuxj08ABAAg")
@@ -83,7 +88,7 @@ public final class PsnUtils {
 	 */
 	public static Cookie createCookiePsnTicket(String psnId) {
 		psnId = rightPad(Base64.encodeToString(psnId.getBytes(), false)
-				.replaceAll("=", "").replaceAll("=", ""), 40, 'A');
+				.replaceAll("=", ""), 40, 'A');
 		StringBuilder sb = new StringBuilder();
 		sb.append(
 				"MQAAAAAAAQcwAAC7AAgAFMAzj73%2FkeHsYc7s%2F2mIW0yw8KbaAAEABAAAAQAABwAIAAABOjiuhlEA%0ABwAIAAABOj3U36AAAgAIMWuXSWuxj08ABAAg")
@@ -106,8 +111,7 @@ public final class PsnUtils {
 	public static String getPsnIdFromJid(String jid) {
 		if (jid == null) return null;
 		else if (isValidJid(jid)) return jid.substring(0, jid.indexOf("@"));
-		else
-			return jid;
+		return jid;
 	}
 
 	/**
@@ -149,20 +153,28 @@ public final class PsnUtils {
 	/**
 	 * Gets the official date format used by <i>Official</i> methods.
 	 * 
+	 * <p>
+	 * Uses {@link ThreadSafeDateUtil} as of <i>SEN-PSN 1.0.2</i>.
+	 * </p>
+	 * 
 	 * @param date
 	 * @return official date format
 	 * @see #OFFICIAL_DATE_FORMAT
-	 * @deprecated Use {@link #OFFICIAL_DATE_FORMAT} to create a DateFormat
-	 *             instead.
 	 * @since SEN-PSN 1.0
 	 */
-	@Deprecated
 	public static String getOfficialDateFormat(Date date) {
-		return new SimpleDateFormat(OFFICIAL_DATE_FORMAT, Locale.US)
-				.format(date);
+		return ThreadSafeDateUtil.format(OFFICIAL_DATE_FORMAT, date,
+				OFFICIAL_WEEK_DATA);
 	}
 
 	/**
+	 * Gets the official date format used by <i>Official</i> methods.
+	 * 
+	 * <p>
+	 * Uses {@link ThreadSafeDateUtil} as of <i>SEN-PSN 1.0.2</i>.
+	 * {@link ThreadSafeDateUtil#getWeekData(Locale)} retrieves week data for
+	 * locale.
+	 * </p>
 	 * 
 	 * @param date
 	 *            official date string
@@ -172,14 +184,12 @@ public final class PsnUtils {
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
 	 * @see #OFFICIAL_DATE_FORMAT
-	 * @deprecated Use {@link #OFFICIAL_DATE_FORMAT} to create a DateFormat
-	 *             instead.
 	 * @since SEN-PSN 1.0
 	 */
-	@Deprecated
 	public static Date getOfficialDate(String date, Locale locale)
 			throws ParseException {
-		return new SimpleDateFormat(OFFICIAL_DATE_FORMAT, locale).parse(date);
+		return ThreadSafeDateUtil.parse(OFFICIAL_DATE_FORMAT, date,
+				ThreadSafeDateUtil.getWeekData(locale));
 	}
 
 	private static String rightPad(String str, int size, char padChar) {

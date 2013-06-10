@@ -18,9 +18,7 @@
 package com.krobothsoftware.snc.sen.psn.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import com.krobothsoftware.snc.sen.psn.Jid;
 
@@ -35,7 +33,7 @@ public class PsnProfile implements Jid, Serializable {
 	private final String jid;
 	private final String avatar;
 	private final String aboutMe;
-	private final Locale country;
+	private final String country;
 	private final boolean isPP;
 	private final int backgroundColor;
 	private final String panel;
@@ -50,22 +48,6 @@ public class PsnProfile implements Jid, Serializable {
 	private final int gold;
 	private final int silver;
 	private final int bronze;
-
-	/**
-	 * Culture map for profiles.
-	 * 
-	 * @since SEN-PSN 1.0
-	 */
-	public final static Map<String, Locale> CULTURE_MAP;
-
-	static {
-		CULTURE_MAP = new HashMap<String, Locale>();
-
-		for (final Locale locale : Locale.getAvailableLocales()) {
-			if (locale.getCountry().length() > 1) CULTURE_MAP.put(
-					locale.getCountry(), locale);
-		}
-	}
 
 	PsnProfile(Builder builder) {
 		jid = builder.jid;
@@ -116,13 +98,14 @@ public class PsnProfile implements Jid, Serializable {
 	}
 
 	/**
-	 * Gets country culture.
+	 * Gets country culture in Locale. Will iterate each Local from
+	 * {@link Locale#getAvailableLocales()} and find correct match.
 	 * 
 	 * @return country culture
 	 * @see #CULTURE_MAP
-	 * @since SEN-PSN 1.0
+	 * @since SEN-PSN 1.0.2
 	 */
-	public Locale getCountryCulture() {
+	public String getCountryCulture() {
 		return country;
 	}
 
@@ -282,7 +265,7 @@ public class PsnProfile implements Jid, Serializable {
 		String jid;
 		String avatar;
 		String aboutMe;
-		Locale country;
+		String country;
 		boolean isPP;
 		int backgroundColor;
 		String panel;
@@ -313,7 +296,7 @@ public class PsnProfile implements Jid, Serializable {
 			return this;
 		}
 
-		public Builder setCountry(Locale country) {
+		public Builder setCountry(String country) {
 			this.country = country;
 			return this;
 		}

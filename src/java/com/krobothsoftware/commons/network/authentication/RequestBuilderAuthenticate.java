@@ -30,7 +30,15 @@ import com.krobothsoftware.commons.network.Response;
 import com.krobothsoftware.commons.network.ResponseAuthenticate;
 
 /**
- * Builder for authorization HTTP connections.
+ * Builder for authenticating HTTP connections.
+ * 
+ * <p>
+ * There are two ways of requesting an authorization on connection. By setting
+ * Authentication,
+ * {@link #RequestBuilderAuthenticate(Method, URL, Authentication)}, or check
+ * with <code>NetworkHelper</code> AuthenticationManager,
+ * {@link #RequestBuilderAuthenticate(Method, URL)}.
+ * </p>
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -38,10 +46,10 @@ import com.krobothsoftware.commons.network.ResponseAuthenticate;
  * 
  */
 public class RequestBuilderAuthenticate extends RequestBuilder {
-	final Authentication auth;
-	final String realm;
-	int retry = 1;
-	Logger authLog;
+	private final Authentication auth;
+	private final String realm;
+	private int retry = 1;
+	private Logger authLog;
 
 	/**
 	 * Instantiates a new builder with Authorization.

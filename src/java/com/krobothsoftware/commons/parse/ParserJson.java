@@ -105,7 +105,7 @@ public final class ParserJson implements ParserInitializable {
 	 * 
 	 * @param inputStream
 	 * @param handler
-	 *            raw handler
+	 *            raw handler. Not needed.
 	 * @param realHandler
 	 *            real handler
 	 * @throws ParseException
@@ -113,6 +113,7 @@ public final class ParserJson implements ParserInitializable {
 	 */
 	public void parse(InputStream inputStream, Handler handler,
 			HandlerJson realHandler) throws ParseException {
+		// handler not used
 		parse(inputStream, realHandler);
 	}
 

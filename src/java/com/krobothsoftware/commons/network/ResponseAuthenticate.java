@@ -23,6 +23,10 @@ import java.net.HttpURLConnection;
  * Response holder from {@link RequestBuilder#execute(NetworkHelper)} if
  * response code is 401(Unauthorized).
  * 
+ * <p>
+ * Use {@link #getAuthentication()} to get <i>WWW-Authenticate</i> header.
+ * </p>
+ * 
  * @author Kyle Kroboth
  * @since SNC 1.0
  */
@@ -31,7 +35,7 @@ public class ResponseAuthenticate extends Response {
 
 	/**
 	 * Instantiates a new response with results from connection and retrieves
-	 * header <code>WWW-Authenticate</code>.
+	 * header <i>WWW-Authenticate</i>.
 	 * 
 	 * @param connection
 	 * @param input
@@ -57,6 +61,17 @@ public class ResponseAuthenticate extends Response {
 	 */
 	public String getAuthentication() {
 		return authenticate;
+	}
+
+	/**
+	 * Returns string in format "ResponseAuthenticate [url] : [status-code]".
+	 * 
+	 * @since 1.1.0
+	 */
+	@Override
+	public String toString() {
+		return String.format("ResponseAuthenticate %s : %s", conn.getURL()
+				.toString(), String.valueOf(status));
 	}
 
 }

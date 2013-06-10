@@ -94,7 +94,7 @@ import java.util.ArrayList;
  * @since SNC 1.0
  */
 public final class Expression {
-	private final ArrayList<Node> stack;
+	private final Node[] stack;
 
 	/**
 	 * Parses expression using limited xpath syntax. Will <b>not</b> check for
@@ -110,25 +110,26 @@ public final class Expression {
 	}
 
 	private Expression(String expr) {
-		stack = new ArrayList<Node>();
+		ArrayList<Node> tmp = new ArrayList<Node>();
 		char[] ch = expr.toCharArray();
 		int start = 0;
 		do
-			start = nextNode(ch, start);
+			start = nextNode(tmp, ch, start);
 		while (start != -1);
-		stack.trimToSize();
+
+		stack = tmp.toArray(new Node[tmp.size()]);
 	}
 
 	Node getNode(int index) {
-		if (index >= stack.size()) return null;
-		return stack.get(index);
+		if (index >= stack.length) return null;
+		return stack[index];
 	}
 
 	/**
 	 * Iterate through characters instead of using Regex or String methods for
 	 * faster result.
 	 */
-	private int nextNode(char[] ch, int start) {
+	private static int nextNode(ArrayList<Node> stack, char[] ch, int start) {
 		Node node = new Node();
 		int old = start;
 		start++;

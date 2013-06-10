@@ -29,15 +29,14 @@ import com.krobothsoftware.commons.network.ResponseAuthenticate;
  * Authentication is the base class for authorizations.
  * <p>
  * There are two steps to an Authentication. Prior to executing the connection,
- * {@link #setup(RequestBuilderAuthenticate)} is called in order to set up
- * credentials. After the connection has sent and if the status code is
- * 401(Unauthorized),
+ * {@link #setup(RequestBuilderAuthenticate)} is called to set up credentials.
+ * After the connection has sent and if the status code is 401(Unauthorized),
  * {@link #authenticate(RequestBuilderAuthenticate, ResponseAuthenticate)} is
  * then called.
  * </p>
  * <p>
- * Authenticating may only be called if {@link #authenticateSupported()} is
- * true.
+ * Authenticating after 401 response may only be called if
+ * {@link #authenticateSupported()} is true.
  * </p>
  * 
  * @author Kyle Kroboth
@@ -145,7 +144,7 @@ public abstract class Authentication {
 			ResponseAuthenticate response) throws IOException;
 
 	/**
-	 * Resets any info in Authentication object. <b>Not</b> the credentials.
+	 * Resets any info in Authentication object, but <b>not</b> credentials.
 	 * 
 	 * @since SNC 1.0
 	 */

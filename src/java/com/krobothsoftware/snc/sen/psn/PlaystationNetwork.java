@@ -1,10 +1,26 @@
+/* ===================================================
+ * Copyright 2013 Kroboth Software
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ========================================================== 
+ */
+
 package com.krobothsoftware.snc.sen.psn;
 
 import static com.krobothsoftware.commons.network.Method.GET;
 import static com.krobothsoftware.commons.network.Method.POST;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -260,108 +276,100 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 				username, "j_password", password, "returnURL",
 				"https://secure.eu.playstation.com/sign-in/confirmation/");
 
+		RequestBuilder builder = new RequestBuilder(
+				POST,
+				new URL(
+						"https://store.playstation.com/j_acegi_external_security_check?target=/external/loginDefault.action"))
+				.payload(params, "UTF-8").use(cookies).requestCookies(false)
+				.close(true);
+
 		try {
-			response = new RequestBuilder(
-					POST,
-					new URL(
-							"https://store.playstation.com/j_acegi_external_security_check?target=/external/loginDefault.action"))
-					.payload(params, "UTF-8").use(cookies)
-					.requestCookies(false).close(true).execute(networkHelper);
+			response = builder.execute(networkHelper);
 			monitor.worked(1);
 
-			switch (response.getStatusCode()) {
-				case HttpURLConnection.HTTP_MOVED_TEMP:
-					String urlLocation = ((ResponseRedirect) response)
-							.getRedirectUrl();
+			if (response.isRedirection()) {
+				String urlLocation = ((ResponseRedirect) response)
+						.getRedirectUrl();
 
-					monitor.setTask("Authenticating");
-					response = new RequestBuilder(GET, new URL(urlLocation))
-							.use(cookies).requestCookies(false)
-							.execute(networkHelper);
-					isLoginValid(response);
-					monitor.worked(1);
-					response.close();
+				monitor.setTask("Authenticating");
+				builder.reset();
+				builder.method(GET).url(new URL(urlLocation)).use(cookies)
+						.requestCookies(false);
+				response = builder.execute(networkHelper);
+				isLoginValid(response);
+				monitor.worked(1);
+				response.close();
 
-					// get session id and location
-					urlLocation = ((ResponseRedirect) response)
-							.getRedirectUrl();
-					session = urlLocation.substring(urlLocation
-							.indexOf("?sessionId=") + 11);
+				// get session id and location
+				urlLocation = ((ResponseRedirect) response).getRedirectUrl();
+				session = urlLocation.substring(urlLocation
+						.indexOf("?sessionId=") + 11);
 
-					// get additional cookies
-					response = new RequestBuilder(GET, new URL(urlLocation))
-							.use(cookies).requestCookies(false).close(true)
-							.execute(networkHelper);
-					monitor.worked(1);
+				// get additional cookies
+				// no need to reset builder
+				builder.url(new URL(urlLocation)).close(true);
+				response = builder.execute(networkHelper);
+				monitor.worked(1);
 
-					// get psn id
+				// get psn id
 
-					// US method
-					monitor.setTask("Retrieving PsnId");
-					response = new RequestBuilder(
-							GET,
-							new URL(
-									String.format(
-											"http://us.playstation.com/uwps/HandleIFrameRequests?sessionId=%s",
-											session))).use(cookies)
-							.requestCookies(false).close(true)
-							.execute(networkHelper);
+				// US method
+				monitor.setTask("Retrieving PsnId");
+				// no need to reset builder
+				builder.url(new URL(
+						String.format(
+								"http://us.playstation.com/uwps/HandleIFrameRequests?sessionId=%s",
+								session)));
+				response = builder.execute(networkHelper);
 
-					Cookie cookie;
-					// get psnId
-					String psnId = null;
-					cookie = cookies.getCookie(".playstation.com", "ph");
-					if (cookie != null) psnId = cookie.getValue();
-					else
-						log.warn("Couldn't retrieve psnId in ph cookie");
+				Cookie cookie;
+				// get psnId
+				String psnId = null;
+				cookie = cookies.getCookie(".playstation.com", "ph");
+				if (cookie != null) psnId = cookie.getValue();
+				else
+					log.warn("Couldn't retrieve psnId in ph cookie");
 
-					if (psnId == null) {
-						log.info("Retrieving PsnId with userinfo cookie");
-						cookie = cookies.getCookie(".playstation.com",
-								"userinfo");
-						if (cookie == null) {
-							log.warn("Couldn't retrieve userinfo cookie");
-						} else {
-							response = new RequestBuilder(
-									GET,
-									new URL(
-											String.format(
-													"http://us.playstation.com/uwps/CookieHandler?cookieName=userinfo&id=%s",
-													String.valueOf(Math
-															.random()))))
-									.header("X-Requested-With",
-											"XMLHttpRequest")
-									.header("Cookie", cookie.getCookieString())
-									.storeCookies(false).execute(networkHelper);
-							String content = Response.toString(response);
-							int index = content.indexOf("handle=");
-							if (index != -1) {
-								psnId = content.substring(index,
-										content.indexOf(',', index));
-							}
-							response.close();
+				if (psnId == null) {
+					log.info("Retrieving PsnId with userinfo cookie");
+					cookie = cookies.getCookie(".playstation.com", "userinfo");
+					if (cookie == null) {
+						log.warn("Couldn't retrieve userinfo cookie");
+					} else {
+						response = new RequestBuilder(
+								GET,
+								new URL(
+										String.format(
+												"http://us.playstation.com/uwps/CookieHandler?cookieName=userinfo&id=%s",
+												String.valueOf(Math.random()))))
+								.header("X-Requested-With", "XMLHttpRequest")
+								.header("Cookie", cookie.getCookieString())
+								.storeCookies(false).execute(networkHelper);
+						String content = Response.toString(response);
+						int index = content.indexOf("handle=");
+						if (index != -1) {
+							psnId = content.substring(index,
+									content.indexOf(',', index));
 						}
+						response.close();
 					}
+				}
 
-					if (psnId == null) throw new PlaystationNetworkException(
-							"Sign-In unsuccessful");
-					monitor.worked(1);
+				if (psnId == null) throw new PlaystationNetworkException(
+						"Sign-In unsuccessful");
+				monitor.worked(1);
 
-					// get Jid
-					monitor.setTask("Retrieving Jid");
-					jid = getOfficialJid(psnId);
-					monitor.worked(1);
+				// get Jid
+				monitor.setTask("Retrieving Jid");
+				jid = getOfficialJid(psnId);
+				monitor.worked(1);
 
-					monitor.done("Successfully logged in");
-					break;
-				case HttpURLConnection.HTTP_UNAVAILABLE:
-					throw new PlaystationNetworkException(
-							"PlayStationNetwork is under maintenance");
-				default:
-					throw new PlaystationNetworkException(
-							"Error when logging in: "
-									+ response.getStatusCode());
-			}
+				monitor.done("Successfully logged in");
+			} else if (response.isServerError()) throw new PlaystationNetworkException(
+					"PlayStationNetwork is under maintenance");
+			else
+				throw new PlaystationNetworkException("Error when logging in: "
+						+ String.valueOf(response.getStatusCode()));
 
 		} finally {
 			CommonUtils.closeQuietly(response);
@@ -369,7 +377,6 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		}
 
 		return new PsnToken(cookies, jid, session);
-
 	}
 
 	/**
@@ -418,7 +425,6 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 			ProgressListener listener) throws ClientLoginException,
 			IOException, PlaystationNetworkException {
 		log.debug("loginToken - Entering");
-		Response response = null;
 
 		if (username == null || password == null) throw new IllegalArgumentException(
 				"username and password may not be null");
@@ -433,51 +439,52 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 				username, "j_password", password, "returnURL",
 				"https://secure.eu.playstation.com/sign-in/confirmation/");
 
-		try {
+		Response response = null;
 
-			response = new RequestBuilder(
-					POST,
-					new URL(
-							"https://store.playstation.com/j_acegi_external_security_check?target=/external/loginDefault.action"))
-					.payload(params, "UTF-8").use(cookies)
-					.requestCookies(false).close(true).execute(networkHelper);
+		RequestBuilder builder = new RequestBuilder(
+				POST,
+				new URL(
+						"https://store.playstation.com/j_acegi_external_security_check?target=/external/loginDefault.action"))
+				.payload(params, "UTF-8").use(cookies).requestCookies(false)
+				.close(true);
+
+		try {
+			response = builder.execute(networkHelper);
 			monitor.worked(1);
 
-			switch (response.getStatusCode()) {
-				case HttpURLConnection.HTTP_MOVED_TEMP:
-					String urlLocation = ((ResponseRedirect) response)
-							.getRedirectUrl();
+			if (response.isRedirection()) {
+				String urlLocation = ((ResponseRedirect) response)
+						.getRedirectUrl();
 
-					monitor.setTask("Authenticating");
-					isLoginValid(response = new RequestBuilder(GET, new URL(
-							urlLocation)).use(cookies).requestCookies(false)
-							.execute(networkHelper));
-					monitor.worked(1);
-					response.close();
+				monitor.setTask("Authenticating");
+				builder.reset();
+				builder.method(GET).url(new URL(urlLocation)).use(cookies)
+						.requestCookies(false);
+				response = builder.execute(networkHelper);
+				isLoginValid(response);
+				monitor.worked(1);
+				response.close();
 
-					// get session id and location
-					urlLocation = ((ResponseRedirect) response)
-							.getRedirectUrl();
-					session = urlLocation.substring(urlLocation
-							.indexOf("?sessionId=") + 11);
+				// get session id and location
+				urlLocation = ((ResponseRedirect) response).getRedirectUrl();
+				session = urlLocation.substring(urlLocation
+						.indexOf("?sessionId=") + 11);
 
-					// get additional cookies
-					response = new RequestBuilder(GET, new URL(urlLocation))
-							.use(cookies).close(true).requestCookies(false)
-							.execute(networkHelper);
-					monitor.done("Successfully logged in");
-					break;
-				case HttpURLConnection.HTTP_UNAVAILABLE:
-					throw new PlaystationNetworkException(
-							"PlayStationNetwork is under maintenance");
-				default:
-					throw new ClientLoginException("Error when logging in: "
-							+ response.getStatusCode());
-			}
+				// get additional cookies
+				// no need to reset builder
+				builder.url(new URL(urlLocation)).close(true);
+				response = builder.execute(networkHelper);
+				monitor.worked(1);
+				monitor.done("Successfully logged in");
+			} else if (response.isServerError()) throw new PlaystationNetworkException(
+					"PlayStationNetwork is under maintenance");
+			else
+				throw new PlaystationNetworkException("Error when logging in: "
+						+ String.valueOf(response.getStatusCode()));
 
 		} finally {
 			CommonUtils.closeQuietly(response);
-			log.debug("loginToken - Exiting");
+			log.debug("login - Exiting");
 		}
 
 		token.setSession(session);
@@ -641,7 +648,6 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		HandlerHtmlFriendGame handler;
 
 		try {
-
 			response = getTokenResponse(
 					String.format(
 							"http://uk.playstation.com/psn/mypsn/trophies-compare/?friend=%s&mode=FRIENDS",
@@ -649,7 +655,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 					"http://uk.playstation.com/psn/mypsn/friends/",
 					token.getCookies());
 
-			if (response instanceof ResponseRedirect) {
+			if (response.isRedirection()) {
 				throw new PlaystationNetworkException("Invalid friend PsnId");
 			}
 
@@ -706,7 +712,6 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		Response response = null;
 		HandlerHtmlFriendTrophy handler;
 		try {
-
 			response = getTokenResponse(
 					String.format(
 							"http://uk.playstation.com/psn/mypsn/trophies-compare/detail/?title=%s&friend=%s&sortBy=game",
@@ -714,7 +719,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 					"http://uk.playstation.com/psn/mypsn/trophies-compare/?friend="
 							+ friendPsnId + "&mode=FRIENDS", token.getCookies());
 
-			if (response instanceof ResponseRedirect) {
+			if (response.isRedirection()) {
 				throw new PlaystationNetworkException(
 						"Invalid friend PsnId or trophy link Id");
 			}
@@ -823,7 +828,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 					"http://uk.playstation.com/psn/mypsn/trophies/",
 					token.getCookies());
 
-			if (response instanceof ResponseRedirect) {
+			if (response.isRedirection()) {
 				throw new PlaystationNetworkException("Invalid trophy link id");
 			}
 
@@ -843,9 +848,9 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	 * If response is a redirect, it's valid. Does a streaming check for
 	 * keywords <tt>Incorrect</tt> and <tt>maintenance</tt>.
 	 */
-	private boolean isLoginValid(Response response) throws IOException,
+	private static boolean isLoginValid(Response response) throws IOException,
 			ClientLoginException, PlaystationNetworkException {
-		if (response instanceof ResponseRedirect) return true;
+		if (response.isRedirection()) return true;
 
 		switch (CommonUtils.streamingContains(response.getStream(),
 				response.getCharset(), "Incorrect", "maintenance")) {
@@ -995,7 +1000,6 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		HandlerHtmlUSTrophy handler;
 
 		try {
-
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new NameValuePair("sortBy", "id_asc"));
 			params.add(new NameValuePair("titleId", titleLinkId));
@@ -1048,9 +1052,9 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	 */
 	@SuppressWarnings("resource")
 	public String getOfficialJid(String psnId) throws IOException {
+		log.debug("getJid [{}] - Entering", psnId);
 		Response response = null;
 		String jid = null;
-		log.debug("getJid [{}] - Entering", psnId);
 
 		String xmlPost = String
 				.format("<?xml version='1.0' encoding='utf-8'?><searchjid platform='ps3' sv='%s'><online-id>%s</online-id></searchjid>",
@@ -1110,12 +1114,12 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	 *             if platform is invalid, UNKNOWN
 	 * @since SEN-PSN 1.0
 	 */
-	@SuppressWarnings("resource")
+	@SuppressWarnings({ "resource", "incomplete-switch" })
 	public String getOfficialFirmwareVersion(Platform platform)
 			throws IOException {
+		log.debug("getOfficialFirmwareVersion [{}] - Entering", platform);
 		Response response = null;
 		String version = null;
-		log.debug("getOfficialFirmwareVersion [{}] - Entering", platform);
 		try {
 			String userAgent = null;
 			switch (platform) {
@@ -1179,8 +1183,6 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 					version = data.substring(start + 23,
 							data.indexOf(";", start + 23));
 					break;
-				default:
-					throw new UnsupportedOperationException();
 			}
 		} finally {
 			CommonUtils.closeQuietly(response);
@@ -1216,8 +1218,8 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	@SuppressWarnings("resource")
 	public PsnProfile getOfficialProfile(String jid) throws IOException,
 			ClientException {
-		Response response = null;
 		log.debug("getProfile [{}] - Entering", jid);
+		Response response = null;
 		HandlerXmlProfile handler;
 		try {
 
@@ -1288,15 +1290,15 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	public List<PsnGameOfficial> getOfficialGameList(String jid, int start,
 			int max, Platform... platforms) throws IOException,
 			ClientException, PlaystationNetworkException {
-		Response response = null;
-		HandlerXmlGame handler;
 		log.debug("getOfficialGameList [{}, {}, {}, {}] - Entering", jid,
 				String.valueOf(start), String.valueOf(max), platforms);
+		Response response = null;
+		HandlerXmlGame handler;
+
+		if (start <= 0) throw new IllegalArgumentException(
+				"start index must be greater than 0");
 
 		try {
-			if (start <= 0) throw new IllegalArgumentException(
-					"start index must be greater than 0");
-
 			// if (max > 64) log.warn("max index is greater than 64");
 
 			String payload = String
@@ -1354,18 +1356,18 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	public List<PsnTrophyOfficial> getOfficialTrophyList(String jid,
 			String gameId) throws IOException, PlaystationNetworkException,
 			ClientException {
+		log.debug("getOfficialTrophyList [{}, {}] - Entering", jid, gameId);
 		Response response = null;
 		HandlerXmlTrophy handler;
-		log.debug("getOfficialTrophyList [{}, {}] - Entering", jid, gameId);
 
 		if (!PsnUtils.isValidGameId(gameId)) throw new IllegalArgumentException(
 				"Must be a valid PsnGame Id");
 
-		try {
-			String payload = String
-					.format("<nptrophy platform='ps3' sv='%s'><jid>%s</jid><list><info npcommid='%s'><target>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</target></info></list></nptrophy>",
-							PS3_FIRMWARE_VERSION, jid, gameId);
+		String payload = String
+				.format("<nptrophy platform='ps3' sv='%s'><jid>%s</jid><list><info npcommid='%s'><target>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</target></info></list></nptrophy>",
+						PS3_FIRMWARE_VERSION, jid, gameId);
 
+		try {
 			response = getOfficialResponse(
 					"http://trophy.ww.np.community.playstation.net/trophy/func/get_trophies",
 					AGENT_PS3_APPLICATION, payload);
@@ -1418,19 +1420,19 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	public List<PsnTrophyOfficial> getOfficialLatestTrophyList(String jid,
 			int max, Platform... platforms) throws PlaystationNetworkException,
 			IOException, ClientException {
-		Response response = null;
-		HandlerXmlTrophy handler;
 		log.debug("getOfficialLatestTrophyList [{}, {}, {}] - Entering", jid,
 				String.valueOf(max), platforms);
+		Response response = null;
+		HandlerXmlTrophy handler;
 
 		// if (max > 64) log.warn("max index is greater than 64");
 
-		try {
-			String payload = String
-					.format("<nptrophy platform='ps3' sv='%s'><jid>%s</jid><max>%s</max>%s</nptrophy>",
-							PS3_FIRMWARE_VERSION, jid, String.valueOf(max),
-							getPlatformString(platforms));
+		String payload = String
+				.format("<nptrophy platform='ps3' sv='%s'><jid>%s</jid><max>%s</max>%s</nptrophy>",
+						PS3_FIRMWARE_VERSION, jid, String.valueOf(max),
+						getPlatformString(platforms));
 
+		try {
 			response = getOfficialResponse(
 					"http://trophy.ww.np.community.playstation.net/trophy/func/get_latest_trophies",
 					AGENT_PS3_APPLICATION, payload);
@@ -1485,19 +1487,19 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 	public List<PsnTrophyOfficial> getOfficialTrophyListSince(String jid,
 			int max, String since, Platform... platforms) throws IOException,
 			PlaystationNetworkException, ClientException {
-		Response response = null;
-		HandlerXmlTrophy handler;
-		// if (max > 64) log.warn("max index is greater than 64");
-
 		log.debug("getOfficialTrophyListSince [{}, {}, {}, {}] - Entering",
 				jid, String.valueOf(max), since, platforms);
+		Response response = null;
+		HandlerXmlTrophy handler;
+
+		// if (max > 64) log.warn("max index is greater than 64");
+
+		String payload = String
+				.format("<nptrophy platform='ps3' sv='%s'><jid>%s</jid><max>%s</max><since>%s</since>%s</nptrophy>",
+						PS3_FIRMWARE_VERSION, jid, String.valueOf(max), since,
+						getPlatformString(platforms));
 
 		try {
-			String payload = String
-					.format("<nptrophy platform='ps3' sv='%s'><jid>%s</jid><max>%s</max><since>%s</since>%s</nptrophy>",
-							PS3_FIRMWARE_VERSION, jid, String.valueOf(max),
-							since, getPlatformString(platforms));
-
 			response = getOfficialResponse(
 					"http://trophy.ww.np.community.playstation.net/trophy/func/get_latest_trophies",
 					AGENT_PS3_APPLICATION, payload);
@@ -1533,7 +1535,7 @@ public class PlaystationNetwork extends SonyEntertainmentNetwork {
 		return response;
 	}
 
-	private String getPlatformString(Platform[] platforms) {
+	private static String getPlatformString(Platform[] platforms) {
 		if (platforms == null) return "";
 		String platformString = "";
 		for (Platform platform : platforms) {

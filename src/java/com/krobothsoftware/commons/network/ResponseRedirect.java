@@ -63,4 +63,16 @@ public class ResponseRedirect extends Response {
 		return redirectUrl;
 	}
 
+	/**
+	 * Returns string in format
+	 * "ResponseRedirect [url] : [status-code] : redirect[url]".
+	 * 
+	 * @since 1.1.0
+	 */
+	@Override
+	public String toString() {
+		return String.format("ResponseRedirect %s : %s : redirect[%s]", conn
+				.getURL().toString(), String.valueOf(status), redirectUrl);
+	}
+
 }

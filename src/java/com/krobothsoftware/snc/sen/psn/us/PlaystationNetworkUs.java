@@ -151,7 +151,6 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			ProgressListener listener) throws IOException,
 			ClientLoginException, PlaystationNetworkException {
 		log.debug("login - Entering");
-		Response response = null;
 
 		if (username == null || password == null) throw new IllegalArgumentException(
 				"username and password may not be null");
@@ -173,13 +172,15 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 						"https://us.playstation.com/uwps/PSNTicketRetrievalGenericServlet",
 						"service-entity", "psn");
 
+		Response response = null;
+		RequestBuilder builder = new RequestBuilder(
+				POST,
+				new URL(
+						"https://account.sonyentertainmentnetwork.com/external/auth/login!authenticate.action"))
+				.payload(params, "UTF-8").use(cookies).requestCookies(false);
+
 		try {
-			response = new RequestBuilder(
-					POST,
-					new URL(
-							"https://account.sonyentertainmentnetwork.com/external/auth/login!authenticate.action"))
-					.payload(params, "UTF-8").use(cookies)
-					.requestCookies(false).execute(networkHelper);
+			response = builder.execute(networkHelper);
 			monitor.worked(1, "Authenticating");
 			isLoginValid(response);
 			response.close();
@@ -189,18 +190,18 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			session = urlLocation
 					.substring(urlLocation.indexOf("?sessionId=") + 11);
 
-			response = new RequestBuilder(GET, new URL(urlLocation))
-					.use(cookies).close(true).requestCookies(false)
-					.execute(networkHelper);
+			// no need to reset builder
+			builder.method(GET).url(new URL(urlLocation)).close(true);
+			response = builder.execute(networkHelper);
 			monitor.worked(1);
 
-			response = new RequestBuilder(
-					GET,
-					new URL(
+			// no need to reset builder
+			builder.method(GET)
+					.url(new URL(
 							String.format(
 									"http://us.playstation.com/uwps/HandleIFrameRequests?sessionId=%s",
-									session))).use(cookies)
-					.requestCookies(false).close(true).execute(networkHelper);
+									session)));
+			response = builder.execute(networkHelper);
 			monitor.worked(1, "Retrieving PsnId");
 
 			// get psnId
@@ -299,7 +300,6 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			ProgressListener listener) throws IOException,
 			ClientLoginException, PlaystationNetworkException {
 		log.debug("login - Entering");
-		Response response = null;
 
 		if (username == null || password == null) throw new IllegalArgumentException(
 				"username and password may not be null");
@@ -320,13 +320,15 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 						"https://us.playstation.com/uwps/PSNTicketRetrievalGenericServlet",
 						"service-entity", "psn");
 
+		Response response = null;
+		RequestBuilder builder = new RequestBuilder(
+				POST,
+				new URL(
+						"https://account.sonyentertainmentnetwork.com/external/auth/login!authenticate.action"))
+				.payload(params, "UTF-8").use(cookies).requestCookies(false);
+
 		try {
-			response = new RequestBuilder(
-					POST,
-					new URL(
-							"https://account.sonyentertainmentnetwork.com/external/auth/login!authenticate.action"))
-					.payload(params, "UTF-8").use(cookies)
-					.requestCookies(false).execute(networkHelper);
+			response = builder.execute(networkHelper);
 			monitor.worked(1, "Authenticating");
 			isLoginValid(response);
 			response.close();
@@ -336,18 +338,18 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 			session = urlLocation
 					.substring(urlLocation.indexOf("?sessionId=") + 11);
 
-			response = new RequestBuilder(GET, new URL(urlLocation))
-					.use(cookies).requestCookies(false).close(true)
-					.execute(networkHelper);
+			// no need to reset builder
+			builder.method(GET).url(new URL(urlLocation)).close(true);
+			response = builder.execute(networkHelper);
 			monitor.worked(1);
 
-			response = new RequestBuilder(
-					GET,
-					new URL(
+			// no need to reset builder
+			builder.method(GET)
+					.url(new URL(
 							String.format(
 									"http://us.playstation.com/uwps/HandleIFrameRequests?sessionId=%s",
-									session))).use(cookies)
-					.requestCookies(false).close(true).execute(networkHelper);
+									session)));
+			response = builder.execute(networkHelper);
 			monitor.worked(1);
 			monitor.done("Successfully logged in");
 		} finally {
@@ -408,7 +410,6 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	@SuppressWarnings("resource")
 	public boolean isTokenValid(PsnToken token) throws IOException {
 		Response response = null;
-		int conLength;
 
 		try {
 			response = new RequestBuilder(
@@ -419,12 +420,11 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 									String.valueOf(Math.random()))))
 					.header("X-Requested-With", "XMLHttpRequest")
 					.use(token.getCookies()).execute(networkHelper);
-			conLength = response.getContentLength();
+			return response.getContentLengthLong() > 0L;
 		} finally {
 			CommonUtils.closeQuietly(response);
 		}
 
-		return conLength > 0;
 	}
 
 	/**
@@ -445,9 +445,9 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	@SuppressWarnings("resource")
 	public PsnUser getUserInfo(PsnToken token) throws IOException,
 			TokenException {
+		log.debug("getUserInfo - Entering");
 		Response response = null;
 		PsnUser user;
-		log.debug("getUserInfo - Entering");
 
 		Cookie cookie = token.getCookies().getCookie(".playstation.com",
 				"userinfo");
@@ -464,7 +464,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 					.header("X-Requested-With", "XMLHttpRequest")
 					.header("Cookie", cookie.getCookieString())
 					.storeCookies(false).execute(networkHelper);
-			if (!(response.getContentLength() > 0)) throw new TokenException();
+			if (response.getContentLengthLong() <= 0L) throw new TokenException();
 			user = PsnUser.newInstance(Response.toString(response));
 		} finally {
 			CommonUtils.closeQuietly(response);
@@ -937,9 +937,9 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 
 	}
 
-	private boolean isLoginValid(Response response) throws IOException,
+	private static boolean isLoginValid(Response response) throws IOException,
 			ClientLoginException, PlaystationNetworkException {
-		if (response instanceof ResponseRedirect) return true;
+		if (response.isRedirection()) return true;
 
 		switch (CommonUtils.streamingContains(response.getStream(),
 				response.getCharset(), "Incorrect", "maintenance")) {

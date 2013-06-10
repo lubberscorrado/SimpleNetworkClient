@@ -33,10 +33,10 @@ import com.krobothsoftware.commons.util.CommonUtils;
  * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
  */
 public class Response implements Closeable {
-	private final HttpURLConnection conn;
-	private final UnclosableInputStream stream;
-	private final int status;
-	private final String charset;
+	protected final HttpURLConnection conn;
+	protected final UnclosableInputStream stream;
+	protected final int status;
+	protected final String charset;
 
 	/**
 	 * Instantiates a new response with results from connection.
@@ -98,24 +98,8 @@ public class Response implements Closeable {
 	 * <code>status >= 200 and status < 300</code>
 	 * </p>
 	 * 
-	 * @return if status code is considered successful
-	 * @deprecated changed method to {@link #isSuccessful()}
-	 * @since SNC 1.0
-	 */
-	@Deprecated
-	public boolean isOk() {
-		return status / 100 == 2;
-	}
-
-	/**
-	 * Checks if status code is successful.
-	 * 
-	 * <p>
-	 * <code>status >= 200 and status < 300</code>
-	 * </p>
-	 * 
 	 * @return true, if status code is considered successful
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public boolean isSuccessful() {
 		return status / 100 == 2;
@@ -130,7 +114,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered a redirection
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public boolean isRedirection() {
 		return status / 100 == 3;
@@ -145,7 +129,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered a client error
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public boolean isClientError() {
 		return status / 100 == 4;
@@ -160,7 +144,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered a server error
-	 * @since SNC 1.0.2
+	 * @since 1.1.0
 	 */
 	public boolean isServerError() {
 		return status / 100 == 5;
@@ -180,11 +164,27 @@ public class Response implements Closeable {
 	 * Get connection content Length. Same as calling
 	 * {@link URLConnection#getContentLength()}.
 	 * 
+	 * <p>
+	 * Use {@link #getContentLengthLong()} to ensure length doesn't return
+	 * <i>-1</i>.
+	 * </p>
+	 * 
 	 * @return connection content length
+	 * @see #getContentLengthLong()
 	 * @since SNC 1.0
 	 */
 	public int getContentLength() {
 		return conn.getContentLength();
+	}
+
+	/**
+	 * Parses <code>long</i> from <code>Content-Length</code> header.
+	 * 
+	 * @return connection content length
+	 * @since 1.1.0
+	 */
+	public long getContentLengthLong() {
+		return Long.parseLong(conn.getHeaderField("Content-Length"));
 	}
 
 	/**
@@ -213,13 +213,13 @@ public class Response implements Closeable {
 	}
 
 	/**
-	 * Returns string in format "[url] : [status-code]".
+	 * Returns string in format "Response [url] : [status-code]".
 	 * 
 	 * @since SNC 1.0
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s : %s", conn.getURL().toString(),
+		return String.format("Response %s : %s", conn.getURL().toString(),
 				String.valueOf(status));
 	}
 
