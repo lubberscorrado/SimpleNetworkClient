@@ -1,2 +1,0 @@
-com/krobothsoftware/commons/**
-com/krobothsoftware/snc/**
