@@ -8,38 +8,99 @@
 	<property name="doc" value="doc" />
 	<property name="deploy" value="deploy" />
 
-	<property name="target" value="1.6" />
-	<property name="source" value="1.6" />
+	<property name="target.java" value="1.6" />
 
-	<property name="jar.snc" value="${build}/jar/snc" />
-	<property name="jar.snc.json" value="${build}/jar/snc-ext-json" />
-	<property name="jar.snc.htmlcleaner" value="${build}/jar/snc-ext-htmlcleaner" />
-	<property name="jar.sen" value="${build}/jar/snc-sen" />
-	<property name="jar.sen.psn" value="${build}/jar/snc-sen-psn" />
-	<property name="jar.sen.psn.us" value="${build}/jar/snc-sen-psn-us" />
+	<property name="target.java7" value="1.7" />
+
+	<!-- android-framework using same -->
+	<property name="target.android" value="1.6" />
+
+	<property name="jar.snc" value="snc" />
+	<property name="jar.snc.json" value="snc-ext-json" />
+	<property name="jar.snc.htmlcleaner" value="snc-ext-htmlcleaner" />
+	<property name="jar.sen" value="snc-sen" />
+	<property name="jar.sen.psn" value="snc-sen-psn" />
+	<property name="jar.sen.psn.us" value="snc-sen-psn-us" />
 	<property file="${ant}/build.properties" />
 
 	<property name="tools" value="tools" />
 
-
-	<path id="classpath">
+	<!-- Dependencies for all builds -->
+	<path id="classpath.dependencies">
 		<fileset dir="dependencies">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="dependencies/private">
 			<include name="*.jar" />
 		</fileset>
 	</path>
 
-	<path id="classpath.build">
-		<fileset dir="dependencies">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="dependencies/private">
-			<include name="*.jar" />
-		</fileset>
+	<!-- Dependencies for Java 7 -->
+	<path id="classpath.dependencies.java7">
+		<path refid="classpath.dependencies" />
 		<pathelement location="${build}/java" />
 	</path>
+
+	<!-- Dependencies for Android -->
+	<path id="classpath.dependencies.android">
+		<filelist dir="dependencies/private" files="android.jar" />
+		<path refid="classpath.dependencies" />
+		<pathelement location="${build}/java" />
+	</path>
+
+
+	<!-- Dependencies for Android Framework -->
+	<path id="classpath.dependencies.android.framework">
+		<filelist dir="dependencies/private" files="android-core.jar,android-framework.jar" />
+		<path refid="classpath.dependencies" />
+		<pathelement location="${build}/java" />
+	</path>
+
+
+	<macrodef name="compilecode">
+		<attribute name="source" />
+		<attribute name="target" default="${target.java}" />
+		<attribute name="classpath" default="classpath.dependencies" />
+		<sequential>
+			<!-- clear old build -->
+			<delete dir="${build}/@{source}" />
+			<mkdir dir="${build}/@{source}" />
+			<javac srcdir="${src}/@{source}" destdir="${build}/@{source}" source="@{target}" target="@{target}">
+				<!-- needed for restricted api's -->
+				<compilerarg line="-XDignore.symbol.file" />
+				<classpath refid="@{classpath}" />
+				<exclude name="test/**" />
+			</javac>
+		</sequential>
+	</macrodef>
+
+	<target name="make-jars" description="Make deploy jar files">
+		<jar destfile="${jar.snc}-${version.snc}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" />
+		<jar destfile="${jar.snc.json}-${version.snc.json}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-snc-json.txt" />
+		<jar destfile="${jar.snc.htmlcleaner}-${version.snc.htmlcleaner}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-snc-htmlcleaner.txt" />
+		<jar destfile="${jar.sen}-${version.sen}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-sen.txt" excludesfile="${ant}/exclude-jar-sen.txt" />
+		<jar destfile="${jar.sen.psn}-${version.sen.psn}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-sen-psn.txt" excludesfile="${ant}/exclude-jar-sen-psn.txt" />
+		<jar destfile="${jar.sen.psn.us}-${version.sen.psn.us}.jar" basedir="${build}/java" includesfile="${ant}/include-jar-sen-psn-us.txt" />
+	</target>
+
+	<target name="test">
+		<make.jar name="${jar.snc}" version="${version.snc}" include="include-jar-snc.txt" exclude="exclude-jar-snc.txt" />
+		<make.jar name="${jar.snc.json}" version="${version.snc.json}" include="include-jar-snc-json.txt" />
+		<make.jar name="${jar.snc.htmlcleaner}" version="${version.snc.htmlcleaner}" include="include-jar-snc-htmlcleaner.txt" />
+		<make.jar name="${jar.sen}" version="${version.sen}" include="include-jar-sen.txt" exclude="exclude-jar-sen.txt" />
+		<make.jar name="${jar.sen.psn}" version="${version.sen.psn}" include="include-jar-sen-psn.txt" exclude="exclude-jar-sen-psn.txt" />
+		<make.jar name="${jar.sen.psn.us}" version="${version.sen.psn.us}" include="include-jar-sen-psn-us.txt" />
+	</target>
+
+	<macrodef name="make.jar">
+		<attribute name="name" />
+		<attribute name="version" />
+		<attribute name="source" default="java" />
+		<attribute name="folder" default="" />
+		<attribute name="include" default="" />
+		<attribute name="exclude" default="" />
+		<sequential>
+			<jar destfile="${deploy}/jar/@{folder}/@{name}-@{version}.jar" basedir="${build}/@{source}" includesfile="${ant}/@{include}" excludesfile="${ant}/@{exclude}" />
+		</sequential>
+	</macrodef>
+
 
 	<target name="clean">
 		<delete dir="${build}" />
@@ -70,9 +131,10 @@
 		</javac>-->
 	</target>
 
-	<target name="doc">
-		<delete dir="${doc}" />
-		<javadoc destdir="${doc}" classpathref="classpath" author="false" windowtitle="Overview (SNC)">
+	<target name="javadoc" description="Create deploy Javadocs">
+		<delete dir="${deploy}/doc" />
+		<mkdir dir="${deploy}/doc" />
+		<javadoc destdir="${deploy}/doc" classpathref="classpath.dependencies" author="false" windowtitle="Overview (SNC)">
 			<fileset dir="${src}/java">
 				<exclude name="test/**" />
 				<exclude name="**/internal/**" />
@@ -122,26 +184,6 @@
 		<!-- <jar destfile="${jar.snc}-${version.snc}-android-source.jar" basedir="${temp.dir}/src" includesfile="${ant}/include-jar-snc.txt" excludesfile="${ant}/exclude-jar-snc.txt" /> -->
 	</target>
 
-	<target name="deploy" depends="build, doc, jar, jar-android" description="Deploy full project">
-		<delete dir="${deploy}" />
-		<mkdir dir="${deploy}" />
-		<copy todir="${deploy}">
-			<fileset dir="${build}/jar" />
-		</copy>
-
-		<copy todir="${deploy}/doc">
-			<fileset dir="${doc}" />
-		</copy>
-
-		<copy todir="${deploy}/src">
-			<fileset dir="${src}">
-				<exclude name="java/test/**" />
-				<exclude name="android/test/**" />
-			</fileset>
-		</copy>
-
-	</target>
-
 	<target name="make-tools" depends="build" description="Build and deploy tools">
 		<!-- needs jackson-annotations and jackson-databinds in dependencies folder -->
 		<delete dir="${tools}/build" />
@@ -156,17 +198,6 @@
 			<manifest>
 				<attribute name="Main-Class" value="com.krobothsoftware.tool.chrome.HarExport" />
 			</manifest>
-		</jar>
-	</target>
-
-	<target name="make-annotation" depends="" description="make annotation tool">
-		<!-- needs jackson-annotations and jackson-databinds in dependencies folder -->
-		<javac srcdir="${tools}/src" destdir="${tools}/build" source="1.6" target="1.6">
-			<classpath refid="classpath.build" />
-		</javac>
-		<jar destfile="${tools}/krobothsoftware-processor.jar">
-			<fileset dir="${tools}/build" includes="com/krobothsoftware/tool/annotation/**" />
-			<metainf dir="${tools}/META-INF" />
 		</jar>
 	</target>
 

@@ -439,7 +439,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 * @throws TokenException
 	 *             no userinfo cookie or expired token
 	 * @since SEN-PSN-US 1.0
-	 * @beta request may change in the future
+	 * @beta request may change in the future.
 	 */
 	@Beta
 	@SuppressWarnings("resource")

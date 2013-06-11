@@ -102,7 +102,6 @@ public class PsnProfile implements Jid, Serializable {
 	 * {@link Locale#getAvailableLocales()} and find correct match.
 	 * 
 	 * @return country culture
-	 * @see #CULTURE_MAP
 	 * @since SEN-PSN 1.0.2
 	 */
 	public String getCountryCulture() {

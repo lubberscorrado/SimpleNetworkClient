@@ -32,7 +32,7 @@ public enum Platform {
 	 * isn't out.
 	 * 
 	 * @since SEN 1.0
-	 * @beta Platform has not come out yet
+	 * @beta Platform has not come out yet.
 	 */
 	@Beta
 	PS4 {
