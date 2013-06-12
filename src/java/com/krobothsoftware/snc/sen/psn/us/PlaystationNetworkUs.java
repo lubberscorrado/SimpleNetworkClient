@@ -63,7 +63,7 @@ import com.krobothsoftware.snc.sen.psn.us.model.PsnUser;
 
 /**
  * Extension PlayStationNetwork client for US website only. Requires
- * <code>SEN-PSN</code> and <code>SNC-EXT-JSON</code> for use.
+ * <code>SEN-PSN</code> and <code>COMMONS-EXT-JSON</code> for use.
  * 
  * <p>
  * There are multiple types of <i>Gamer Profiles</i> but use the same object.

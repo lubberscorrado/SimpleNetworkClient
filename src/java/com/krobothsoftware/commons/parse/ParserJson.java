@@ -29,12 +29,12 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.krobothsoftware.commons.util.CommonUtils;
 
 /**
- * Json Parser part of <code>SNC-EXT-JSON</code> which parses
+ * Json Parser part of <code>COMMONS-EXT-JSON</code> which parses
  * {@link HandlerJson} handlers. The Json library used to parse is Jackson JSON
  * Parse. Not to be confused with the class name <i>JsonParser</i>.
  * 
  * @author Kyle Kroboth
- * @since SNC-EXT-JSON 1.0
+ * @since COMMONS-EXT-JSON 1.0
  */
 public final class ParserJson implements ParserInitializable {
 	private JsonFactory factory;
@@ -43,7 +43,7 @@ public final class ParserJson implements ParserInitializable {
 	/**
 	 * Creates new Parser Json.
 	 * 
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	public ParserJson() {
 		log = LoggerFactory.getLogger(ParserJson.class);
@@ -52,7 +52,7 @@ public final class ParserJson implements ParserInitializable {
 	/**
 	 * Creates Json Factory. No throwables to worry about.
 	 * 
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	@Override
 	public void init() {
@@ -64,7 +64,7 @@ public final class ParserJson implements ParserInitializable {
 	 * Gets Factory for json created inside the parser.
 	 * 
 	 * @return json factory or null if not initiated
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	public JsonFactory getFactory() {
 		return factory;
@@ -77,7 +77,7 @@ public final class ParserJson implements ParserInitializable {
 	 * @param inputStream
 	 * @param handler
 	 * @throws ParseException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	@SuppressWarnings("resource")
 	public void parse(InputStream inputStream, HandlerJson handler)
@@ -109,7 +109,7 @@ public final class ParserJson implements ParserInitializable {
 	 * @param realHandler
 	 *            real handler
 	 * @throws ParseException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	public void parse(InputStream inputStream, Handler handler,
 			HandlerJson realHandler) throws ParseException {

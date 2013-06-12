@@ -23,10 +23,10 @@ import org.htmlcleaner.TagNode;
 import com.krobothsoftware.commons.progress.ProgressMonitor;
 
 /**
- * Handler for Html Cleaner types. Part of <code>SNC-EXT-HTMLCLEANER</code>.
+ * Handler for Html Cleaner types. Part of <code>COMMONS-EXT-HTMLCLEANER</code>.
  * 
  * @author Kyle Kroboth
- * @since SNC-EXT-HTMLCLEANER 1.0
+ * @since COMMONS-EXT-HTMLCLEANER 1.0
  * @see com.krobothsoftware.commons.parse.ParserHtmlCleaner
  */
 public abstract class HandlerHtmlCleaner extends Handler {
@@ -34,7 +34,7 @@ public abstract class HandlerHtmlCleaner extends Handler {
 	/**
 	 * html cleaner from parser.
 	 * 
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	protected HtmlCleaner cleaner;
 
@@ -42,7 +42,7 @@ public abstract class HandlerHtmlCleaner extends Handler {
 	 * Creates Html Cleaner handler with monitor.
 	 * 
 	 * @param monitor
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public HandlerHtmlCleaner(ProgressMonitor monitor) {
 		super(monitor);
@@ -51,7 +51,7 @@ public abstract class HandlerHtmlCleaner extends Handler {
 	/**
 	 * Creates Html Cleaner handler with no progress.
 	 * 
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public HandlerHtmlCleaner() {
 		super();
@@ -63,7 +63,7 @@ public abstract class HandlerHtmlCleaner extends Handler {
 	 * @param rootNode
 	 *            top-level tagnode
 	 * @throws ParseException
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public abstract void parse(TagNode rootNode) throws ParseException;
 

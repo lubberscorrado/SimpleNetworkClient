@@ -1,0 +1,7 @@
+# COMMONS-EXT-JSON
+com/krobothsoftware/commons/parse/HandlerJson.*
+com/krobothsoftware/commons/parse/ParserJson.*
+
+# COMMONS-EXT-HTMLCLEANER
+com/krobothsoftware/commons/parse/HandlerHtmlCleaner.*
+com/krobothsoftware/commons/parse/ParserHtmlCleaner.*

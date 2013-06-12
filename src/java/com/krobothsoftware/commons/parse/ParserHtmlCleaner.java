@@ -26,11 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Html parser part of <code>SNC-EXT-HTMLCLEANER</code> which parses
+ * Html parser part of <code>COMMONS-EXT-HTMLCLEANER</code> which parses
  * {@link HandlerHtmlCleaner} handlers. The library used is Html-Cleaner.
  * 
  * @author Kyle Kroboth
- * @since SNC-EXT-HTMLCLEANER 1.0
+ * @since COMMONS-EXT-HTMLCLEANER 1.0
  */
 public final class ParserHtmlCleaner implements ParserInitializable {
 	private HtmlCleaner cleaner;
@@ -42,7 +42,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * 
 	 * @param properties
 	 *            for <code>HtmlCleaner</code> component
-	 * @since SNC-EXT-HTMLCLEANER 1.0.1
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0.1
 	 */
 	public ParserHtmlCleaner(CleanerProperties properties) {
 		this.properties = properties;
@@ -52,7 +52,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	/**
 	 * Creates new Html Cleaner parser.
 	 * 
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public ParserHtmlCleaner() {
 		this(null);
@@ -61,7 +61,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	/**
 	 * Creates Html Cleaner parser. No exceptions to worry about.
 	 * 
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	@Override
 	public void init() {
@@ -73,7 +73,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * Gets Html Cleaner inside of parser.
 	 * 
 	 * @return html cleaner or null if not initiated
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public HtmlCleaner getHtmlCleaner() {
 		if (cleaner == null) log
@@ -91,7 +91,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * @param charset
 	 *            charset of data
 	 * @throws ParseException
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public void parse(InputStream inputStream, HandlerHtmlCleaner handler,
 			String charset) throws ParseException {
@@ -118,7 +118,7 @@ public final class ParserHtmlCleaner implements ParserInitializable {
 	 * @param charset
 	 *            charset of data
 	 * @throws ParseException
-	 * @since SNC-EXT-HTMLCLEANER 1.0
+	 * @since COMMONS-EXT-HTMLCLEANER 1.0
 	 */
 	public void parse(InputStream inputStream, Handler handler,
 			HandlerHtmlCleaner realHandler, String charset)

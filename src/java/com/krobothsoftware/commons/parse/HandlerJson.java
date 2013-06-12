@@ -30,10 +30,10 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.krobothsoftware.commons.progress.ProgressMonitor;
 
 /**
- * Handler for Json types. Part of <code>SNC-EXT-JSON</code>.
+ * Handler for Json types. Part of <code>COMMONS-EXT-JSON</code>.
  * 
  * @author Kyle Kroboth
- * @since SNC-EXT-JSON 1.0
+ * @since COMMONS-EXT-JSON 1.0
  * @see com.krobothsoftware.commons.parse.ParserJson
  */
 public abstract class HandlerJson extends Handler {
@@ -41,7 +41,7 @@ public abstract class HandlerJson extends Handler {
 	/**
 	 * Current token being processed.
 	 * 
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected JsonToken currentToken;
 
@@ -49,14 +49,14 @@ public abstract class HandlerJson extends Handler {
 	 * Json Parser from Jackson's JSON library. Not to be confused with
 	 * {@link ParserJson}.
 	 * 
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected JsonParser jsonParser;
 
 	/**
 	 * Current name of token being processed.
 	 * 
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	private String currentName;
 
@@ -64,7 +64,7 @@ public abstract class HandlerJson extends Handler {
 	 * Creates new Json handler with monitor.
 	 * 
 	 * @param monitor
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	public HandlerJson(ProgressMonitor monitor) {
 		super(monitor);
@@ -73,7 +73,7 @@ public abstract class HandlerJson extends Handler {
 	/**
 	 * Creates new Json handler with no progress.
 	 * 
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	public HandlerJson() {
 		super();
@@ -114,7 +114,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws JsonParseException
 	 * @throws IOException
 	 * @throws ParseException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	public void parse() throws JsonParseException, IOException, ParseException {
 		while ((currentToken = jsonParser.nextToken()) != null) {
@@ -150,7 +150,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws ParseException
 	 * @throws JsonParseException
 	 * @throws IOException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected void startObject(String name) throws ParseException,
 			JsonParseException, IOException {
@@ -165,7 +165,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws ParseException
 	 * @throws JsonParseException
 	 * @throws IOException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected void endObject(String name) throws ParseException,
 			JsonParseException, IOException {
@@ -180,7 +180,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws ParseException
 	 * @throws JsonParseException
 	 * @throws IOException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected void startArray(String name) {
 		// no op
@@ -194,7 +194,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws ParseException
 	 * @throws JsonParseException
 	 * @throws IOException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected void endArray(String name) {
 		// no op
@@ -207,7 +207,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws ParseException
 	 * @throws JsonParseException
 	 * @throws IOException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected void token(String name) throws ParseException,
 			JsonParseException, IOException {
@@ -221,7 +221,7 @@ public abstract class HandlerJson extends Handler {
 	 * @throws ParseException
 	 * @throws JsonParseException
 	 * @throws IOException
-	 * @since SNC-EXT-JSON 1.0
+	 * @since COMMONS-EXT-JSON 1.0
 	 */
 	protected void tokenText(String name) throws ParseException,
 			JsonParseException, IOException {
