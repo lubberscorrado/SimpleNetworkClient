@@ -429,7 +429,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 
 	/**
 	 * Retrieves user info from token. <code>userinfo</code> cookie is required
-	 * in token beforehand which can be retreived with a login.
+	 * in token beforehand which can be retrieved with a login.
 	 * 
 	 * @param token
 	 *            psn login token
@@ -893,7 +893,7 @@ public class PlaystationNetworkUs extends SonyEntertainmentNetwork {
 	 * 
 	 * @param psnId
 	 *            Id
-	 * @return list of lastest trophies or empty if psnId is not found
+	 * @return list of latest trophies or empty if psnId is not found
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 * @throws ClientException

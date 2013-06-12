@@ -33,7 +33,7 @@ public enum FriendStatus {
 	ONLINE {
 
 		/**
-		 * Retuns status "Online".
+		 * Returns status "Online".
 		 */
 		@Override
 		public String getName() {

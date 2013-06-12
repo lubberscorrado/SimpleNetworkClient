@@ -73,7 +73,7 @@ import com.krobothsoftware.snc.sen.psn.model.PsnTrophyOfficial;
  * 
  * <ul>
  * <li>Token - Data retrieved by login Token: Friends, Games, and Trophies.</li>
- * <li>Public - Publically data without any login token. Uses US site for public
+ * <li>Public - Publicly data without any login token. Uses US site for public
  * games and trophies.</li>
  * <li>Official - Methods that are internally used in platforms and not public
  * to get data.</li>

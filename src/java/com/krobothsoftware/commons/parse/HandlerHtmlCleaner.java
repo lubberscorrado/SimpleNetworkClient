@@ -58,7 +58,7 @@ public abstract class HandlerHtmlCleaner extends Handler {
 	}
 
 	/**
-	 * Parse html data startin with root tag node.
+	 * Parse html data starting with root tag node.
 	 * 
 	 * @param rootNode
 	 *            top-level tagnode

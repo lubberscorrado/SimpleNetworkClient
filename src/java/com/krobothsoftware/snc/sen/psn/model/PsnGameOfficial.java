@@ -118,7 +118,7 @@ public class PsnGameOfficial implements Jid, Serializable {
 	}
 
 	/**
-	 * Gets last updated or when trophy was recieved.
+	 * Gets last updated or when trophy was received.
 	 * 
 	 * @return last updated
 	 * @see com.krobothsoftware.snc.sen.psn.PsnUtils#getOfficialDate(String,

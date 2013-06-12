@@ -62,7 +62,7 @@ import com.krobothsoftware.commons.network.value.NameValuePair;
  *  </code>
  * </pre>
  * <p>
- * In the example above, connection timout and User-Agent header set in
+ * In the example above, connection timeout and User-Agent header set in
  * NetworkHelper will be ignored because <code>RequestBuilder</code> has them
  * set.
  * </p>
@@ -255,7 +255,7 @@ public class NetworkHelper {
 	 * <code>RequestBuilder</code> has one set.
 	 * 
 	 * @param connectTimeout
-	 *            new default connect timout
+	 *            new default connect timeout
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
 	 * @since SNC 1.0
 	 */

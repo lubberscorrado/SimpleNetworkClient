@@ -104,7 +104,7 @@ public enum Platform {
 	UNKNOWN {
 
 		/**
-		 * Returns platform "uknown".
+		 * Returns platform "unknown".
 		 */
 		@Override
 		public String getTypeString() {

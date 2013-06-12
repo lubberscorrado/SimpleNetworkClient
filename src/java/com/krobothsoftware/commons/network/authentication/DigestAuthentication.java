@@ -46,7 +46,7 @@ public class DigestAuthentication extends Authentication {
 	private static final String DEFAULT_ELEMENT_CHARSET = "US-ASCII";
 
 	/**
-	 * Used to clone for thread safty.
+	 * Used to clone for thread safety.
 	 */
 	private static MessageDigest md5;
 

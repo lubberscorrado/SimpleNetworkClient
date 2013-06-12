@@ -111,7 +111,7 @@ public final class TrophyCalculator {
 	}
 
 	/**
-	 * Gets the game progress rom <code>achievedPoints</code> and
+	 * Gets the game progress <code>achievedPoints</code> and
 	 * <code>totalPoints</code>. Normally it's
 	 * 
 	 * <pre>

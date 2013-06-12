@@ -28,7 +28,7 @@ import com.krobothsoftware.commons.util.Base64;
 import com.krobothsoftware.commons.util.ThreadSafeDateUtil;
 
 /**
- * Utils for creating cookies, checking Ids, and other psn realated methods.
+ * Utils for creating cookies, checking Ids, and other psn related methods.
  * 
  * @author Kyle Kroboth
  * @since SEN-PSN 1.0

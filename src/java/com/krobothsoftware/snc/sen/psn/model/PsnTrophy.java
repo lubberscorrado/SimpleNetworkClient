@@ -85,7 +85,7 @@ public class PsnTrophy implements OnlineId, Serializable {
 	/**
 	 * Gets trophy description text.
 	 * 
-	 * @return descriptin text
+	 * @return description text
 	 * @since SEN-PSN 1.0
 	 */
 	public String getDescription() {

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * ArrayList of Cookies with <i>put</i> methods. Methods {@link #put(Cookie)}
- * and {@link #putAll(Collection)} will remove dublicate and add new one.
+ * and {@link #putAll(Collection)} will remove duplicate and add new one.
  * 
  * @author Kyle Kroboth
  * @since SNC 1.0
@@ -107,7 +107,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * Puts cookie into list and removes dublicate if found.
+	 * Puts cookie into list and removes duplicate if found.
 	 * 
 	 * @param cookie
 	 * @since SNC 1.0

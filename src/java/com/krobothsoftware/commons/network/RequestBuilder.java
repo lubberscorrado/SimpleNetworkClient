@@ -156,14 +156,14 @@ public class RequestBuilder {
 	protected final Set<Integer> ignoreCodes;
 
 	/**
-	 * Uses timout if greator than 0. Default is -1.
+	 * Uses timeout if greater than 0. Default is -1.
 	 * 
 	 * @since SNC 1.0
 	 */
 	protected int connectTimeout = -1;
 
 	/**
-	 * Uses timout if greator than 0. Default is -1.
+	 * Uses timeout if greater than 0. Default is -1.
 	 * 
 	 * @since SNC 1.0
 	 */
@@ -457,7 +457,7 @@ public class RequestBuilder {
 	}
 
 	/**
-	 * Sets read timout. Will override <code>NetworkHelper</code> default
+	 * Sets read timeout. Will override <code>NetworkHelper</code> default
 	 * timeout.
 	 * 
 	 * @param readTimeout
@@ -599,7 +599,7 @@ public class RequestBuilder {
 	 * <li>Call
 	 * {@link ConnectionListener#onRequest(HttpURLConnection, RequestBuilder)}</li>
 	 * <li>Open connection with proxy</li>
-	 * <li>Set HTTP Method, connection and read timouts, and follow redirects</li>
+	 * <li>Set HTTP Method, connection and read timeouts, and follow redirects</li>
 	 * <li>Setup Cookies, Headers, and OutputStream</li>
 	 * <li>Open connection and get InputStream</li>
 	 * <li>Check ignored response codes, handle {@link RequestHandler}'s</li>
