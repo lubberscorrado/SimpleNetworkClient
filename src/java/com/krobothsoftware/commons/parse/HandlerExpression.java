@@ -29,7 +29,7 @@ import org.xml.sax.SAXParseException;
  * Delegate Handler for evaluating {@link Expression}.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 class HandlerExpression extends HandlerSAX {
 	final HandlerSAX delegate;

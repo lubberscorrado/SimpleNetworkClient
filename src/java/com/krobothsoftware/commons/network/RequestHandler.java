@@ -34,7 +34,7 @@ import java.net.HttpURLConnection;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.RequestBuilder#setInternalHandler(int,
  *      RequestHandler)
  */
@@ -51,7 +51,7 @@ public interface RequestHandler {
 	 *            of builder, must close
 	 * @return new request builder
 	 * @throws IOException
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	RequestBuilder getRequest(int status, RequestBuilder builder,
 			HttpURLConnection connection) throws IOException;

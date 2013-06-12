@@ -25,7 +25,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * exception is the <i>only</i> way. Does not fill in stack trace.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public final class StopException extends RuntimeException {
 	private static final long serialVersionUID = 5964448482034581273L;
@@ -33,7 +33,7 @@ public final class StopException extends RuntimeException {
 	/**
 	 * Returns current object so stack trace isn't filled.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public synchronized Throwable fillInStackTrace() {

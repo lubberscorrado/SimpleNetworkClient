@@ -23,7 +23,7 @@ import com.krobothsoftware.commons.progress.ProgressMonitor;
  * Base Handler for HTML data. Needs <code>TagSoup</code> in dependencies.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public abstract class HandlerHtml extends HandlerSAX {
 
@@ -32,7 +32,7 @@ public abstract class HandlerHtml extends HandlerSAX {
 	 * 
 	 * @param monitor
 	 *            for progress
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public HandlerHtml(ProgressMonitor monitor) {
 		super(monitor);
@@ -41,7 +41,7 @@ public abstract class HandlerHtml extends HandlerSAX {
 	/**
 	 * Creates new Html handler with no progress.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public HandlerHtml() {
 		super();

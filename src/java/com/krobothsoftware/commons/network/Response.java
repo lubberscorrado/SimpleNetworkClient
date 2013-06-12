@@ -29,7 +29,7 @@ import com.krobothsoftware.commons.util.CommonUtils;
  * to call {@link #close()}.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
  */
 public class Response implements Closeable {
@@ -48,7 +48,7 @@ public class Response implements Closeable {
 	 *            response code
 	 * @param charset
 	 *            charset of connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * 
 	 */
 	public Response(HttpURLConnection connection, UnclosableInputStream input,
@@ -63,7 +63,7 @@ public class Response implements Closeable {
 	 * Get response connection.
 	 * 
 	 * @return connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public HttpURLConnection getConnection() {
 		return conn;
@@ -75,7 +75,7 @@ public class Response implements Closeable {
 	 * 
 	 * @return stream from connection
 	 * @see UnclosableInputStream#forceClose()
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public UnclosableInputStream getStream() {
 		return stream;
@@ -85,7 +85,7 @@ public class Response implements Closeable {
 	 * Get response status code.
 	 * 
 	 * @return response code
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public int getStatusCode() {
 		return status;
@@ -99,7 +99,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered successful
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public boolean isSuccessful() {
 		return status / 100 == 2;
@@ -114,7 +114,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered a redirection
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public boolean isRedirection() {
 		return status / 100 == 3;
@@ -129,7 +129,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered a client error
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public boolean isClientError() {
 		return status / 100 == 4;
@@ -144,7 +144,7 @@ public class Response implements Closeable {
 	 * </p>
 	 * 
 	 * @return true, if status code is considered a server error
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public boolean isServerError() {
 		return status / 100 == 5;
@@ -154,7 +154,7 @@ public class Response implements Closeable {
 	 * Get response charset.
 	 * 
 	 * @return charset from connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getCharset() {
 		return charset;
@@ -171,7 +171,7 @@ public class Response implements Closeable {
 	 * 
 	 * @return connection content length
 	 * @see #getContentLengthLong()
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public int getContentLength() {
 		return conn.getContentLength();
@@ -181,7 +181,7 @@ public class Response implements Closeable {
 	 * Parses <code>long</i> from <code>Content-Length</code> header.
 	 * 
 	 * @return connection content length
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public long getContentLengthLong() {
 		return Long.parseLong(conn.getHeaderField("Content-Length"));
@@ -193,7 +193,7 @@ public class Response implements Closeable {
 	 * @param name
 	 *            name of header
 	 * @return header value, or null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getHeader(String name) {
 		return conn.getHeaderField(name);
@@ -204,7 +204,7 @@ public class Response implements Closeable {
 	 * {@link UnclosableInputStream#forceClose()}.
 	 * 
 	 * @throws IOException
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void close() throws IOException {
@@ -215,7 +215,7 @@ public class Response implements Closeable {
 	/**
 	 * Returns string in format "Response [url] : [status-code]".
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public String toString() {
@@ -230,7 +230,7 @@ public class Response implements Closeable {
 	 * @return String from stream
 	 * @throws IOException
 	 * @see CommonUtils#toString(java.io.InputStream, String)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String toString(Response response) throws IOException {
 		return CommonUtils
@@ -244,7 +244,7 @@ public class Response implements Closeable {
 	 *            to be closed
 	 * @deprecated Use {@link CommonUtils#closeQuietly(Closeable)}.
 	 *             <code>Response</code> implements <code>Closeable</code>.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Deprecated
 	public static void closeQuietly(Response response) {

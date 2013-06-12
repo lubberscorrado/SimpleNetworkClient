@@ -26,14 +26,14 @@ import org.xml.sax.SAXException;
  * {@link IOException}.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class ParseException extends Exception {
 	private static final long serialVersionUID = 8013353025740184267L;
 
 	/**
 	 * @param error
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public ParseException(String error) {
 		super(error);
@@ -41,7 +41,7 @@ public class ParseException extends Exception {
 
 	/**
 	 * @param throwable
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public ParseException(Throwable throwable) {
 		super(throwable);
@@ -50,7 +50,7 @@ public class ParseException extends Exception {
 	/**
 	 * @param message
 	 * @param throwable
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public ParseException(String message, Throwable throwable) {
 		super(message, throwable);

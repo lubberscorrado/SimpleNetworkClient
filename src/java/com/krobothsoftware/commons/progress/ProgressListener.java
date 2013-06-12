@@ -31,7 +31,7 @@ package com.krobothsoftware.commons.progress;
  * occurs, that object's appropriate method is invoked.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public interface ProgressListener {
 
@@ -45,7 +45,7 @@ public interface ProgressListener {
 	 * @param task
 	 *            current task name
 	 * @return true, to cancel the task.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean onProgressUpdate(float value, String task);
 

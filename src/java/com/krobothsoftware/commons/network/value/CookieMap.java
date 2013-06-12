@@ -14,7 +14,7 @@ import java.util.Set;
  * HashMap holding Cookies with set of domains.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class CookieMap extends AbstractMap<String, CookieList> implements
 		Map<String, CookieList>, Cloneable, Serializable {
@@ -27,7 +27,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 * 
 	 * @param initialCapacity
 	 * @param loadFactor
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieMap(int initialCapacity, float loadFactor) {
 		delegate = new HashMap<String, CookieList>(initialCapacity, loadFactor);
@@ -37,7 +37,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 * {@link HashMap#HashMap(int)}.
 	 * 
 	 * @param initialCapacity
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieMap(int initialCapacity) {
 		delegate = new HashMap<String, CookieList>(initialCapacity);
@@ -46,7 +46,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	/**
 	 * {@link HashMap#HashMap()}.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieMap() {
 		delegate = new HashMap<String, CookieList>();
@@ -56,7 +56,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 * {@link HashMap#HashMap(Map)}.
 	 * 
 	 * @param m
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieMap(Map<? extends String, ? extends CookieList> m) {
 		delegate = new HashMap<String, CookieList>(m);
@@ -66,7 +66,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 * Gets set of domains of every cookie.
 	 * 
 	 * @return unmodifiable set of domains
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Set<String> getDomains() {
 		return Collections.unmodifiableSet(domainSet);
@@ -77,7 +77,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 * 
 	 * @param session
 	 *            removes session cookies if true
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void purgeExpired(boolean session) {
 		for (String domain : domainSet) {
@@ -86,7 +86,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int size() {
@@ -94,7 +94,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -102,7 +102,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean containsValue(Object value) {
@@ -110,7 +110,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean containsKey(Object key) {
@@ -118,7 +118,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public CookieList get(Object key) {
@@ -143,7 +143,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	/**
 	 * Adds to delegate and domain set
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public CookieList put(String key, CookieList value) {
@@ -158,7 +158,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 *            to add
 	 * @param overwrite
 	 *            if true, will overwrite in cookie list
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void putCookie(Cookie cookie, boolean overwrite) {
 		String domain = cookie.getDomain();
@@ -181,7 +181,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 *            to add
 	 * @param overwrite
 	 *            if true, will overwrite
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void putCookieList(List<Cookie> cookies, boolean overwrite) {
 		for (Cookie cookie : cookies) {
@@ -190,7 +190,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public CookieList remove(Object key) {
@@ -205,7 +205,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	 * @param name
 	 *            name of cookie
 	 * @return true, if deleted
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean removeCookie(String domain, String name) {
 		CookieList list = get(domain);
@@ -216,7 +216,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void putAll(Map<? extends String, ? extends CookieList> m) {
@@ -226,7 +226,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	/**
 	 * Clears delegate and domain set.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void clear() {
@@ -235,7 +235,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Set<String> keySet() {
@@ -243,7 +243,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Collection<CookieList> values() {
@@ -251,7 +251,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Set<java.util.Map.Entry<String, CookieList>> entrySet() {
@@ -259,7 +259,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -267,7 +267,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int hashCode() {
@@ -275,7 +275,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public String toString() {
@@ -283,7 +283,7 @@ public class CookieMap extends AbstractMap<String, CookieList> implements
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {

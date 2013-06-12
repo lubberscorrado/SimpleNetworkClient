@@ -63,7 +63,7 @@ import com.krobothsoftware.commons.util.CommonUtils;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.value.CookieList
  */
 public class CookieManager implements Serializable {
@@ -73,7 +73,7 @@ public class CookieManager implements Serializable {
 	/**
 	 * Instantiates a new cookie manager.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieManager() {
 		cookieMap = new CookieMap();
@@ -83,7 +83,7 @@ public class CookieManager implements Serializable {
 	 * Gets manager cookie map.
 	 * 
 	 * @return unmodifiable map of cookies
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Map<String, CookieList> getCookieMap() {
 		return Collections.unmodifiableMap(cookieMap);
@@ -96,7 +96,7 @@ public class CookieManager implements Serializable {
 	 * @param domain
 	 *            URL domain
 	 * @return an immutable list of cookies, null if not found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * @see com.krobothsoftware.commons.network.value.CookieList
 	 */
 	public List<Cookie> getCookieList(String domain) {
@@ -111,7 +111,7 @@ public class CookieManager implements Serializable {
 	 * @param name
 	 *            name of cookie
 	 * @return found cookie, or null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Cookie getCookie(String domain, String name) {
 		return cookieMap.getCookie(domain, name);
@@ -123,7 +123,7 @@ public class CookieManager implements Serializable {
 	 * @param name
 	 *            the name
 	 * @return true, if successful
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean removeCookie(String domain, String name) {
 		return cookieMap.removeCookie(domain, name);
@@ -132,7 +132,7 @@ public class CookieManager implements Serializable {
 	/**
 	 * Clear cookie map.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void clear() {
 		cookieMap.clear();
@@ -143,7 +143,7 @@ public class CookieManager implements Serializable {
 	 * 
 	 * @param session
 	 *            removes session cookies if true
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void purgeExpired(boolean session) {
 		cookieMap.purgeExpired(session);
@@ -156,7 +156,7 @@ public class CookieManager implements Serializable {
 	 *            {@link Cookie} list
 	 * @param overwrite
 	 *            if true, will delete previous cookie if present
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void putCookieList(List<Cookie> cookieList, boolean overwrite) {
 		cookieMap.putCookieList(cookieList, overwrite);
@@ -169,7 +169,7 @@ public class CookieManager implements Serializable {
 	 *            {@link Cookie}
 	 * @param overwrite
 	 *            if true, will delete previous cookie if present
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void putCookie(Cookie cookie, boolean overwrite) {
 		cookieMap.putCookie(cookie, overwrite);
@@ -191,7 +191,7 @@ public class CookieManager implements Serializable {
 	 * 
 	 * @param connection
 	 *            connection for cookies
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * 
 	 */
 	public void setupCookies(HttpURLConnection connection) {
@@ -270,7 +270,7 @@ public class CookieManager implements Serializable {
 	 * @param connection
 	 *            url connection
 	 * @return cookies built from connection, or empty list
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static List<Cookie> getCookies(HttpURLConnection connection) {
 		ArrayList<Cookie> cookieList = new ArrayList<Cookie>();
@@ -306,7 +306,7 @@ public class CookieManager implements Serializable {
 	 *            being set up
 	 * @param cookies
 	 *            to set up
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static void setCookies(HttpURLConnection connection,
 			List<Cookie> cookies) {
@@ -335,7 +335,7 @@ public class CookieManager implements Serializable {
 	 *            being set up
 	 * @param cookies
 	 *            to set up
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static void setupCookies(HttpURLConnection connection,
 			CookieMap cookies) {

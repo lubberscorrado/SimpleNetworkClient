@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
  * {@link RequestBuilder#execute(NetworkHelper)}.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public interface ResponseHandler {
 
@@ -25,7 +25,7 @@ public interface ResponseHandler {
 	 *            charset for response
 	 * @return custom response or null
 	 * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	Response getResponse(HttpURLConnection connection,
 			UnclosableInputStream input, int status, String charset);

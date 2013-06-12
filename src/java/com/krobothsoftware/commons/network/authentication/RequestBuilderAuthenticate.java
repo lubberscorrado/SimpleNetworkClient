@@ -41,7 +41,7 @@ import com.krobothsoftware.commons.network.ResponseAuthenticate;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.RequestBuilder
  * 
  */
@@ -60,7 +60,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 *            URL to request
 	 * @param auth
 	 *            to use for connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilderAuthenticate(Method method, URL url,
 			Authentication auth) {
@@ -81,7 +81,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 *            URL to request
 	 * @param realm
 	 *            to check with scopes
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilderAuthenticate(Method method, URL url, String realm) {
 		super(method, url);
@@ -96,7 +96,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 * 
 	 * @param method
 	 * @param url
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilderAuthenticate(Method method, URL url) {
 		this(method, url, (String) null);
@@ -106,7 +106,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 * Instantiates a new request builder from another.
 	 * 
 	 * @param builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilderAuthenticate(RequestBuilderAuthenticate builder) {
 		super(builder);
@@ -126,7 +126,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 *             if count is less than zero
 	 * @see com.krobothsoftware.commons.network.authentication.Authentication#reset()
 	 * @see com.krobothsoftware.commons.network.authentication.Authentication#authenticateSupported()
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilderAuthenticate retryLimit(int count) {
 		if (count < 0) throw new IllegalArgumentException(
@@ -140,7 +140,7 @@ public class RequestBuilderAuthenticate extends RequestBuilder {
 	 * Connection is not closed.
 	 * 
 	 * @see com.krobothsoftware.commons.network.RequestBuilder#execute(NetworkHelper)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@SuppressWarnings("resource")
 	@Override

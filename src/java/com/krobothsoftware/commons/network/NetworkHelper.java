@@ -70,7 +70,7 @@ import com.krobothsoftware.commons.network.value.NameValuePair;
  * 
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see java.net.HttpURLConnection
  * @see com.krobothsoftware.commons.network.RequestBuilder
  */
@@ -85,7 +85,7 @@ public class NetworkHelper {
 	 * <code>NtworkHelper/1.0.0 (Linux 3.0.31-00001-gf84bc96; samsung SCH-I500; Android 4.1.1)</code>
 	 * </pre>
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static final String AGENT_DEFAULT;
 
@@ -94,7 +94,7 @@ public class NetworkHelper {
 	 * setting listener.
 	 * 
 	 * @deprecated Now allowed to be null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Deprecated
 	public static final ConnectionListener NULL_CONNECTION_LISTENER = null;
@@ -104,7 +104,7 @@ public class NetworkHelper {
 	 * handler.
 	 * 
 	 * @deprecated Now allowed to be null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Deprecated
 	public static final ResponseHandler NULL_RESPONSE_HANDLER = null;
@@ -124,7 +124,7 @@ public class NetworkHelper {
 	 * Cookie manager for connections. New manager can be set with
 	 * {@link #setCookieManager(CookieManager)}.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected CookieManager cookieManager;
 
@@ -132,7 +132,7 @@ public class NetworkHelper {
 	 * Manager for authentications when {@link RequestBuilderAuthenticate} is
 	 * used.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected final AuthenticationManager authManager;
 
@@ -148,7 +148,7 @@ public class NetworkHelper {
 	/**
 	 * Instantiates a new network helper.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public NetworkHelper() {
 		cookieManager = new CookieManager();
@@ -162,7 +162,7 @@ public class NetworkHelper {
 	/**
 	 * Resets values. <b>Only</b> Timeouts, max redirects, headers, and proxy.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void reset() {
 		connectTimeout = 0;
@@ -197,7 +197,7 @@ public class NetworkHelper {
 	 * </table>
 	 * </pre>
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected void setupHeaders() {
 		headerMap.put("User-Agent", AGENT_DEFAULT);
@@ -223,7 +223,7 @@ public class NetworkHelper {
 	 * @throws IllegalArgumentException
 	 *             if proxy is null
 	 * @see #openConnection(URL)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setProxy(Proxy proxy) {
 		if (proxy == null) throw new NullPointerException(
@@ -240,7 +240,7 @@ public class NetworkHelper {
 	 * @param value
 	 *            header value, or null to remove
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setHeader(String name, String value) {
 		if (name == null) throw new NullPointerException(
@@ -257,7 +257,7 @@ public class NetworkHelper {
 	 * @param connectTimeout
 	 *            new default connect timeout
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setConnectTimeout(int connectTimeout) {
 		this.connectTimeout = connectTimeout;
@@ -270,7 +270,7 @@ public class NetworkHelper {
 	 * @param readTimeout
 	 *            new default read timeout
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setReadTimeout(int readTimeout) {
 		this.readTimout = readTimeout;
@@ -284,7 +284,7 @@ public class NetworkHelper {
 	 * @param redirects
 	 *            new max re-directs
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setMaxRedirects(int redirects) {
 		this.maxRedirects = redirects;
@@ -296,7 +296,7 @@ public class NetworkHelper {
 	 * 
 	 * @param connectionListener
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setConnectionListener(ConnectionListener connectionListener) {
 		this.connListener = connectionListener;
@@ -308,7 +308,7 @@ public class NetworkHelper {
 	 * 
 	 * @param responseHandler
 	 * @see com.krobothsoftware.commons.network.RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setResponseHandler(ResponseHandler responseHandler) {
 		this.responseHandler = responseHandler;
@@ -318,7 +318,7 @@ public class NetworkHelper {
 	 * Gets Authentication Manager.
 	 * 
 	 * @return authentication manager
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public final AuthenticationManager getAuthorizationManager() {
 		return authManager;
@@ -328,7 +328,7 @@ public class NetworkHelper {
 	 * Gets Cookie Manager.
 	 * 
 	 * @return cookie manager
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public final CookieManager getCookieManager() {
 		return cookieManager;
@@ -339,7 +339,7 @@ public class NetworkHelper {
 	 * 
 	 * @param manager
 	 *            to set in network helper
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public final void setCookieManager(CookieManager manager) {
 		this.cookieManager = manager;
@@ -358,7 +358,7 @@ public class NetworkHelper {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 * @see #setProxy(Proxy)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public HttpURLConnection openConnection(URL url) throws IOException {
 		return (HttpURLConnection) url.openConnection(proxy);
@@ -378,7 +378,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public HttpURLConnection openConnection(URI uri) throws IOException {
 		return (HttpURLConnection) uri.toURL().openConnection(proxy);
@@ -398,7 +398,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public HttpURLConnection openConnection(String url) throws IOException {
 		return (HttpURLConnection) new URL(url).openConnection(proxy);
@@ -418,7 +418,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static HttpURLConnection openConnection(URL url, Proxy proxy)
 			throws IOException {
@@ -441,7 +441,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static HttpURLConnection openConnection(URI uri, Proxy proxy)
 			throws IOException {
@@ -463,7 +463,7 @@ public class NetworkHelper {
 	 * @return {@link java.net.HttpURLConnection}
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static HttpURLConnection openConnection(String url, Proxy proxy)
 			throws IOException {
@@ -480,7 +480,7 @@ public class NetworkHelper {
 	 * @return constructed list of pairs
 	 * @throws IllegalArgumentException
 	 *             if there are an odd number of elements
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static List<NameValuePair> getPairs(String... nameValue) {
 		if (nameValue.length % 2 != 0) throw new IllegalArgumentException(
@@ -505,7 +505,7 @@ public class NetworkHelper {
 	 * @return modified URL with query, or same URL if query is empty.
 	 * @throws UnsupportedEncodingException
 	 *             if charset isn't found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String setQuery(String url, List<NameValuePair> query)
 			throws UnsupportedEncodingException {
@@ -527,7 +527,7 @@ public class NetworkHelper {
 	 * @param query
 	 *            query part
 	 * @return query params or {@link Collections#emptyList()}
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static List<NameValuePair> getQueryList(String query) {
 		if (query == null) return Collections.emptyList();
@@ -552,7 +552,7 @@ public class NetworkHelper {
 	 * @param connection
 	 *            connection
 	 * @return charset found charset or UTF-8
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String getCharset(HttpURLConnection connection) {
 		String contentType = connection.getContentType();
@@ -589,7 +589,7 @@ public class NetworkHelper {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 *             {@link java.io.InputStream}
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static InputStream getInputStream(HttpURLConnection connection)
 			throws IOException {
@@ -615,7 +615,7 @@ public class NetworkHelper {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 *             {@link java.io.InputStream}
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static InputStream getErrorStream(HttpURLConnection connection)
 			throws IOException {
@@ -637,7 +637,7 @@ public class NetworkHelper {
 	 * @param urlHost
 	 *            host of url
 	 * @return list of domains
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static List<String> getDomains(String urlHost) {
 		List<String> hostList = new ArrayList<String>();

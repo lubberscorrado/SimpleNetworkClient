@@ -91,7 +91,7 @@ import java.util.ArrayList;
  * @see ExpressionFilter
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public final class Expression {
 	private final Node[] stack;
@@ -103,7 +103,7 @@ public final class Expression {
 	 * @param expr
 	 *            formatted path
 	 * @return the expression
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static Expression parse(String expr) {
 		return new Expression(expr);

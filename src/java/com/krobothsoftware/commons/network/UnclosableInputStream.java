@@ -47,7 +47,7 @@ import java.net.HttpURLConnection;
  * <b>There will never be a null delegate stream.</b>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * 
  */
 public class UnclosableInputStream extends InputStream {
@@ -57,7 +57,7 @@ public class UnclosableInputStream extends InputStream {
 	/**
 	 * Creates {@link #NULL} stream as delegate.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public UnclosableInputStream() {
 		this(NULL);
@@ -68,7 +68,7 @@ public class UnclosableInputStream extends InputStream {
 	 * 
 	 * @param in
 	 *            if null, {@link #NULL} will be used instead
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public UnclosableInputStream(InputStream in) {
 		if (in == null) this.in = NULL;
@@ -77,7 +77,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int read() throws IOException {
@@ -85,7 +85,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int read(byte[] b) throws IOException {
@@ -93,7 +93,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
@@ -101,7 +101,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public long skip(long n) throws IOException {
@@ -109,7 +109,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int available() throws IOException {
@@ -120,7 +120,7 @@ public class UnclosableInputStream extends InputStream {
 	 * Closes delegate stream. {@link InputStream#close}.
 	 * 
 	 * @throws IOException
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void forceClose() throws IOException {
 		in.close();
@@ -129,7 +129,7 @@ public class UnclosableInputStream extends InputStream {
 	/**
 	 * Call {@link #forceClose()} to close stream.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void close() throws IOException {
@@ -137,7 +137,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public synchronized void mark(int readlimit) {
@@ -145,7 +145,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public synchronized void reset() throws IOException {
@@ -153,7 +153,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean markSupported() {
@@ -161,7 +161,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int hashCode() {
@@ -169,7 +169,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -177,7 +177,7 @@ public class UnclosableInputStream extends InputStream {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public String toString() {

@@ -25,7 +25,7 @@ import java.net.URLEncoder;
  * Class for holding Name-Value pairs.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.NetworkHelper#getPairs(String...)
  */
 public class NameValuePair implements Serializable {
@@ -38,7 +38,7 @@ public class NameValuePair implements Serializable {
 	 * 
 	 * @param name
 	 * @param value
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public NameValuePair(String name, String value) {
 		this.name = name;
@@ -49,7 +49,7 @@ public class NameValuePair implements Serializable {
 	 * Gets pair in format <code>Name=Value</code>.
 	 * 
 	 * @return pair in format
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getPair() {
 		return getPair(name, value);
@@ -61,7 +61,7 @@ public class NameValuePair implements Serializable {
 	 * @param name
 	 * @param value
 	 * @return pair
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String getPair(String name, String value) {
 		return name + "=" + value;
@@ -76,7 +76,7 @@ public class NameValuePair implements Serializable {
 	 * @return pair with value encoded
 	 * @throws UnsupportedEncodingException
 	 *             if charset isn't found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getEncodedPair(String charset)
 			throws UnsupportedEncodingException {
@@ -105,7 +105,7 @@ public class NameValuePair implements Serializable {
 	 * Gets pair where value is in quotes. <code>Name="Value"</code>
 	 * 
 	 * @return pair with value in quotes
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getQuotedPair() {
 		return getQuotedPair(name, value);
@@ -117,7 +117,7 @@ public class NameValuePair implements Serializable {
 	 * @param name
 	 * @param value
 	 * @return pair with value in quotes
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String getQuotedPair(String name, String value) {
 		return name + "=\"" + value + "\"";
@@ -127,7 +127,7 @@ public class NameValuePair implements Serializable {
 	 * Gets pair name.
 	 * 
 	 * @return name
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getName() {
 		return name;
@@ -137,7 +137,7 @@ public class NameValuePair implements Serializable {
 	 * Gets pair value.
 	 * 
 	 * @return value
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getValue() {
 		return value;
@@ -146,7 +146,7 @@ public class NameValuePair implements Serializable {
 	/**
 	 * Returns string in format "NameValuePair [name='name'], value='value']".
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public final String toString() {
@@ -156,7 +156,7 @@ public class NameValuePair implements Serializable {
 	/**
 	 * Computes hash from name and value.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public final int hashCode() {
@@ -170,7 +170,7 @@ public class NameValuePair implements Serializable {
 	/**
 	 * Checks name, value, and regular check statements.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public final boolean equals(Object obj) {

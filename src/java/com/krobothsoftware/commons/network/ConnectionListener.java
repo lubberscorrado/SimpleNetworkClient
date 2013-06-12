@@ -24,7 +24,7 @@ import java.net.HttpURLConnection;
  * {@link RequestBuilder#execute(NetworkHelper)} is called.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.NetworkHelper#setConnectionListener(ConnectionListener)
  */
 public interface ConnectionListener {
@@ -36,7 +36,7 @@ public interface ConnectionListener {
 	 *            url connection
 	 * @param builder
 	 *            builder of connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	void onRequest(HttpURLConnection connection, RequestBuilder builder);
 
@@ -45,7 +45,7 @@ public interface ConnectionListener {
 	 * 
 	 * @param connection
 	 *            before connection is put into Response
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	void onFinish(HttpURLConnection connection);
 

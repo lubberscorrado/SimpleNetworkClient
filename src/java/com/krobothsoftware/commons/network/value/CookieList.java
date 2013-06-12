@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * and {@link #putAll(Collection)} will remove duplicate and add new one.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * 
  */
 public class CookieList extends AbstractList<Cookie> implements RandomAccess,
@@ -51,7 +51,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 *            to add
 	 * @param domain
 	 *            of cookies or null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieList(Collection<? extends Cookie> collection, String domain) {
 		this.delegate = new ArrayList<Cookie>(collection);
@@ -63,7 +63,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * 
 	 * @param domain
 	 *            of cookies or null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieList(String domain) {
 		this.delegate = new ArrayList<Cookie>();
@@ -73,7 +73,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	/**
 	 * Creates new Cookie list with null domain.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public CookieList() {
 		this(null);
@@ -84,7 +84,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * 
 	 * @param session
 	 *            remove session cookies if true
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void purgeExpired(boolean session) {
 		for (Iterator<Cookie> i = iterator(); i.hasNext();) {
@@ -100,7 +100,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * Gets set domain of cookies.
 	 * 
 	 * @return domain of list, or null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getDomain() {
 		return domain;
@@ -110,7 +110,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * Puts cookie into list and removes duplicate if found.
 	 * 
 	 * @param cookie
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void put(Cookie cookie) {
 		if (contains(cookie)) remove(cookie);
@@ -123,7 +123,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * 
 	 * @param collection
 	 * @see #put(Cookie)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void putAll(Collection<? extends Cookie> collection) {
 		for (Cookie cookie : collection) {
@@ -136,7 +136,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * 
 	 * @param name
 	 * @return true, if found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean remove(String name) {
 		for (Cookie cookie : this) {
@@ -147,7 +147,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Cookie get(int index) {
@@ -159,7 +159,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	 * 
 	 * @param name
 	 * @return cookie, or null if not found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Cookie get(String name) {
 		for (Cookie cookie : this) {
@@ -170,7 +170,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int size() {
@@ -178,7 +178,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean add(Cookie cookie) {
@@ -186,7 +186,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean addAll(Collection<? extends Cookie> collection) {
@@ -194,7 +194,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean remove(Object cookie) {
@@ -202,7 +202,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Cookie set(int index, Cookie cookie) {
@@ -210,7 +210,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public List<Cookie> subList(int fromIndex, int toIndex) {
@@ -218,7 +218,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void add(int index, Cookie cookie) {
@@ -226,7 +226,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Cookie remove(int index) {
@@ -234,7 +234,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int indexOf(Object index) {
@@ -242,7 +242,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int lastIndexOf(Object lastIndex) {
@@ -250,7 +250,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void clear() {
@@ -258,7 +258,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean addAll(int index, Collection<? extends Cookie> collection) {
@@ -266,7 +266,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Iterator<Cookie> iterator() {
@@ -274,7 +274,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public ListIterator<Cookie> listIterator() {
@@ -282,7 +282,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public ListIterator<Cookie> listIterator(int index) {
@@ -290,7 +290,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -298,7 +298,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean contains(Object cookie) {
@@ -306,7 +306,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Object[] toArray() {
@@ -314,7 +314,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public <T> T[] toArray(T[] type) {
@@ -322,7 +322,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean removeAll(Collection<?> collection) {
@@ -330,7 +330,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean retainAll(Collection<?> collection) {
@@ -338,7 +338,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public String toString() {
@@ -346,7 +346,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean containsAll(Collection<?> collection) {
@@ -354,7 +354,7 @@ public class CookieList extends AbstractList<Cookie> implements RandomAccess,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {

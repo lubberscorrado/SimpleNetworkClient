@@ -114,7 +114,7 @@ import com.krobothsoftware.commons.network.value.NameValuePair;
  * </pre>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.NetworkHelper
  */
 public class RequestBuilder {
@@ -123,91 +123,91 @@ public class RequestBuilder {
 	/**
 	 * URL for connection.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected URL url;
 
 	/**
 	 * Method for connection.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Method method;
 
 	/**
 	 * Logger for Builder.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Logger log;
 
 	/**
 	 * May be null if not set.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Proxy proxy;
 
 	/**
 	 * Status codes to ignore while executing response.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected final Set<Integer> ignoreCodes;
 
 	/**
 	 * Uses timeout if greater than 0. Default is -1.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected int connectTimeout = -1;
 
 	/**
 	 * Uses timeout if greater than 0. Default is -1.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected int readTimeout = -1;
 
 	/**
 	 * Checks whether to use internal redirect builders.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean followRedirects = false;
 
 	/**
 	 * Once response is found, close it if true.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean close;
 
 	/**
 	 * See {@link URLConnection#setUseCaches(boolean)}. Default is true.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean cache = true;
 
 	/**
 	 * Headers for connection.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected final Map<String, String> headerMap;
 
 	/**
 	 * Cookies to set to connection.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected List<Cookie> cookies;
 
 	/**
 	 * Cookies to setup for connection and process after is sent.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected CookieMap useCookies;
 
@@ -215,21 +215,21 @@ public class RequestBuilder {
 	 * Store cookies in <code>NetworkHelper</code> CookieManager. If
 	 * {@link #useCookies} is not null, connection will not store.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean storeCookies = true;
 
 	/**
 	 * Request cookies in <code>NetworkHelper</code> CookieManager.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean reqCookies = true;
 
 	/**
 	 * Payload for outputStream of connection.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected byte[] payload;
 
@@ -242,7 +242,7 @@ public class RequestBuilder {
 	 * @param handler
 	 *            handler to process if status code matched connection's
 	 * @see com.krobothsoftware.commons.network.RequestHandler
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static void setInternalHandler(int responseCode,
 			RequestHandler handler) {
@@ -260,7 +260,7 @@ public class RequestBuilder {
 	 * @param url
 	 *            URL to request
 	 * @see com.krobothsoftware.commons.network.Method
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder(Method method, URL url) {
 		this.method = method;
@@ -274,7 +274,7 @@ public class RequestBuilder {
 	 * Instantiates a new request builder from another.
 	 * 
 	 * @param builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder(RequestBuilder builder) {
 		this(builder, builder.method, builder.url);
@@ -288,7 +288,7 @@ public class RequestBuilder {
 	 *            new method
 	 * @param url
 	 *            new url
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder(RequestBuilder builder, Method method, URL url) {
 		this.method = method;
@@ -309,7 +309,7 @@ public class RequestBuilder {
 	 * Resets all values to default with the exception of <code>URL</code> and
 	 * <code>Method</code>.
 	 * 
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public void reset() {
 		proxy = null;
@@ -331,7 +331,7 @@ public class RequestBuilder {
 	 * Gets the url.
 	 * 
 	 * @return url
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public URL getUrl() {
 		return url;
@@ -343,7 +343,7 @@ public class RequestBuilder {
 	 * @param url
 	 *            new url
 	 * @return request builder
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public RequestBuilder url(URL url) {
 		this.url = url;
@@ -354,7 +354,7 @@ public class RequestBuilder {
 	 * Gets the method.
 	 * 
 	 * @return method
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Method getMethod() {
 		return method;
@@ -366,7 +366,7 @@ public class RequestBuilder {
 	 * @param method
 	 *            new method
 	 * @return request builder
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public RequestBuilder method(Method method) {
 		this.method = method;
@@ -379,7 +379,7 @@ public class RequestBuilder {
 	 * @param proxy
 	 *            the proxy
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder proxy(Proxy proxy) {
 		this.proxy = proxy;
@@ -394,7 +394,7 @@ public class RequestBuilder {
 	 *            status code to ignore
 	 * @return request builder
 	 * @see RequestBuilder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder ignoreCode(int responseCode) {
 		ignoreCodes.add(Integer.valueOf(responseCode));
@@ -408,7 +408,7 @@ public class RequestBuilder {
 	 * @param followRedirects
 	 *            the follow redirects
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder followRedirects(boolean followRedirects) {
 		this.followRedirects = followRedirects;
@@ -435,7 +435,7 @@ public class RequestBuilder {
 	 *            close connection
 	 * @return request builder
 	 * @see com.krobothsoftware.commons.network.Response#close()
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder close(boolean close) {
 		this.close = close;
@@ -449,7 +449,7 @@ public class RequestBuilder {
 	 * @param connectionTimeout
 	 *            connection timeout
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder connectTimeout(int connectionTimeout) {
 		connectTimeout = connectionTimeout;
@@ -463,7 +463,7 @@ public class RequestBuilder {
 	 * @param readTimeout
 	 *            read timeout
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder readTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
@@ -476,7 +476,7 @@ public class RequestBuilder {
 	 * @param cookie
 	 *            to request
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder put(Cookie cookie) {
 		if (cookies == null) cookies = new ArrayList<Cookie>();
@@ -490,7 +490,7 @@ public class RequestBuilder {
 	 * @param cookies
 	 *            to request
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder put(List<Cookie> cookies) {
 		if (this.cookies == null) this.cookies = new ArrayList<Cookie>();
@@ -505,7 +505,7 @@ public class RequestBuilder {
 	 * @param cookies
 	 *            to and after request
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder use(CookieMap cookies) {
 		this.useCookies = cookies;
@@ -518,7 +518,7 @@ public class RequestBuilder {
 	 * 
 	 * @param store
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder storeCookies(boolean store) {
 		this.storeCookies = store;
@@ -531,7 +531,7 @@ public class RequestBuilder {
 	 * 
 	 * @param request
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder requestCookies(boolean request) {
 		this.reqCookies = request;
@@ -549,7 +549,7 @@ public class RequestBuilder {
 	 * @return request builder
 	 * @throws UnsupportedEncodingException
 	 *             the unsupported encoding exception
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder payload(List<NameValuePair> params, String charset)
 			throws UnsupportedEncodingException {
@@ -567,7 +567,7 @@ public class RequestBuilder {
 	 * @param payload
 	 *            raw bytes
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder payload(byte[] payload) {
 		this.payload = payload;
@@ -583,7 +583,7 @@ public class RequestBuilder {
 	 * @param value
 	 *            the value
 	 * @return request builder
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public RequestBuilder header(String name, String value) {
 		headerMap.put(name, value);
@@ -631,7 +631,7 @@ public class RequestBuilder {
 	 * @return response depends on status code of connection
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@SuppressWarnings("resource")
 	public Response execute(NetworkHelper networkHelper) throws IOException {
@@ -744,7 +744,7 @@ public class RequestBuilder {
 	/**
 	 * Returns string in format "[method] : [url]".
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public String toString() {

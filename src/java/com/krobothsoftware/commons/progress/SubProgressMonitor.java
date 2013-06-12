@@ -22,7 +22,7 @@ package com.krobothsoftware.commons.progress;
  * 
  * @author Kyle Kroboth
  * @see com.krobothsoftware.commons.progress.ProgressMonitor
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class SubProgressMonitor extends ProgressMonitor {
 
@@ -33,7 +33,7 @@ public class SubProgressMonitor extends ProgressMonitor {
 	 *            to have sub monitor
 	 * @param ticks
 	 *            number of ticks
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public SubProgressMonitor(ProgressMonitor monitor, int ticks) {
 		if (monitor == null) throw new IllegalArgumentException(
@@ -46,7 +46,7 @@ public class SubProgressMonitor extends ProgressMonitor {
 	/**
 	 * Begins new task inside sub-task.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void beginTask(String task, int ticks) {
@@ -58,7 +58,7 @@ public class SubProgressMonitor extends ProgressMonitor {
 	/**
 	 * Completes sub-task.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void done(String text) {

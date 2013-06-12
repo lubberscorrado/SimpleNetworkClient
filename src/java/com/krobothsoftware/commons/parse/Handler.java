@@ -26,7 +26,7 @@ import com.krobothsoftware.commons.progress.ProgressMonitor;
  * Handler to parse data.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see Parser#parse(java.io.InputStream, Handler, String)
  */
 public abstract class Handler {
@@ -34,21 +34,21 @@ public abstract class Handler {
 	/**
 	 * Monitor for progress. Will never be <code>null</code>.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected ProgressMonitor monitor;
 
 	/**
 	 * Parser which parsed the handler.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Parser parser;
 
 	/**
 	 * Logger of {@link #parser}.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Logger log;
 
@@ -57,7 +57,7 @@ public abstract class Handler {
 	 * 
 	 * @param monitor
 	 *            for progress
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Handler(ProgressMonitor monitor) {
 		this.monitor = monitor;
@@ -67,7 +67,7 @@ public abstract class Handler {
 	 * Creates new handler with no progress. Sets monitor as
 	 * {@link NullProgressMonitor}.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Handler() {
 		monitor = new NullProgressMonitor();

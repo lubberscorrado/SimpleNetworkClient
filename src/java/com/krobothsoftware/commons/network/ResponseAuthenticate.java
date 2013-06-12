@@ -28,7 +28,7 @@ import java.net.HttpURLConnection;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class ResponseAuthenticate extends Response {
 	private final String authenticate;
@@ -44,7 +44,7 @@ public class ResponseAuthenticate extends Response {
 	 *            response code
 	 * @param charset
 	 *            charset of connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * 
 	 */
 	public ResponseAuthenticate(HttpURLConnection connection,
@@ -57,7 +57,7 @@ public class ResponseAuthenticate extends Response {
 	 * Gets header <code>WWW-Authenticate</code>.
 	 * 
 	 * @return authenticate header, or null if not found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getAuthentication() {
 		return authenticate;
@@ -66,7 +66,7 @@ public class ResponseAuthenticate extends Response {
 	/**
 	 * Returns string in format "ResponseAuthenticate [url] : [status-code]".
 	 * 
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	@Override
 	public String toString() {

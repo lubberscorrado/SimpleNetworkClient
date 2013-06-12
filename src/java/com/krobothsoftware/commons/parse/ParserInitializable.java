@@ -23,7 +23,7 @@ package com.krobothsoftware.commons.parse;
  * they are created, if possible.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public interface ParserInitializable {
 
@@ -42,7 +42,7 @@ public interface ParserInitializable {
 	 * <code>parsing components</code>.
 	 * </p>
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	void init();
 

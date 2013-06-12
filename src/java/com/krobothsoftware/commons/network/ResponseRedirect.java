@@ -28,7 +28,7 @@ import java.net.HttpURLConnection;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class ResponseRedirect extends Response {
 	private final String redirectUrl;
@@ -44,7 +44,7 @@ public class ResponseRedirect extends Response {
 	 *            response code
 	 * @param charset
 	 *            charset of connection
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * 
 	 */
 	public ResponseRedirect(HttpURLConnection connection,
@@ -57,7 +57,7 @@ public class ResponseRedirect extends Response {
 	 * Gets header <code>Location</code>.
 	 * 
 	 * @return location header, or null if not found
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getRedirectUrl() {
 		return redirectUrl;
@@ -67,7 +67,7 @@ public class ResponseRedirect extends Response {
 	 * Returns string in format
 	 * "ResponseRedirect [url] : [status-code] : redirect[url]".
 	 * 
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	@Override
 	public String toString() {

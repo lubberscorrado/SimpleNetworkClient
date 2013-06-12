@@ -20,7 +20,7 @@ package com.krobothsoftware.commons.parse;
 /**
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0.1
+ * @since COMMONS 1.0.1
  */
 public class HandlerExpressionBuilder extends HandlerExpression {
 	private final ExpressionBuilderFilter filter;

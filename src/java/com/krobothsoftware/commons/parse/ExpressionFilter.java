@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * Filter applied to {@link HandlerSAX} for {@link Expression} evaluation.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see ExpressionBuilderFilter
  */
 public interface ExpressionFilter {
@@ -33,7 +33,7 @@ public interface ExpressionFilter {
 	 * Gets expression to evaluate.
 	 * 
 	 * @return expression
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	Expression getExpression();
 
@@ -50,7 +50,7 @@ public interface ExpressionFilter {
 	 * @param attributes
 	 * @throws SAXException
 	 * @see HandlerSAX#startElement(String, String, String, Attributes)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	void startElement(int expr, String uri, String localName, String qName,
 			Attributes attributes) throws SAXException;
@@ -66,7 +66,7 @@ public interface ExpressionFilter {
 	 * @param length
 	 * @throws SAXException
 	 * @see HandlerSAX#characters(char[], int, int)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * 
 	 */
 	void characters(int expr, char[] ch, int start, int length)
@@ -84,7 +84,7 @@ public interface ExpressionFilter {
 	 * @return true, to go to next node in expression
 	 * @throws SAXException
 	 * @see HandlerSAX#endElement(String, String, String)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * 
 	 */
 	boolean endElement(int expr, String uri, String localName, String qName)

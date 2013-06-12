@@ -22,7 +22,7 @@ package com.krobothsoftware.commons.network.authentication;
  * only <code>Host</code> is checked.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class AuthScope {
 	final String realm;
@@ -35,7 +35,7 @@ public class AuthScope {
 	 *            authentication realm to check
 	 * @param host
 	 *            connection host to check
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public AuthScope(String realm, String host) {
 		this.realm = realm;
@@ -47,7 +47,7 @@ public class AuthScope {
 	 * 
 	 * @param host
 	 *            connection host to check
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public AuthScope(String host) {
 		realm = null;
@@ -58,7 +58,7 @@ public class AuthScope {
 	 * Gets realm of Authentication.
 	 * 
 	 * @return realm
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getRealm() {
 		return realm;
@@ -68,7 +68,7 @@ public class AuthScope {
 	 * Gets host of Authentication.
 	 * 
 	 * @return host
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getHost() {
 		return host;
@@ -77,7 +77,7 @@ public class AuthScope {
 	/**
 	 * Computes hash from host and realm.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public int hashCode() {
@@ -91,7 +91,7 @@ public class AuthScope {
 	/**
 	 * Checks host and realm, and regular check statements.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean equals(Object obj) {

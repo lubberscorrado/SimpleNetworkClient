@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * Common Utility methods.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public final class CommonUtils {
 
@@ -55,7 +55,7 @@ public final class CommonUtils {
 	 * @param charset
 	 * @return String from stream, or an empty string
 	 * @throws IOException
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String toString(InputStream inputStream, String charset)
 			throws IOException {
@@ -87,7 +87,7 @@ public final class CommonUtils {
 	 * @param str
 	 *            text to trim
 	 * @return trimmed string
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String trim(String str) {
 		int count = str.length();
@@ -112,7 +112,7 @@ public final class CommonUtils {
 	 * @param ch
 	 *            trim character
 	 * @return trimmed string
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String trim(String str, char ch) {
 		int count = str.length();
@@ -141,7 +141,7 @@ public final class CommonUtils {
 	 * @param chL
 	 *            last trim character
 	 * @return trimmed string
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String trim(String str, char chF, char chL) {
 		int count = str.length();
@@ -172,7 +172,7 @@ public final class CommonUtils {
 	 * @return true, if found
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static boolean streamingContains(InputStream input, String charset,
 			String contains) throws IOException {
@@ -216,7 +216,7 @@ public final class CommonUtils {
 	 * @return index of found contains, or -1 if none
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static int streamingContains(InputStream input, String charset,
 			String... contains) throws IOException {
@@ -270,7 +270,7 @@ public final class CommonUtils {
 	 * @return string between begin and end index, or null
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String streamingSubString(InputStream input, String charset,
 			String beginIndex, String endIndex) throws IOException {
@@ -334,7 +334,7 @@ public final class CommonUtils {
 	 * @param min
 	 * @param max
 	 * @return random in range
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static int randomRange(Random rand, int min, int max) {
 		return rand.nextInt(max - min + 1) + min;
@@ -346,7 +346,7 @@ public final class CommonUtils {
 	 * 
 	 * @param closeable
 	 *            to close
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static void closeQuietly(Closeable closeable) {
 		if (closeable != null) try {

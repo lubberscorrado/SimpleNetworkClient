@@ -49,7 +49,7 @@ import sun.util.resources.LocaleData;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since 1.1.0
+ * @since COMMONS 1.1.0
  */
 public final class ThreadSafeDateUtil {
 
@@ -87,7 +87,7 @@ public final class ThreadSafeDateUtil {
 	 * @return A Date parsed from the string
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static Date parse(String pattern, String source)
 			throws ParseException {
@@ -108,7 +108,7 @@ public final class ThreadSafeDateUtil {
 	 * @return A Date parsed from the string
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static Date parse(String pattern, String source, int[] localeData)
 			throws ParseException {
@@ -140,7 +140,7 @@ public final class ThreadSafeDateUtil {
 	 * @return A Date parsed from the string
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static Date parse(String pattern, String source, TimeZone zone)
 			throws ParseException {
@@ -172,7 +172,7 @@ public final class ThreadSafeDateUtil {
 	 * @return A Date parsed from the string
 	 * @throws ParseException
 	 *             if the beginning of the specified string cannot be parsed.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static Date parse(String pattern, String source, TimeZone zone,
 			int[] localeData) throws ParseException {
@@ -202,7 +202,7 @@ public final class ThreadSafeDateUtil {
 	 * @param date
 	 *            the time value to be formatted into a time string
 	 * @return the time value to be formatted into a time string.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String format(String pattern, Date date) {
 		return cache.get(pattern).format(date);
@@ -220,7 +220,7 @@ public final class ThreadSafeDateUtil {
 	 *            array of first day of week and minimal days in first week in
 	 *            <code>Locale</code>
 	 * @return the time value to be formatted into a time string.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String format(String pattern, Date date, int[] localeData) {
 		SimpleDateFormat df = cache.get(pattern);
@@ -250,7 +250,7 @@ public final class ThreadSafeDateUtil {
 	 * @param zone
 	 *            <code>TimeZone</code> to use
 	 * @return the time value to be formatted into a time string.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String format(String pattern, Date date, TimeZone zone) {
 		SimpleDateFormat df = cache.get(pattern);
@@ -279,7 +279,7 @@ public final class ThreadSafeDateUtil {
 	 *            array of first day of week and minimal days in first week in
 	 *            <code>Locale</code>
 	 * @return the time value to be formatted into a time string.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public static String format(String pattern, Date date, TimeZone zone,
 			int[] localeData) {
@@ -331,7 +331,7 @@ public final class ThreadSafeDateUtil {
 	 *            to get calendar values
 	 * @return array of week data for calendar. Will return {1, 1} if any errors
 	 *         occur.
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	@SuppressWarnings("unchecked")
 	public static int[] getWeekData(Locale locale) {

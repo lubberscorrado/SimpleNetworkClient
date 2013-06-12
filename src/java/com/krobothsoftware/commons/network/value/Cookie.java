@@ -37,7 +37,7 @@ import com.krobothsoftware.commons.util.ThreadSafeDateUtil;
  * 
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.value.CookieList
  * @see com.krobothsoftware.commons.network.value.CookieMap
  */
@@ -71,7 +71,7 @@ public class Cookie implements Serializable {
 	 *            name of cookie
 	 * @param value
 	 *            value of cookie
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Cookie(String name, String value) {
 		this(null, name, value);
@@ -87,7 +87,7 @@ public class Cookie implements Serializable {
 	 *            name of cookie
 	 * @param value
 	 *            value of cookie
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Cookie(String domain, String name, String value) {
 		this.name = name;
@@ -115,7 +115,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie name.
 	 * 
 	 * @return name
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getName() {
 		return name;
@@ -125,7 +125,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie value.
 	 * 
 	 * @return value
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getValue() {
 		return value;
@@ -135,7 +135,7 @@ public class Cookie implements Serializable {
 	 * Sets cookie value.
 	 * 
 	 * @param value
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setValue(String value) {
 		this.value = value;
@@ -145,7 +145,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie domain.
 	 * 
 	 * @return domain
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getDomain() {
 		return domain;
@@ -155,7 +155,7 @@ public class Cookie implements Serializable {
 	 * Sets cookie domain.
 	 * 
 	 * @param domain
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setDomain(String domain) {
 		this.domain = domain;
@@ -165,7 +165,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie path.
 	 * 
 	 * @return path
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getPath() {
 		return path;
@@ -175,7 +175,7 @@ public class Cookie implements Serializable {
 	 * Sets cookie path.
 	 * 
 	 * @param path
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setPath(String path) {
 		this.path = path;
@@ -186,7 +186,7 @@ public class Cookie implements Serializable {
 	 * expired.
 	 * 
 	 * @return true, if cookie has expired
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean isExpired() {
 		if (maxage == 0) return true;
@@ -201,7 +201,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie max age.
 	 * 
 	 * @return expires
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public long getMaxage() {
 		return maxage;
@@ -212,7 +212,7 @@ public class Cookie implements Serializable {
 	 * 
 	 * @param expire
 	 *            max age for cookie
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setMaxage(long expire) {
 		this.maxage = expire;
@@ -222,7 +222,7 @@ public class Cookie implements Serializable {
 	 * Checks if cookie is session only
 	 * 
 	 * @return true, if cookies session only
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean isSession() {
 		return maxage == -1;
@@ -232,7 +232,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie secure.
 	 * 
 	 * @return is secure
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean isSecure() {
 		return secure;
@@ -242,7 +242,7 @@ public class Cookie implements Serializable {
 	 * Sets cookie secure.
 	 * 
 	 * @param secure
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setSecure(boolean secure) {
 		this.secure = secure;
@@ -252,7 +252,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie http only.
 	 * 
 	 * @return is http only
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean isHttp() {
 		return http;
@@ -262,7 +262,7 @@ public class Cookie implements Serializable {
 	 * Sets http only.
 	 * 
 	 * @param http
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setHttp(boolean http) {
 		this.http = http;
@@ -272,7 +272,7 @@ public class Cookie implements Serializable {
 	 * Gets cookie string in format <code>Name=Value</code>.
 	 * 
 	 * @return cookie header format
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public String getCookieString() {
 		return name + "=" + value;
@@ -281,7 +281,7 @@ public class Cookie implements Serializable {
 	/**
 	 * Returns string in format "[name] [domain]".
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public final String toString() {
@@ -291,7 +291,7 @@ public class Cookie implements Serializable {
 	/**
 	 * Computes hash code from domain, name, and path.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public final int hashCode() {
@@ -306,7 +306,7 @@ public class Cookie implements Serializable {
 	/**
 	 * Checks domain, name, value, and regular check statements.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public final boolean equals(Object obj) {
@@ -332,7 +332,7 @@ public class Cookie implements Serializable {
 	 * @param cookieString
 	 *            cookie header string
 	 * @return built cookie
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static Cookie parseCookie(URL url, String cookieString) {
 		Cookie.Builder builder = new Cookie.Builder();
@@ -403,7 +403,7 @@ public class Cookie implements Serializable {
 	 * Builder for cookies.
 	 * 
 	 * @author Kyle Kroboth
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static class Builder {
 		String name;

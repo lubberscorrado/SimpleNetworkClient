@@ -35,7 +35,7 @@ import com.krobothsoftware.commons.progress.ProgressMonitor;
  * SAX handler for Simple Api for Xml.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public abstract class HandlerSAX extends Handler implements EntityResolver,
 		DTDHandler, ContentHandler, ErrorHandler {
@@ -44,21 +44,21 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * Tag element name for each
 	 * {@link #startElement(String, String, String, Attributes)}.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected String startTag;
 
 	/**
 	 * Tag element for each {@link #endElement(String, String, String)}.
 	 * 
-	 * @since SNC 1.0.1
+	 * @since COMMONS 1.0.1
 	 */
 	protected String endTag;
 
 	/**
 	 * Used when retrieving characters to tell if start element was called.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean calledStartElement;
 
@@ -68,7 +68,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * {@link #buildCharacters(String)} when element is closed. Used when
 	 * handling multiple chunk calls.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected boolean buildChars;
 
@@ -79,7 +79,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * 
 	 * @param monitor
 	 *            for progress
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public HandlerSAX(ProgressMonitor monitor) {
 		this.monitor = monitor;
@@ -88,14 +88,14 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	/**
 	 * Creates new SAX handler with no progress.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public HandlerSAX() {
 		super();
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void setDocumentLocator(Locator locator) {
@@ -103,7 +103,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void startDocument() throws SAXException {
@@ -111,7 +111,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void endDocument() throws SAXException {
@@ -119,7 +119,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void startPrefixMapping(String prefix, String uri)
@@ -128,7 +128,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void endPrefixMapping(String prefix) throws SAXException {
@@ -136,7 +136,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void ignorableWhitespace(char[] ch, int start, int length)
@@ -145,7 +145,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void processingInstruction(String target, String data)
@@ -154,7 +154,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void skippedEntity(String name) throws SAXException {
@@ -162,7 +162,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void notationDecl(String name, String publicId, String systemId)
@@ -171,7 +171,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void unparsedEntityDecl(String name, String publicId,
@@ -180,7 +180,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId)
@@ -192,7 +192,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	/**
 	 * Sets start tag and <code>calledStartElement</code> to true.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void startElement(String uri, String localName, String qName,
@@ -205,7 +205,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * Sets <code>calledStartElement</code> to false and if
 	 * <code>buildChars</code> is true, append text.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void characters(char[] ch, int start, int length)
@@ -219,9 +219,9 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * is true.
 	 * 
 	 * @param content
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 * @see #buildChars
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void buildCharacters(String content) {
 		// no op
@@ -231,7 +231,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * Sets end tag and If <code>buildChars</code> is true, call
 	 * {@link #buildCharacters(String)} with built characters.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName)
@@ -246,7 +246,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	/**
 	 * Logs error and throw SAXException.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void error(SAXParseException e) throws SAXException {
@@ -257,7 +257,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	/**
 	 * Logs warning and throw SAXException.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void warning(SAXParseException e) throws SAXException {
@@ -268,7 +268,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	/**
 	 * Logs fatal error and throw SAXException.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void fatalError(SAXParseException e) throws SAXException {
@@ -294,7 +294,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * @param localName
 	 *            localName
 	 * @return correct qLocal
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected final static String qLocal(String qName, String localName) {
 		// TODO FIX on all implementation
@@ -312,7 +312,7 @@ public abstract class HandlerSAX extends Handler implements EntityResolver,
 	 * @param content
 	 *            string with comments
 	 * @return comment free string
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static String removeComments(String content) {
 		char[] ch = content.toCharArray();

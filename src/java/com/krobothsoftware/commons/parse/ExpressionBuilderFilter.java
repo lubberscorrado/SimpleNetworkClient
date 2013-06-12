@@ -8,7 +8,7 @@ package com.krobothsoftware.commons.parse;
  * {@link HandlerSAX} for {@link Expression} evaluation.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0.1
+ * @since COMMONS 1.0.1
  */
 public interface ExpressionBuilderFilter extends ExpressionFilter {
 
@@ -20,7 +20,7 @@ public interface ExpressionBuilderFilter extends ExpressionFilter {
 	 *            current path; starts at 0
 	 * @param content
 	 * @see HandlerSAX#buildCharacters(String)
-	 * @since SNC 1.0.1
+	 * @since COMMONS 1.0.1
 	 */
 	public void buildCharacters(int expr, String content);
 

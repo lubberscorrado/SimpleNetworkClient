@@ -75,7 +75,7 @@ public class DigestAuthentication extends Authentication {
 	 * @param username
 	 * @param password
 	 * @deprecated use {@link #DigestAuthentication(String, char[])} instead.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Deprecated
 	public DigestAuthentication(String username, String password) {
@@ -88,7 +88,7 @@ public class DigestAuthentication extends Authentication {
 	 * @param username
 	 * @param password
 	 *            in char array
-	 * @since SNC 1.0.1
+	 * @since COMMONS 1.0.1
 	 */
 	public DigestAuthentication(String username, char[] password) {
 		super(username, password);
@@ -97,7 +97,7 @@ public class DigestAuthentication extends Authentication {
 	/**
 	 * Sets up Digest header only if nonce is valid.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void setup(RequestBuilderAuthenticate request) throws IOException {
@@ -113,7 +113,7 @@ public class DigestAuthentication extends Authentication {
 	/**
 	 * Authenticate using digest algorithm.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public Response authenticate(RequestBuilderAuthenticate request,
@@ -137,7 +137,7 @@ public class DigestAuthentication extends Authentication {
 	/**
 	 * Resets all values stored including nonce.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void reset() {
@@ -154,7 +154,7 @@ public class DigestAuthentication extends Authentication {
 	/**
 	 * Has support, returns true.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public boolean authenticateSupported() {

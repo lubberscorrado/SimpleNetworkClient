@@ -21,14 +21,14 @@ package com.krobothsoftware.commons.progress;
  * Null progress monitor. All methods are empty.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class NullProgressMonitor extends ProgressMonitor {
 
 	/**
 	 * Creates new monitor.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public NullProgressMonitor() {
 
@@ -37,7 +37,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	/**
 	 * Nothing is done.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void beginTask(String task, int ticks) {
@@ -47,7 +47,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	/**
 	 * Nothing is done.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void setTask(String task) {
@@ -57,7 +57,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	/**
 	 * Nothing is done.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void worked(int ticks, String task) {
@@ -67,7 +67,7 @@ public class NullProgressMonitor extends ProgressMonitor {
 	/**
 	 * Nothing is done.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void done(String task) {

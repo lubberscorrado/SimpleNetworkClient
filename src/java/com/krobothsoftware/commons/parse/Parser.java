@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
  * TagSoup(SAX). Supports more formats through {@link ParserHandler}.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public final class Parser implements ParserInitializable {
 	private static final String SAXPARSER_TAGSOUP = "org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl";
@@ -45,7 +45,7 @@ public final class Parser implements ParserInitializable {
 	 * handler.
 	 * 
 	 * @deprecated Now allowed to be null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Deprecated
 	public static final ParserHandler NULL_PARSER_HANDLER = null;
@@ -58,7 +58,7 @@ public final class Parser implements ParserInitializable {
 	/**
 	 * Instantiates a new parser.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Parser() {
 		log = LoggerFactory.getLogger(Parser.class);
@@ -73,7 +73,7 @@ public final class Parser implements ParserInitializable {
 	 * <li>SAXException</li>
 	 * </ul>
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void init() {
@@ -95,7 +95,7 @@ public final class Parser implements ParserInitializable {
 	 * Xml SAX parser.
 	 * 
 	 * @return xml parser or null if not initiated
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public SAXParser getXmlParser() {
 		if (xmlParser == null) log
@@ -107,7 +107,7 @@ public final class Parser implements ParserInitializable {
 	 * Html SAX parser.
 	 * 
 	 * @return html parser or null if not initiated
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public SAXParser getHtmlParser() {
 		if (xmlParser == null) log
@@ -121,7 +121,7 @@ public final class Parser implements ParserInitializable {
 	 * @param parserHandler
 	 * @throws IllegalArgumentException
 	 *             if listener is null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setParserHandler(ParserHandler parserHandler) {
 		this.listener = parserHandler;
@@ -136,7 +136,7 @@ public final class Parser implements ParserInitializable {
 	 * @param handler
 	 * @param charset
 	 * @throws ParseException
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void parse(InputStream inputStream, Handler handler, String charset)
 			throws ParseException {

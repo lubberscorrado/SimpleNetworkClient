@@ -32,7 +32,7 @@ package com.krobothsoftware.commons.progress;
  * 
  * @author Kyle Kroboth
  * @see com.krobothsoftware.commons.progress.SubProgressMonitor
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public class ProgressMonitor {
 	ProgressListener listener;
@@ -50,7 +50,7 @@ public class ProgressMonitor {
 	 * 
 	 * @param listener
 	 * @return monitor, or Null monitor
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public static ProgressMonitor newInstance(ProgressListener listener) {
 		if (listener == null) return new NullProgressMonitor();
@@ -59,7 +59,7 @@ public class ProgressMonitor {
 
 	/*
 	 * If needed to not specify any arguments.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected ProgressMonitor() {
 
@@ -69,7 +69,7 @@ public class ProgressMonitor {
 	 * Creates new Monitor. Will <b>not</b> check if Listener is null.
 	 * 
 	 * @param listener
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public ProgressMonitor(ProgressListener listener) {
 		this.listener = listener;
@@ -84,7 +84,7 @@ public class ProgressMonitor {
 	 *            name of task
 	 * @param ticks
 	 *            number of total ticks
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void beginTask(String task, int ticks) {
 		this.task = task;
@@ -97,7 +97,7 @@ public class ProgressMonitor {
 	 * Sets the name of task.
 	 * 
 	 * @param task
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void setTask(String task) {
 		this.task = task;
@@ -109,7 +109,7 @@ public class ProgressMonitor {
 	 * 
 	 * @param ticks
 	 *            how many ticks to increment
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void worked(int ticks) {
 		worked(ticks, task);
@@ -122,7 +122,7 @@ public class ProgressMonitor {
 	 *            how many ticks to increment
 	 * @param task
 	 *            name of task
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void worked(int ticks, String task) {
 		if (totalTicks == -1) return;
@@ -134,7 +134,7 @@ public class ProgressMonitor {
 	/**
 	 * Finishes task.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void done() {
 		done(task);
@@ -145,7 +145,7 @@ public class ProgressMonitor {
 	 * 
 	 * @param task
 	 *            finish task name
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void done(String task) {
 		if (totalTicks == -1) return;
@@ -157,7 +157,7 @@ public class ProgressMonitor {
 	 * Checks if monitor got cancelled.
 	 * 
 	 * @return true, if canceled
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean isCanceled() {
 		return cancaled;
@@ -167,7 +167,7 @@ public class ProgressMonitor {
 	 * Checks if monitor has finished.
 	 * 
 	 * @return true, if finished
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean isDone() {
 		return done;
@@ -180,7 +180,7 @@ public class ProgressMonitor {
 	 *            raw value
 	 * @param task
 	 *            name of task
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected void updateListener(float value, String task) {
 		this.value = value;

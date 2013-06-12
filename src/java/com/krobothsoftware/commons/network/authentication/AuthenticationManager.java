@@ -30,7 +30,7 @@ import com.krobothsoftware.commons.network.RequestBuilder;
  * Manager for authenticating connections with {@link AuthScope}.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.authentication.Authentication
  */
 public class AuthenticationManager {
@@ -42,7 +42,7 @@ public class AuthenticationManager {
 	 * Instantiates a new authentication manager.
 	 * 
 	 * @param networkHelper
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public AuthenticationManager(NetworkHelper networkHelper) {
 		log = LoggerFactory.getLogger(AuthenticationManager.class);
@@ -58,7 +58,7 @@ public class AuthenticationManager {
 	 *            to check on connections.
 	 * @param auth
 	 *            authentication to set if scope matches
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void addAuthentication(AuthScope scope, Authentication auth) {
 		if (scope == null) throw new IllegalArgumentException(
@@ -79,7 +79,7 @@ public class AuthenticationManager {
 	 * @param request
 	 *            url to check with scopes
 	 * @return found Authentication or null
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public Authentication getAuthentication(RequestBuilder request) {
 		return getAuthentication(request.getUrl());
@@ -91,7 +91,7 @@ public class AuthenticationManager {
 	 * @param url
 	 *            url to check with scopes
 	 * @return found Authentication or null
-	 * @since 1.1.0
+	 * @since COMMONS 1.1.0
 	 */
 	public Authentication getAuthentication(URL url) {
 		// find scope by host
@@ -111,7 +111,7 @@ public class AuthenticationManager {
 	/**
 	 * Clears map holding authentications.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public void clear() {
 		authMap.clear();

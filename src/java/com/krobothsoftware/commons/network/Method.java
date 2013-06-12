@@ -21,7 +21,7 @@ package com.krobothsoftware.commons.network;
  * Supported HTTP methods.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.RequestBuilder#RequestBuilder(Method,
  *      java.net.URL)
  */
@@ -30,49 +30,49 @@ public enum Method {
 	/**
 	 * HTTP GET.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	GET,
 
 	/**
 	 * HTTP POST.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	POST,
 
 	/**
 	 * HTTP HEAD.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	HEAD,
 
 	/**
 	 * HTTP PUT.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	PUT,
 
 	/**
 	 * HTTP OPTIONS.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	OPTIONS,
 
 	/**
 	 * HTTP DELETE.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	DELETE,
 
 	/**
 	 * HTTP TRACE.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	TRACE;
 }

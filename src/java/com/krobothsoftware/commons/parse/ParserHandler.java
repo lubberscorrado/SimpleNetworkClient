@@ -23,7 +23,7 @@ import java.io.InputStream;
  * Parser Listener for handling, and parsing unsupported {@link Handler}'s.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public interface ParserHandler {
 
@@ -35,7 +35,7 @@ public interface ParserHandler {
 	 * 
 	 * @param handler
 	 * @return real handler or null if not processed
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	Handler getHandler(Handler handler);
 
@@ -50,7 +50,7 @@ public interface ParserHandler {
 	 * @param charset
 	 * @return true, if handler was processed.
 	 * @throws ParseException
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	boolean parseHandler(InputStream inputStream, Handler handler,
 			Handler realHandler, String charset) throws ParseException;

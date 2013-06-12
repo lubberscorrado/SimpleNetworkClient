@@ -40,7 +40,7 @@ import com.krobothsoftware.commons.network.ResponseAuthenticate;
  * </p>
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  * @see com.krobothsoftware.commons.network.authentication.AuthenticationManager
  */
 public abstract class Authentication {
@@ -48,41 +48,41 @@ public abstract class Authentication {
 	/**
 	 * Constant header for Authorization
 	 * 
-	 * @since SNC 1.0.1
+	 * @since COMMONS 1.0.1
 	 */
 	static final String HEADER_AUTHORIZATION = "Authorization";
 
 	/**
 	 * Network Helper set from {@link AuthenticationManager}.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected NetworkHelper networkHelper;
 
 	/**
 	 * Username for authentication.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected String username;
 
 	/**
 	 * Password for authentication.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected char[] password;
 
 	/**
 	 * Logger for authentications.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Logger log;
 
 	/*
 	 * Empty constructor
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	protected Authentication() {
 
@@ -95,7 +95,7 @@ public abstract class Authentication {
 	 * @param password
 	 * @deprecated use {@link #Authentication(String, char[])}. This constructor
 	 *             will convert String <code>password</code> to a char array.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Deprecated
 	public Authentication(String username, String password) {
@@ -108,7 +108,7 @@ public abstract class Authentication {
 	 * @param username
 	 * @param password
 	 *            in char array
-	 * @since SNC 1.0.1
+	 * @since COMMONS 1.0.1
 	 */
 	public Authentication(String username, char[] password) {
 		this.username = username;
@@ -122,7 +122,7 @@ public abstract class Authentication {
 	 *            for setup
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public abstract void setup(RequestBuilderAuthenticate request)
 			throws IOException;
@@ -138,7 +138,7 @@ public abstract class Authentication {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 * @see #authenticateSupported()
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public abstract Response authenticate(RequestBuilderAuthenticate request,
 			ResponseAuthenticate response) throws IOException;
@@ -146,7 +146,7 @@ public abstract class Authentication {
 	/**
 	 * Resets any info in Authentication object, but <b>not</b> credentials.
 	 * 
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public abstract void reset();
 
@@ -156,7 +156,7 @@ public abstract class Authentication {
 	 * 
 	 * @return true, if suppported
 	 * @see #authenticate(RequestBuilderAuthenticate, ResponseAuthenticate)
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public boolean authenticateSupported() {
 		return false;

@@ -32,7 +32,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * implements the interfaces instead.
  * 
  * @author Kyle Kroboth
- * @since SNC 1.0
+ * @since COMMONS 1.0
  */
 public final class DefaultHandlerDelegate extends DefaultHandler {
 	private final HandlerSAX handler;
@@ -42,14 +42,14 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	 * 
 	 * @param handler
 	 *            delegate handler
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	public DefaultHandlerDelegate(HandlerSAX handler) {
 		this.handler = handler;
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId)
@@ -58,7 +58,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void notationDecl(String name, String publicId, String systemId)
@@ -67,7 +67,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void unparsedEntityDecl(String name, String publicId,
@@ -76,7 +76,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void setDocumentLocator(Locator locator) {
@@ -84,7 +84,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void startDocument() throws SAXException {
@@ -92,7 +92,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void endDocument() throws SAXException {
@@ -100,7 +100,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void startPrefixMapping(String prefix, String uri)
@@ -109,7 +109,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void endPrefixMapping(String prefix) throws SAXException {
@@ -117,7 +117,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void startElement(String uri, String localName, String qName,
@@ -126,7 +126,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void endElement(String uri, String localName, String qName)
@@ -135,7 +135,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void characters(char[] ch, int start, int length)
@@ -144,7 +144,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void ignorableWhitespace(char[] ch, int start, int length)
@@ -153,7 +153,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void processingInstruction(String target, String data)
@@ -162,7 +162,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void skippedEntity(String name) throws SAXException {
@@ -170,7 +170,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void warning(SAXParseException e) throws SAXException {
@@ -178,7 +178,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void error(SAXParseException e) throws SAXException {
@@ -186,7 +186,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public void fatalError(SAXParseException e) throws SAXException {
@@ -194,7 +194,7 @@ public final class DefaultHandlerDelegate extends DefaultHandler {
 	}
 
 	/**
-	 * @since SNC 1.0
+	 * @since COMMONS 1.0
 	 */
 	@Override
 	public String toString() {
