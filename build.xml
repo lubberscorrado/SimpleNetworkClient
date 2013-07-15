@@ -1,207 +1,240 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project name="Simple Network Client">
+    <property name="ant" value="ant"/>
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="deploy" value="deploy"/>
+    <property name="deploy.jar" value="${deploy}/jar"/>
+    <property name="deploy.doc" value="${deploy}/doc"/>
+    <property file="${ant}/build.properties"/>
 
-	<property name="ant" value="ant" />
-	<property name="src" value="src" />
-	<property name="build" value="build" />
-	<property name="deploy" value="deploy" />
-	<property name="deploy.jar" value="${deploy}/jar" />
-	<property name="deploy.doc" value="${deploy}/doc" />
+    <!-- Dependencies for all builds -->
+    <path id="classpath.dependencies">
+        <fileset dir="dependencies">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
 
-	<property name="target.java" value="1.6" />
+    <!-- Dependencies for Java 7 -->
+    <path id="classpath.dependencies.java7">
+        <path refid="classpath.dependencies"/>
+        <pathelement location="${build}/${source.java}"/>
+    </path>
 
-	<property name="target.java.7" value="1.7" />
-
-	<!-- android-framework using same -->
-	<property name="target.android" value="1.6" />
-
-	<property name="jar.commons" value="kcommons" />
-	<property name="jar.commons.json" value="kcommons-ext-json" />
-	<property name="jar.commons.htmlcleaner" value="kcommons-ext-htmlcleaner" />
-	<property name="jar.snc" value="snc" />
-	<property name="jar.sen" value="snc-sen" />
-	<property name="jar.sen.psn" value="snc-sen-psn" />
-	<property name="jar.sen.psn.us" value="snc-sen-psn-us" />
-	<property file="${ant}/build.properties" />
-
-	<property name="tools" value="tools" />
-
-	<!-- Dependencies for all builds -->
-	<path id="classpath.dependencies">
-		<fileset dir="dependencies">
-			<include name="*.jar" />
-		</fileset>
-	</path>
-
-	<!-- Dependencies for Java 7 -->
-	<path id="classpath.dependencies.java.7">
-		<path refid="classpath.dependencies" />
-		<pathelement location="${build}/java" />
-	</path>
-
-	<!-- Dependencies for Android. Needs android.jar in private folder -->
-	<path id="classpath.dependencies.android">
-		<filelist dir="dependencies/private" files="android.jar" />
-		<path refid="classpath.dependencies" />
-		<pathelement location="${build}/java" />
-	</path>
+    <!-- Dependencies for Android. Needs android.jar in private folder -->
+    <path id="classpath.dependencies.android">
+        <filelist dir="dependencies/private" files="${privatejar.android}"/>
+        <path refid="classpath.dependencies"/>
+        <pathelement location="${build}/${source.java}"/>
+    </path>
 
 
-	<!-- Dependencies for Android Framework. Needs android-core.jar and 
-	android-framework.jar in private folder. -->
-	<path id="classpath.dependencies.android.framework">
-		<filelist dir="dependencies/private" files="android-core.jar,android-framework.jar" />
-		<path refid="classpath.dependencies" />
-		<pathelement location="${build}/java" />
-	</path>
+    <!-- Dependencies for Android Framework. Needs android-core.jar and
+    android-framework.jar in private folder. -->
+    <path id="classpath.dependencies.android.framework">
+        <filelist dir="dependencies/private" files="${privatejar.android.core}, ${privatejar.android.framework}"/>
+        <path refid="classpath.dependencies"/>
+        <pathelement location="${build}/${source.java}"/>
+    </path>
 
-	<target name="build-all" description="Builds whole project" depends="build-java,build-java-7,build-android,build-android-framework">
+    <target name="build-all" description="Builds whole project"
+            depends="build-java,build-java-7,build-android,build-android-framework"/>
 
-	</target>
+    <target name="build-java" description="Builds Java source">
+        <compilecode source="${source.java}"/>
+    </target>
 
-	<target name="build-java" description="Builds whole project">
-		<compilecode source="java" />
-	</target>
+    <target name="build-java-7" description="Builds java 7 source">
+        <compilecode source="${source.java7}" target="${target.java7}" classpath="classpath.dependencies.java7"/>
+    </target>
 
-	<target name="build-java-7" description="Builds whole project">
-		<compilecode source="java-7" target="${target.java.7}" classpath="classpath.dependencies.java.7" />
-	</target>
+    <target name="build-android" description="Builds Android source">
+        <compilecode source="${source.android}" target="${target.android}" classpath="classpath.dependencies.android"/>
+    </target>
 
-	<target name="build-android" description="Builds whole project">
-		<compilecode source="java" />
-		<compilecode source="android" target="${target.android}" classpath="classpath.dependencies.android" />
-	</target>
-
-	<target name="build-android-framework" description="Builds whole project">
-		<compilecode source="java" />
-		<compilecode source="android-framework" target="${target.android}" classpath="classpath.dependencies.android.framework" />
-	</target>
+    <target name="build-android-framework" description="Builds Android framework source">
+        <compilecode source="${source.android.framework}" target="${target.android}"
+                     classpath="classpath.dependencies.android.framework"/>
+    </target>
 
 
-	<macrodef name="compilecode">
-		<attribute name="source" />
-		<attribute name="target" default="${target.java}" />
-		<attribute name="classpath" default="classpath.dependencies" />
-		<sequential>
-			<!-- clear old build -->
-			<delete dir="${build}/@{source}" />
-			<mkdir dir="${build}/@{source}" />
-			<javac srcdir="${src}/@{source}" destdir="${build}/@{source}" source="@{target}" target="@{target}">
-				<!-- needed for restricted api's -->
-				<compilerarg line="-XDignore.symbol.file" />
-				<classpath refid="@{classpath}" />
-				<exclude name="test/**" />
-			</javac>
-		</sequential>
-	</macrodef>
+    <macrodef name="compilecode">
+        <attribute name="source"/>
+        <attribute name="target" default="${target.default}"/>
+        <attribute name="classpath" default="classpath.dependencies"/>
+        <sequential>
+            <!-- clear old build -->
+            <delete dir="${build}/@{source}"/>
+            <mkdir dir="${build}/@{source}"/>
+            <javac srcdir="${src}/@{source}" destdir="${build}/@{source}" source="@{target}" target="@{target}">
+                <!-- needed for restricted api's -->
+                <compilerarg line="-XDignore.symbol.file"/>
+                <classpath refid="@{classpath}"/>
+                <exclude name="test/**"/>
+            </javac>
+        </sequential>
+    </macrodef>
 
-	<target name="make-jar-all" description="Build all jars" depends="make-jar-java,make-jar-java-7,make-jar-android,make-jar-android-framework">
-	</target>
+    <target name="make-jar-all" description="Build all jars"
+            depends="make-jar-java,make-jar-java-7,make-jar-android,make-jar-android-framework">
+    </target>
 
-	<target name="make-jar-java" description="Build Java jars">
-		<!-- Normal jars(Java) -->
-		<make.jar name="${jar.commons}" version="${version.commons}" include="commons" exclude="commons" />
-		<make.jar name="${jar.snc}" version="${version.snc}" include="snc" exclude="snc" />
-		<make.jar name="${jar.commons.json}" version="${version.commons.json}" include="commons-json" />
-		<make.jar name="${jar.commons.htmlcleaner}" version="${version.commons.htmlcleaner}" include="commons-htmlcleaner" />
-		<make.jar name="${jar.sen}" version="${version.sen}" include="sen" exclude="sen" />
-		<make.jar name="${jar.sen.psn}" version="${version.sen.psn}" include="sen-psn" exclude="sen-psn" />
-		<make.jar name="${jar.sen.psn.us}" version="${version.sen.psn.us}" include="sen-psn-us" />
-	</target>
+    <target name="make-jar-java" description="Build Java jars">
+        <!-- Default -->
+        <make.jar name="${name.commons.network.http}" version="${version.commons.network.http}"
+                  include="commons-network-http"/>
+        <make.jar name="${name.commons.parse}" version="${version.commons.parse}" include="commons-parse"/>
+        <make.jar name="${name.commons.parse.sax}" version="${version.commons.parse.sax}" include="commons-parse-sax"/>
+        <make.jar name="${name.commons.parse.sax.tagsoup}" version="${version.commons.parse.sax.tagsoup}"
+                  include="commons-parse-sax-tagsoup"/>
+        <make.jar name="${name.commons.parse.json}" version="${version.commons.parse.json}"
+                  include="commons-parse-json"/>
+        <make.jar name="${name.commons.parse.html}" version="${version.commons.parse.html}"
+                  include="commons-parse-html"/>
+        <make.jar name="${name.commons.progress}" version="${version.commons.progress}" include="commons-progress"/>
+        <make.jar name="${name.commons.util}" version="${version.commons.util}" include="commons-util"/>
+        <make.jar name="${name.snc}" version="${version.snc}" include="snc" exclude="snc"/>
+        <make.jar name="${name.snc.sen}" version="${version.snc.sen}" include="snc-sen" exclude="snc-sen"/>
+        <make.jar name="${name.snc.sen.psn}" version="${version.snc.sen.psn}" include="snc-sen-psn"
+                  exclude="snc-sen-psn"/>
+        <make.jar name="${name.snc.sen.psn.us}" version="${version.snc.sen.psn.us}" include="snc-sen-psn-us"/>
+    </target>
 
-	<target name="make-jar-java-7" description="Build Java-7 jars">
-		<!-- Java 7 -->
-		<make.jar.copy name="${jar.commons}" version="${version.commons}" source="java-7" include="commons" exclude="commons" />
-		<make.jar.copy name="${jar.commons.json}" version="${version.commons.json}" source="java-7" include="commons-json" />
-		<make.jar.copy name="${jar.snc}" version="${version.snc}" source="java-7" include="snc" exclude="snc" />
-		<make.jar.copy name="${jar.sen.psn}" version="${version.sen.psn}" source="java-7" include="sen-psn" exclude="sen-psn" />
-		<make.jar.copy name="${jar.sen.psn.us}" version="${version.sen.psn.us}" source="java-7" include="sen-psn-us" />
-	</target>
+    <target name="make-jar-java-7" description="Build Java-7 jars">
+        <!-- Java 7 -->
+        <make.jar.copy name="${name.commons.network.http}" version="${version.commons.network.http}"
+                       source="${source.java7}"
+                       include="commons-network-http"/>
+        <make.jar.copy name="${name.snc.sen.psn}" version="${version.snc.sen.psn}" source="${source.java7}" include="snc-sen-psn"
+                       exclude="snc-sen-psn"/>
+        <make.jar.copy name="${name.snc.sen.psn.us}" version="${version.snc.sen.psn.us}" source="${source.java7}"
+                       include="snc-sen-psn-us"/>
+    </target>
 
-	<target name="make-jar-android" description="Build Android jars">
-		<!-- Android -->
-		<make.jar.copy name="${jar.commons}" version="${version.commons}" source="android" include="commons" exclude="commons" />
-	</target>
+    <target name="make-jar-android" description="Build Android jars">
+        <!-- Android -->
+        <make.jar.copy name="${name.commons.network.http}" version="${version.commons.network.http}"
+                       source="${source.android}"
+                       include="commons-network-http"/>
+        <make.jar.copy name="${name.commons.parse.sax}" version="${version.commons.parse.sax}"
+                       source="${source.android}"
+                       include="commons-parse-sax"/>
+        <make.jar.copy name="${name.commons.util}" version="${version.commons.util}" source="${source.android}"
+                       include="commons-util"/>
+    </target>
 
-	<target name="make-jar-android-framework" description="Build Android-Framework jars">
-		<!-- Android Framework -->
-		<make.jar.copy name="${jar.commons}" version="${version.commons}" source="android-framework" include="commons" exclude="commons" />
-	</target>
+    <target name="make-jar-android-framework" description="Build Android-Framework jars">
+        <!-- Android Framework -->
+        <make.jar.copy2 name="${name.commons.util}" version="${version.commons.util}" source1="${source.android}"
+                        source2="${source.android.framework}" include="commons-util"/>
+    </target>
 
-	<macrodef name="make.jar">
-		<attribute name="name" description="Name of jar file" />
-		<attribute name="version" description="Version of jar file" />
-		<attribute name="include" default="default" description="Optional include file. 'include-[@include].txt" />
-		<attribute name="exclude" default="default" description="Optional exclude file. 'exclude-[@exclude].txt" />
-		<sequential>
-			<jar destfile="${deploy.jar}/@{name}-@{version}.jar" basedir="${build}/java" includesfile="${ant}/include-@{include}.txt" excludesfile="${ant}/exclude-@{exclude}.txt" />
-		</sequential>
-	</macrodef>
+    <macrodef name="make.jar">
+        <attribute name="name"/>
+        <attribute name="version"/>
+        <attribute name="include" default="default"/>
+        <attribute name="exclude" default="default"/>
+        <sequential>
+            <jar destfile="${deploy.jar}/@{name}-@{version}.jar" basedir="${build}/${source.java}"
+                 includesfile="${ant}/include-@{include}.txt" excludesfile="${ant}/exclude-@{exclude}.txt"/>
+        </sequential>
+    </macrodef>
 
-	<macrodef name="make.jar.copy">
-		<attribute name="name" description="Name of jar file" />
-		<attribute name="version" description="Version of jar file" />
-		<attribute name="source" description="Source(build) folder name" />
-		<attribute name="include" default="default" description="Optional include file. 'include-[@include].txt" />
-		<attribute name="exclude" default="default" description="Optional exclude file. 'exclude-[@exclude].txt" />
-		<sequential>
-			<!-- copy and replace new classes -->
-			<tempfile property="temp.dir" destdir="${java.io.tmpdir}" prefix="antbuild" />
-			<copy todir="${temp.dir}">
-				<fileset dir="${build}/java" includesfile="${ant}/include-@{include}.txt" excludesfile="${ant}/exclude-@{exclude}.txt" />
-			</copy>
-			<copy todir="${temp.dir}" overwrite="true">
-				<fileset dir="${build}/@{source}" includesfile="${ant}/include-@{include}.txt" excludesfile="${ant}/exclude-@{exclude}.txt" />
-			</copy>
+    <macrodef name="make.jar.copy">
+        <attribute name="name"/>
+        <attribute name="version"/>
+        <attribute name="source"/>
+        <attribute name="include" default="default"/>
+        <attribute name="exclude" default="default"/>
+        <sequential>
+            <tempfile property="temp.dir" destdir="${java.io.tmpdir}" prefix="antbuild"/>
+            <!-- copy base classes (Java) to tmp folder -->
+            <copy todir="${temp.dir}">
+                <fileset dir="${build}/${source.java}" includesfile="${ant}/include-@{include}.txt"
+                         excludesfile="${ant}/exclude-@{exclude}.txt"/>
+            </copy>
+            <!-- copy and overwrite source classes -->
+            <copy todir="${temp.dir}" overwrite="true">
+                <fileset dir="${build}/@{source}" includesfile="${ant}/include-@{include}.txt"
+                         excludesfile="${ant}/exclude-@{exclude}.txt"/>
+            </copy>
 
-			<jar destfile="${deploy.jar}/@{source}/@{name}-@{version}.jar" basedir="${temp.dir}" />
+            <jar destfile="${deploy.jar}/@{source}/@{name}-@{version}.jar" basedir="${temp.dir}"/>
+            <delete dir="${temp.dir}" />
+        </sequential>
+    </macrodef>
 
-		</sequential>
-	</macrodef>
+    <macrodef name="make.jar.copy2">
+        <attribute name="name"/>
+        <attribute name="version"/>
+        <attribute name="source1"/>
+        <attribute name="source2"/>
+        <attribute name="include" default="default"/>
+        <attribute name="exclude" default="default"/>
+        <sequential>
+            <tempfile property="temp.dir" destdir="${java.io.tmpdir}" prefix="antbuild"/>
+            <!-- copy base classes (Java) to tmp folder -->
+            <copy todir="${temp.dir}">
+                <fileset dir="${build}/${source.java}" includesfile="${ant}/include-@{include}.txt"
+                         excludesfile="${ant}/exclude-@{exclude}.txt"/>
+            </copy>
+            <!-- copy and overwrite source1 classes -->
+            <copy todir="${temp.dir}" overwrite="true">
+                <fileset dir="${build}/@{source1}" includesfile="${ant}/include-@{include}.txt"
+                         excludesfile="${ant}/exclude-@{exclude}.txt"/>
+            </copy>
+            <!-- copy and overwrite source2 classes -->
+            <copy todir="${temp.dir}" overwrite="true">
+                <fileset dir="${build}/@{source2}" includesfile="${ant}/include-@{include}.txt"
+                         excludesfile="${ant}/exclude-@{exclude}.txt"/>
+            </copy>
 
-
-	<target name="clean" description="Cleans project: build and deploy">
-		<delete dir="${build}" />
-		<delete dir="${deploy}" />
-	</target>
-
-	<target name="javadoc" description="Create deploy Javadocs">
-		<delete dir="${deploy.doc}" />
-		<mkdir dir="${deploy.doc}" />
-		<javadoc destdir="${deploy.doc}" classpathref="classpath.dependencies" author="false" windowtitle="Overview (SNC)">
-			<fileset dir="${src}/java">
-				<exclude name="test/**" />
-				<exclude name="**/internal/**" />
-			</fileset>
-			<tag name="beta" scope="all" description="Beta:" />
-			<bottom>${javadoc.bottom}</bottom>
-			<link />
-			<link href="http://docs.oracle.com/javase/7/docs/api/" />
-			<link href="http://www.slf4j.org/apidocs/" />
-			<link href="http://fasterxml.github.com/jackson-core/javadoc/2.1.0/" />
-			<link href="http://htmlcleaner.sourceforge.net/doc/" />
-		</javadoc>
-	</target>
-
-	<!-- all in one target -->
-	<target name="deploy" description="Clean project, Build sources, Javadoc, and make jars" depends="clean,build-all,javadoc,make-jar-all" />
-
-	<!--<target name="make-tools" depends="build" description="Build and deploy tools">
-		<delete dir="${tools}/build" />
-		<mkdir dir="${tools}/build" />
-		<javac srcdir="${tools}/src" destdir="${tools}/build" source="1.7" target="1.7">
-			<classpath refid="classpath.build" />
-		</javac>
-		<jar destfile="${tools}/chromehar.jar">
-			<fileset dir="${tools}/build" />
-			<fileset dir="${build}/java" includes="com/krobothsoftware/commons/**" />
-			<zipgroupfileset dir="dependencies" includesfile="${ant}/include-jar-tools-chromehar.txt" />
-			<manifest>
-				<attribute name="Main-Class" value="com.krobothsoftware.tool.chrome.HarExport" />
-			</manifest>
-		</jar>
-	</target> -->
+            <jar destfile="${deploy.jar}/@{source2}/@{name}-@{version}.jar" basedir="${temp.dir}"/>
+            <delete dir="${temp.dir}" />
+        </sequential>
+    </macrodef>
 
 
+    <target name="clean" description="Cleans project: build and deploy">
+        <delete dir="${build}"/>
+        <delete dir="${deploy}"/>
+    </target>
+
+    <target name="javadoc" description="Create deploy Javadocs">
+        <delete dir="${deploy.doc}"/>
+        <mkdir dir="${deploy.doc}"/>
+        <javadoc destdir="${deploy.doc}" classpathref="classpath.dependencies" author="false"
+                 windowtitle="Overview (SNC)">
+            <fileset dir="${src}/${source.java}">
+                <exclude name="test/**"/>
+                <exclude name="**/internal/**"/>
+            </fileset>
+            <tag name="beta" scope="all" description="Beta:"/>
+            <bottom>${javadoc.bottom}</bottom>
+            <link/>
+            <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+            <link href="http://www.slf4j.org/apidocs/"/>
+            <link href="http://fasterxml.github.com/jackson-core/javadoc/2.1.0/"/>
+            <link href="http://htmlcleaner.sourceforge.net/doc/"/>
+        </javadoc>
+    </target>
+
+    <!-- still in progress -->
+    <!--<target name="make-tools" depends="build" description="Build and deploy tools">
+        <delete dir="${tools}/build" />
+        <mkdir dir="${tools}/build" />
+        <javac srcdir="${tools}/src" destdir="${tools}/build" source="1.7" target="1.7">
+            <classpath refid="classpath.build" />
+        </javac>
+        <jar destfile="${tools}/chromehar.jar">
+            <fileset dir="${tools}/build" />
+            <fileset dir="${build}/java" includes="com/krobothsoftware/commons/**" />
+            <zipgroupfileset dir="dependencies" includesfile="${ant}/include-jar-tools-chromehar.txt" />
+            <manifest>
+                <attribute name="Main-Class" value="com.krobothsoftware.tool.chrome.HarExport" />
+            </manifest>
+        </jar>
+    </target> -->
 
 </project>

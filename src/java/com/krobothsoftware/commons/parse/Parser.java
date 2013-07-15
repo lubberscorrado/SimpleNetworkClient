@@ -1,225 +1,153 @@
-/* ===================================================
+/*
  * Copyright 2013 Kroboth Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ========================================================== 
  */
 
 package com.krobothsoftware.commons.parse;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.parsers.FactoryConfigurationError;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
+import java.io.InputStream;
 
 /**
- * Parser is used to parse XML and HTML data. Xml is parsed by SAX and Html by
- * TagSoup(SAX). Supports more formats through {@link ParserHandler}.
- * 
+ * Class for parsing components that parse for giving <code>T</code>
+ * {@link Handler} type. Only one parser per top-level handler.
+ * This class is not intended do any logic. Actual
+ * <code>parsing components</code> do the work.
+ *
+ * @param <T> handler type
+ * @param <C> Parsing component used directly with <tt>T</tt> Handler
  * @author Kyle Kroboth
- * @since COMMONS 1.0
+ * @since COMMONS 1.1.0
  */
-public final class Parser implements ParserInitializable {
-	private static final String SAXPARSER_TAGSOUP = "org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl";
+public abstract class Parser<T extends Handler, C> {
 
-	/**
-	 * Null Parser Handler. Use this instead of <code>null</code> when setting
-	 * handler.
-	 * 
-	 * @deprecated Now allowed to be null
-	 * @since COMMONS 1.0
-	 */
-	@Deprecated
-	public static final ParserHandler NULL_PARSER_HANDLER = null;
+    /**
+     * Logger for parser.
+     *
+     * @since COMMONS 1.1.0
+     */
+    protected final Logger log;
 
-	final Logger log;
-	ParserHandler listener;
-	private SAXParser xmlParser;
-	private SAXParser htmlParser;
+    /**
+     * Handler listener. Needs null checks.
+     *
+     * @since COMMONS 1.1.0
+     */
+    protected ParserHandlerListener<T> handlerListener;
 
-	/**
-	 * Instantiates a new parser.
-	 * 
-	 * @since COMMONS 1.0
-	 */
-	public Parser() {
-		log = LoggerFactory.getLogger(Parser.class);
-	}
+    /**
+     * Component listener. Needs null checks.
+     *
+     * @since COMMONS 1.1.0
+     */
+    protected ParserComponentListener<C> componentListener;
 
-	/**
-	 * Tries to create Xml and Html parsers. Catches and logs following,
-	 * 
-	 * <ul>
-	 * <li>FactoryConfigurationError</li>
-	 * <li>ParserConfigurationException</li>
-	 * <li>SAXException</li>
-	 * </ul>
-	 * 
-	 * @since COMMONS 1.0
-	 */
-	@Override
-	public void init() {
-		try {
-			xmlParser = SAXParserFactory.newInstance().newSAXParser();
-			htmlParser = SAXParserFactory.newInstance(
-					"org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl",
-					Parser.class.getClassLoader()).newSAXParser();
-		} catch (FactoryConfigurationError e) {
-			log.error("Init - " + e.getMessage());
-		} catch (ParserConfigurationException e) {
-			log.error("Init - " + e.getMessage());
-		} catch (SAXException e) {
-			log.error("Init - " + e.getMessage());
-		}
-	}
+    /**
+     * Creates new parser with logger.
+     *
+     * @param loggerName logger name for parser
+     * @since COMMONS 1.1.0
+     */
+    protected Parser(String loggerName) {
+        log = LoggerFactory.getLogger(loggerName);
+    }
 
-	/**
-	 * Xml SAX parser.
-	 * 
-	 * @return xml parser or null if not initiated
-	 * @since COMMONS 1.0
-	 */
-	public SAXParser getXmlParser() {
-		if (xmlParser == null) log
-				.warn("XmlParser has not been initiated, Call init() beforehand");
-		return xmlParser;
-	}
+    /**
+     * Sets handler listener for parser.
+     *
+     * @param handlerListener listener or null to remove
+     * @since COMMONS 1.1.0
+     */
+    public void setHandlerListener(ParserHandlerListener<T> handlerListener) {
+        this.handlerListener = handlerListener;
+    }
 
-	/**
-	 * Html SAX parser.
-	 * 
-	 * @return html parser or null if not initiated
-	 * @since COMMONS 1.0
-	 */
-	public SAXParser getHtmlParser() {
-		if (xmlParser == null) log
-				.warn("HtmlParser  has not been initiated, Call init() beforehand");
-		return htmlParser;
-	}
+    /**
+     * Sets component listener for parser.
+     *
+     * @param componentListener listener or null to remove
+     * @since COMMONS 1.1.0
+     */
+    public void setComponentListener(
+            ParserComponentListener<C> componentListener) {
+        this.componentListener = componentListener;
+    }
 
-	/**
-	 * Sets parser handler for parsing handlers.
-	 * 
-	 * @param parserHandler
-	 * @throws IllegalArgumentException
-	 *             if listener is null
-	 * @since COMMONS 1.0
-	 */
-	public void setParserHandler(ParserHandler parserHandler) {
-		this.listener = parserHandler;
-	}
+    /**
+     * If {@link ParserHandlerListener} is not null, calls
+     * {@link ParserHandlerListener#getHandler(Handler)} to retrieve handler.
+     *
+     * @param handler handler
+     * @return new handler or original
+     * @since COMMONS 1.1.0
+     */
+    protected T getHandler(T handler) {
+        if (handlerListener != null) return handlerListener.getHandler(handler);
+        return handler;
+    }
 
-	/**
-	 * Parses inputstream for {@link Handler}. Stream is handled inside
-	 * SAXParsers and should close after use.
-	 * 
-	 * @param inputStream
-	 *            inputstream to be parsed
-	 * @param handler
-	 * @param charset
-	 * @throws ParseException
-	 * @since COMMONS 1.0
-	 */
-	public void parse(InputStream inputStream, Handler handler, String charset)
-			throws ParseException {
-		log.debug("Parsing {}", handler.getClass().getSimpleName());
-		Handler realHandler = getHandler(handler);
+    /**
+     * Helper method for
+     * {@link ParserComponentListener#componentInitialization(Object)}.
+     *
+     * @param component
+     * @return component
+     * @throws ParseException {@inheritDoc}
+     * @since COMMONS 1.1.0
+     */
+    protected C initializeComponent(C component) throws ParseException {
+        if (componentListener != null) return componentListener
+                .componentInitialization(component);
+        return component;
+    }
 
-		try {
-			// SAX handler
-			if (handler instanceof HandlerSAX) {
-				SAXParser parser = getParser(handler);
-				if (parser != null) {
-					DefaultHandlerDelegate delegate = new DefaultHandlerDelegate(
-							(HandlerSAX) realHandler);
-					InputSource inputSource = new InputSource(inputStream);
-					inputSource.setEncoding(charset);
-					realHandler.setParser(this);
-					realHandler.setLogger(log);
-					parser.parse(inputSource, delegate);
-					return;
-				}
-			}
+    /**
+     * Helper method for {@link ParserComponentListener#beforeParse(Object)}.
+     *
+     * @param component
+     * @throws ParseException {@inheritDoc}
+     * @since COMMONS 1.1.0
+     */
+    protected void beforeParse(C component) throws ParseException {
+        if (componentListener != null) componentListener.beforeParse(component);
+    }
 
-			/**
-			 * Pass unsupported handler to ParserHandler. If returns false,
-			 * throw exception.
-			 */
-			boolean processed = false;
-			if (listener != null) {
-				processed = listener.parseHandler(inputStream, handler,
-						realHandler, charset);
-			}
-			if (!processed) throw new ParseException(String.format(
-					"Unsupported Handler [%s]", handler.getClass()));
+    /**
+     * Helper method for {@link ParserComponentListener#afterParse(Object)}.
+     *
+     * @param component
+     * @throws ParseException {@inheritDoc}
+     * @since COMMONS 1.1.0
+     */
+    protected void afterParse(C component) throws ParseException {
+        if (componentListener != null) componentListener.afterParse(component);
+    }
 
-		} catch (StopException e) {
-			log.debug("Caught Stop Exception - {}", handler.getClass()
-					.getSimpleName());
-		} catch (SAXException e) {
-			throw new ParseException(e);
-		} catch (IOException e) {
-			throw new ParseException(e);
-		}
-	}
-
-	private SAXParser getParser(Handler handler) throws ParseException {
-		try {
-			if (handler instanceof HandlerXml) {
-				if (xmlParser == null) {
-					xmlParser = SAXParserFactory.newInstance().newSAXParser();
-				}
-				return xmlParser;
-			} else if (handler instanceof HandlerHtml) {
-				if (htmlParser == null) {
-					htmlParser = SAXParserFactory.newInstance(
-							SAXPARSER_TAGSOUP, Parser.class.getClassLoader())
-							.newSAXParser();
-				}
-				return htmlParser;
-			}
-		} catch (ParserConfigurationException e) {
-			throw new ParseException(e);
-		} catch (SAXException e) {
-			throw new ParseException(e);
-		}
-
-		return null;
-	}
-
-	private Handler getHandler(Handler handler) {
-		Handler found = null;
-		if (listener != null) found = listener.getHandler(handler);
-		if (found == null) {
-			if (handler instanceof HandlerSAX) {
-				if (handler instanceof ExpressionBuilderFilter) found = new HandlerExpressionBuilder(
-						(HandlerSAX) handler);
-				else if (handler instanceof ExpressionFilter) found = new HandlerExpression(
-						(HandlerSAX) handler);
-				else
-					found = handler;
-			}
-		}
-
-		return found;
-	}
+    /**
+     * {@link Parser} parses <code>inputStream</code> for giving Handler type.
+     * Calls {@link ParserComponentListener#beforeParse(Object)}, parses data,
+     * then calls {@link ParserComponentListener#afterParse(Object)}.
+     *
+     * @param stream  inputstream to be parsed
+     * @param handler Handler type for parser
+     * @param charset charset for parsing components
+     * @throws ParseException {@inheritDoc}
+     * @since COMMONS 1.1.0
+     */
+    public abstract void parse(InputStream stream, T handler, String charset)
+            throws ParseException;
 
 }

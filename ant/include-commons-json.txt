@@ -1,2 +1,0 @@
-com/krobothsoftware/commons/parse/HandlerJson.*
-com/krobothsoftware/commons/parse/ParserJson.*

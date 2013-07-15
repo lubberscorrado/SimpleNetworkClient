@@ -1,4 +1,7 @@
 *.class
+/gen
+snc.iml
+/ide
 /eclipse
 /src/java/test
 /.codepro
